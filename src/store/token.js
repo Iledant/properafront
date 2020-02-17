@@ -219,9 +219,9 @@ const actions = {
   },
   async [types.LOG_OUT] ({ commit }) {
     beginLoading(commit)
+    commit(types.DEL_TOKEN)
     try {
       await Vue.http.post('user/logout')
-      commit(types.DEL_TOKEN)
       commit(types.END_LOADING)
     } catch (response) {
       commit(types.DEL_TOKEN)
