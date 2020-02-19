@@ -30,7 +30,7 @@ Le router utilise des chemins dynamiques pour réduire la taille du bundle initi
 En dehors de Vue, Vuetify, Vue router et Vuex, le front end utilise
 * *Vue ressource* pour toutes les requêtes
 * *xlsx-populate* pour lire les fichiers Excel utilisés pour importer des données ou pour générer des fichiers Excel pour les exports
-* *chart.js* et *vuechartjs* pour les graphiques utilisés dans différents composants
+* *chart.js* et *vue-chartjs* pour les graphiques utilisés dans différents composants
 * *vue-debounce*, package qui fournit une directive pour les composants de Vue. Il est utilisé dans les recherches impliquant une requête serveur afin d'offrir une bonne expérience utilisateur sans surcharger le serveur de requêtes
 * *vue-currency-input*, une directive qui permet de formatter les composants v-text-field de Vuetify afin d'avoir des saisies de valeurs monétaires lisibles.
 
@@ -41,7 +41,7 @@ La configuration personnalisée utilise les recommandations de Vue CLI :
 * Afin de produire des versions compressées des fichiers générés, la configuration utilise *webpack-compression-plugin* 
 * Les fichiers *source map* ne sont pas générés en mode production
 * Les configurations spécifiques aux modes développement et de production (adresse du backend) sont placés dans *.env.development* et *.env.production*
-* Comme Propera a vocation à n'être utilisé que sur un navigateur Chrome récent, le fichier *.browserslistrc* ne vise que les versions les plus récentes de Chrome et exclut la compatibilité avec Internet Explorer
+* Comme Propera a vocation à n'être utilisé que sur un navigateur Chrome récent, le fichier *.browserslistrc* ne vise que les versions les plus récentes de Chrome et exclut la compatibilité avec Internet Explorer. Cela permet d'avoir d'utilisation les fonctions ES2018 sans être transpilées par Babel
 
 ### Eslint
 
@@ -51,9 +51,10 @@ Aucune personnalisation supplémentaire n'a été apportée à celle du CLI en m
 
 La structure générale de ProperaFront est issue de Vue CLI :
 * les fichiers de configuration sont dans le répertoire de base
-* le répertoire *public* contient le template index.html qui est compilé par webpack ainsi que les assets d'image utilisés (favicon et fichiers SVG pour certains composants)
+* le répertoire *src/public* contient le template index.html qui est compilé par webpack ainsi que les assets d'image utilisés (favicon et fichiers SVG pour certains composants)
 * le répertoire *tests* est générés par Vue CLI pour les test end to end Cypress. Il a été mis à jour pour implémenter certains tests
 * le répertoire *src* contient tout le code du front end
+* les imports et exports *Excel* utilisant *xlsx-populate* sont regroupés dans le fichier *excelExport.js* du répertoire *src/components/Utils*. Il comporte essentiellement deux fonctions l'une pour la lecture de fichiers, l'autre pour l'écriture
 
 ### Répertoire *src*
 
@@ -102,6 +103,6 @@ Le JWT renvoyé contient également les droits de l'utilisateur. Ils sont de tro
 * utilisateur ayant un accès limité aux fonctions et possédant des droits de modification des données de certaines opérations, tels que définis dans la fonction de gestion des utilisateurs
 * observateur ayant accès en lecture seule à certaines fonctions.
 
-Le fiche *token* du store assure le stockage et la gestion de ces droits. En particulier, il comporte les lignes du menu qui sont filtrées en fonction des droits de l'utilisateur.
+Le fichier *token* du store assure le stockage et la gestion de ces droits. En particulier, il comporte les lignes du menu qui sont filtrées en fonction des droits de l'utilisateur.
 
-Quand un utilisateur utilise la fonction de déconnexion, le token est supprimé à la fois du store et ud local storage ce qui fait apparaître automatiquement le boîte de dialogue de connexion.
+Quand un utilisateur utilise la fonction de déconnexion, le token est supprimé à la fois du store et du *local storage* ce qui fait apparaître automatiquement le boîte de dialogue de connexion.
