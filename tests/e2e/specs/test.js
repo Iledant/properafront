@@ -1,7 +1,10 @@
+/// <reference types="Cypress" />
+
 describe('Initialisation', () => {
-  it('Restore database', () => {
-    cy.exec(Cypress.env('restoreDbCommand'))
-  })
+  it('Restauration de la base de test', () => {
+    cy.exec('fsd restore_test propera')
+  }
+  )
   it('Home page loads', () => {
     cy.visit('/')
     cy.contains('Connexion')
@@ -9,7 +12,7 @@ describe('Initialisation', () => {
 })
 
 describe('Inscription utilisateur', () => {
-  it('New user successfully signs up', () => {
+  it('Inscription d\'un nouvel utilisateur', () => {
     cy.get('[data-cy=signUp]').click()
     cy.contains('Inscription à Propera')
     cy.get('[data-cy=signUpFullName]').type(Cypress.env('newUserName'))
@@ -38,7 +41,7 @@ describe('Opérations administrateur', () => {
     cy.get('[data-cy=todayMsgTitle]').type('Titre du message de test')
     cy.get('[data-cy=todayMsgText]').type('Texte du message de test pour vérification')
     cy.get('[data-cy=todayMsgCancel]').click()
-    cy.contains('Nouvelle version du logiciel')
+    cy.contains('Bienvenue dans Propera')
     cy.get('[data-cy=homeEditTodayMsg]').click()
     cy.get('[data-cy=todayMsgTitle]').clear().type('Titre du msg de test')
     cy.get('[data-cy=todayMsgText]').clear().type('Texte du msg de test pour vérification')
@@ -54,7 +57,7 @@ describe('Opérations administrateur', () => {
     cy.get('[data-cy=settingsMenuItem]').click()
     cy.get('[data-cy=usersMenuItem]').click()
     cy.contains('Gestion des utilisateurs')
-    cy.get('[data-cy=userSearch]').type('cypress')
+    cy.get('[data-cy=userSearch]').type(Cypress.env('newUserName'))
     cy.contains(Cypress.env('newUserEmail'))
     cy.get('[data-cy=userModify]').click()
     cy.contains('Modifier les données de l\'utilisateur')

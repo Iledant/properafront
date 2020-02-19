@@ -8,7 +8,7 @@ export function beginLoading (commit) {
 export function setErrorMessage (commit, response) {
   let msg = 'Impossible de récupérer les données'
   if (response && response.body && response.body.error) {
-    console.error(response.body.error)
+    // console.error(response.body.error)
     if (response.status === 400 &&
       response.body.error === 'Erreur de login ou de mot de passe') {
       msg = 'Erreur de login ou de mot de passe'
