@@ -1,4 +1,4 @@
-# ![Propera Front](public/propera_icon.png) ProperaFront
+# ![Propera Front](src/assets/propera_icon.svg) ProperaFront
 
 Propera est une application Web qui comporte
 * un front end écrit en Vue/Vuetify
