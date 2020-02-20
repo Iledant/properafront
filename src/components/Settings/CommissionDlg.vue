@@ -12,7 +12,6 @@
                 transition="scale-transition"
                 offset-y
                 :nudge-right="40"
-                full-width
                 max-width="290px"
                 min-width="290px"
               >
