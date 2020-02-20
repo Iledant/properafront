@@ -24,13 +24,13 @@
             no-data-text="Aucune ligne à afficher"
             no-results-text="Recherche infructueuse"
           >
-            <template v-slot:body.prepend="">
+            <template #body.prepend="">
               <tr class="font-weight-medium grey lighten-3">
                 <td colspan="7" class="text-center">Total</td>
                 <td class="text-right">{{ creditsTotal | valueFilter }}</td>
               </tr>
             </template>
-            <template v-slot:item="{ item }">
+            <template #item="{ item }">
               <tr>
                 <td>{{ item.Chapter }}</td>
                 <td>{{ item.Function }}</td>
@@ -42,7 +42,7 @@
                 <td class="text-right">{{ item.Total | valueFilter }}</td>
               </tr>
             </template>
-            <template v-slot:body.append="">
+            <template #body.append="">
               <tr class="font-weight-medium grey lighten-3">
                 <td colspan="7" class="text-center">Total</td>
                 <td class="text-right">{{ creditsTotal | valueFilter }}</td>
@@ -87,7 +87,7 @@
                 <td class="text-right">{{ journalTotal | valueFilter }}</td>
               </tr>
             </template>
-            <template v-slot:item="{ item }">
+            <template #item="{ item }">
               <tr>
                 <td>{{ item.Chapter }}</td>
                 <td>{{ item.Function }}</td>
@@ -119,42 +119,36 @@
 </template>
 
 <script>
-import { excelExport } from '../Utils/excelExport.js'
+import { excelExport, dateStyle, valStyle } from '../Utils/excelExport.js'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'PaymentCredit',
   data: () => ({
     journalHeaders: [
-      { text: 'Chapitre', value: 'Chapter', align: 'left', sortable: true },
-      { text: 'Fonction', value: 'Function', align: 'left', sortable: true },
-      { text: 'Date', value: 'CreationDate', align: 'left', sortable: true },
-      { text: 'Libellé', value: 'Name', align: 'left', sortable: true },
-      { text: 'Montant', value: 'Value', align: 'right', sortable: true }
+      { text: 'Chapitre', value: 'Chapter' },
+      { text: 'Fonction', value: 'Function' },
+      { text: 'Date', value: 'CreationDate' },
+      { text: 'Libellé', value: 'Name' },
+      { text: 'Montant', value: 'Value', align: 'right' }
     ],
     creditsHeaders: [
-      { text: 'Chapitre', value: 'Chapter', align: 'left', sortable: true },
-      { text: 'Fonction', value: 'Function', align: 'left', sortable: true },
-      { text: 'Budget primitif', value: 'Primitive', align: 'left', sortable: true },
-      { text: 'Report', value: 'Reported', align: 'left', sortable: true },
-      { text: 'Budget supplémentaire', value: 'Added', align: 'right', sortable: true },
-      { text: 'DM', value: 'Modified', align: 'right', sortable: true },
-      { text: 'Mouvements', value: 'Movement', align: 'right', sortable: true },
-      { text: 'Total', value: 'Total', align: 'right', sortable: true }
+      { text: 'Chapitre', value: 'Chapter' },
+      { text: 'Fonction', value: 'Function' },
+      { text: 'Budget primitif', value: 'Primitive' },
+      { text: 'Report', value: 'Reported' },
+      { text: 'Budget supplémentaire', value: 'Added', align: 'right' },
+      { text: 'DM', value: 'Modified', align: 'right' },
+      { text: 'Mouvements', value: 'Movement', align: 'right' },
+      { text: 'Total', value: 'Total', align: 'right' }
     ],
     journalSearch: '',
     creditsSearch: ''
   }),
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    journal () {
-      return this.$store.state.previsions.paymentCreditJournal
-    },
-    journalTotal () {
-      return this.journal.reduce((a, c) => a + c.Value, 0)
-    },
-    credits () {
-      return this.$store.state.previsions.paymentCredits.filter(
+    ...mapGetters(['loading']),
+    ...mapState({
+      journal: state => state.previsions.paymentCreditJournal,
+      credits: state => state.previsions.paymentCredits.filter(
         o => o.Chapter === 907 ||
           o.Chapter === 908 ||
           (o.Chapter === 905 && o.Function === 52)).map(o => ({
@@ -167,6 +161,9 @@ export default {
         Movement: o.Movement,
         Total: o.Primitive + o.Reported + o.Added + o.Modified + o.Movement
       }))
+    }),
+    journalTotal () {
+      return this.journal.reduce((a, c) => a + c.Value, 0)
     },
     creditsTotal () {
       return this.credits.reduce((a, c) => a + c.Total, 0)
@@ -185,26 +182,10 @@ export default {
       const columns = [
         { header: 'Chapitre', key: 'Chapter', width: 10 },
         { header: 'Fonction', key: 'Function', width: 10 },
-        {
-          header: 'Création',
-          key: 'CreationDate',
-          width: 14,
-          style: { numberFormat: 'dd/mm/yyyy' }
-        },
-        {
-          header: 'Modification',
-          key: 'ModificationDate',
-          width: 14,
-          style: { numberFormat: 'dd/mm/yyyy' }
-        },
+        { header: 'Création', key: 'CreationDate', ...dateStyle },
+        { header: 'Modification', key: 'ModificationDate', ...dateStyle },
         { header: 'Libellé', key: 'Name', width: 10 },
-        {
-          header: 'Montant',
-          key: 'Value',
-          width: 14,
-          style: { numberFormat: '#,##0.00' },
-          addTotal: true
-        }
+        { header: 'Montant', key: 'Value', ...valStyle }
       ]
       excelExport(lines, columns, 'Enveloppes de CP')
     },
@@ -222,48 +203,12 @@ export default {
       const columns = [
         { header: 'Chapitre', key: 'Chapter', width: 10 },
         { header: 'Fonction', key: 'Function', width: 10 },
-        {
-          header: 'Budget primitif',
-          key: 'Primitive',
-          width: 14,
-          style: { numberFormat: '#,##0.00' },
-          addTotal: true
-        },
-        {
-          header: 'Report',
-          key: 'Reported',
-          width: 14,
-          style: { numberFormat: '#,##0.00' },
-          addTotal: true
-        },
-        {
-          header: 'Budget supplémentaire',
-          key: 'Added',
-          width: 14,
-          style: { numberFormat: '#,##0.00' },
-          addTotal: true
-        },
-        {
-          header: 'Décision modificative',
-          key: 'Modified',
-          width: 14,
-          style: { numberFormat: '#,##0.00' },
-          addTotal: true
-        },
-        {
-          header: 'Mouvements',
-          key: 'Movement',
-          width: 14,
-          style: { numberFormat: '#,##0.00' },
-          addTotal: true
-        },
-        {
-          header: 'Total',
-          key: 'Total',
-          width: 14,
-          style: { numberFormat: '#,##0.00' },
-          addTotal: true
-        }
+        { header: 'Budget primitif', key: 'Primitive', ...valStyle },
+        { header: 'Report', key: 'Reported', ...valStyle },
+        { header: 'Budget supplémentaire', key: 'Added', ...valStyle },
+        { header: 'Décision modificative', key: 'Modified', ...valStyle },
+        { header: 'Mouvements', key: 'Movement', ...valStyle },
+        { header: 'Total', key: 'Total', ...valStyle }
       ]
       excelExport(lines, columns, 'Enveloppes de CP')
     }
