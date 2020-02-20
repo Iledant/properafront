@@ -14,6 +14,7 @@ import vuetify from './plugins/vuetify'
 
 import {
   dateFilter,
+  shortDateFilter,
   dateValueFilter,
   lengthFilter,
   valueFilter,
@@ -26,6 +27,7 @@ import {
 
 Vue.config.productionTip = false
 Vue.filter('dateFilter', dateFilter)
+Vue.filter('shortDateFilter', shortDateFilter)
 Vue.filter('dateValueFilter', dateValueFilter)
 Vue.filter('lengthFilter', lengthFilter)
 Vue.filter('valueFilter', valueFilter)

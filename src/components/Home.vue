@@ -3,11 +3,11 @@
     <v-layout row wrap>
       <v-flex xs12 md6>
         <v-card>
-          <v-card-title class="secondary title">
+          <v-card-title class="secondary">
             {{ welcomeHeading }}
-            <v-spacer v-if="isAdmin"></v-spacer>
+            <v-spacer v-if="isAdmin" />
             <v-tooltip left color="primary">
-              <template v-slot:activator="{ on }" class="primary">
+              <template #activator="{ on }" class="primary">
                 <v-btn
                   x-small
                   fab
@@ -34,7 +34,7 @@
       </v-flex>
       <v-flex xs12 md6>
         <v-card>
-          <v-card-title class="secondary title">Événements prévus d'ici un mois</v-card-title>
+          <v-card-title class="secondary">Événements prévus d'ici un mois</v-card-title>
           <v-data-table
             :loading="loading"
             :headers="headers"
@@ -42,9 +42,9 @@
             dense
             no-data-text="Aucun événement trouvé d'ici un mois"
           >
-            <template v-slot:item="{ item: { date, operation, event } }">
+            <template #item="{ item: { date, operation, event } }">
               <tr>
-                <td class="text-no-wrap">{{ date | dateFilter }}</td>
+                <td class="text-no-wrap">{{ date | shortDateFilter }}</td>
                 <td>{{ operation }}</td>
                 <td>{{ event }}</td>
               </tr>
@@ -54,7 +54,7 @@
       </v-flex>
       <v-flex xs12 md6>
         <v-card>
-          <v-card-title class="secondary title">
+          <v-card-title class="secondary">
             Consommation de crédits de paiement
           </v-card-title>
           <v-flex xs12>
@@ -67,7 +67,7 @@
       </v-flex>
       <v-flex xs12 md6>
         <v-card>
-          <v-card-title class="secondary title">Engagement des AP</v-card-title>
+          <v-card-title class="secondary">Engagement des AP</v-card-title>
           <v-flex xs12>
             <commitment-chart :height="400" class="mt-2" />
           </v-flex>
@@ -95,16 +95,11 @@ export default {
   components: { TodayMessageDlg, PaymentChart, CommitmentChart },
   data: () => ({
     headers: [
-      { text: 'Date', value: 'date', align: 'center' },
-      { text: 'Opération', value: 'operation', align: 'center' },
-      { text: 'Événement', value: 'event', align: 'center' }
-    ],
-    ppmHeaders: [
-      { text: 'Mois', value: 'month', align: 'center' },
-      { text: 'Consommation', value: 'value', align: 'center' }
+      { text: 'Date', value: 'date', align: 'right' },
+      { text: 'Opération', value: 'operation' },
+      { text: 'Événement', value: 'event' }
     ],
     dlg: false,
-    totalPayments: 0,
     msg: { title: '', text: '' }
   }),
   computed: {

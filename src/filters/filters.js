@@ -8,9 +8,19 @@ const dateValueFormatter = new Intl.DateTimeFormat('fr-FR', {
   year: 'numeric'
 })
 
+const shortDateFormatter = new Intl.DateTimeFormat('fr-FR', {
+  day: '2-digit',
+  month: '2-digit'
+})
+
 export function dateFilter (value) {
   const date = new Date(value)
   return value ? dateFormatter.format(date) : '-'
+}
+
+export function shortDateFilter (value) {
+  const date = new Date(value)
+  return value ? shortDateFormatter.format(date) : '-'
 }
 
 export function dateValueFilter (value) {
