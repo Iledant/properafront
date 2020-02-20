@@ -15,7 +15,7 @@
         no-data-text="Aucun scénario trouvé"
         no-results-text="Recherche infructueuse"
       >
-        <template slot="item" slot-scope="props">
+        <template #item="{ item }">
           <tr>
             <td class="text-center">
               <v-tooltip right>
@@ -25,7 +25,7 @@
                     text
                     class="ma-0"
                     color="error"
-                    @click.stop="onRemove(props.item)"
+                    @click.stop="onRemove(item)"
                     v-on="on"
                   >
                     <v-icon>delete</v-icon>
@@ -41,7 +41,7 @@
                     small
                     class="ma-0"
                     color="secondary"
-                    @click.stop="onEdit(props.item)"
+                    @click.stop="onEdit(item)"
                     v-on="on"
                   >
                     <v-icon>edit</v-icon>
@@ -54,16 +54,13 @@
               <router-link
                 :to="{
                   name: 'Scenario',
-                  params: {
-                    scenario_id: props.item.id,
-                    scenario_name: props.item.name
-                  }
+                  params: { scenario_id: item.id, scenario_name: item.name }
                 }"
                 class="table-link"
-                >{{ props.item.name }}</router-link
+                >{{ item.name }}</router-link
               >
             </td>
-            <td>{{ props.item.descript }}</td>
+            <td>{{ item.descript }}</td>
           </tr>
         </template>
       </v-data-table>

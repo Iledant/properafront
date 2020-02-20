@@ -29,24 +29,24 @@
         no-data-text="Aucune opération trouvée"
         no-results-text="Aucune opération trouvée"
       >
-        <template slot="items" slot-scope="props">
+        <template #item="{ item }">
           <td>
             <v-btn
               icon
               text
               small
               class="ma-0"
-              @click.stop="onOpAdd(props.item)"
+              @click.stop="onOpAdd(item)"
             >
               <v-icon color="secondary">add</v-icon>
             </v-btn>
-            {{ props.item.name }}
+            {{ item.name }}
           </td>
-          <td class="text-right">{{ props.item.y0 | valueFilter }}</td>
-          <td class="text-right">{{ props.item.y1 | valueFilter }}</td>
-          <td class="text-right">{{ props.item.y2 | valueFilter }}</td>
-          <td class="text-right">{{ props.item.y3 | valueFilter }}</td>
-          <td class="text-right">{{ props.item.y4 | valueFilter }}</td>
+          <td class="text-right">{{ item.y0 | valueFilter }}</td>
+          <td class="text-right">{{ item.y1 | valueFilter }}</td>
+          <td class="text-right">{{ item.y2 | valueFilter }}</td>
+          <td class="text-right">{{ item.y3 | valueFilter }}</td>
+          <td class="text-right">{{ item.y4 | valueFilter }}</td>
         </template>
       </v-data-table>
       <v-layout row wrap class="mb-3 mt-2" align-center>
@@ -73,19 +73,19 @@
         no-data-text="Pas de contenu"
         no-results-text="Recherche infructueuse"
       >
-        <template slot="items" slot-scope="props">
+        <template #item="{ item }">
           <td>
             <v-btn
               icon
               text
               small
               class="ma-0"
-              @click="onScenarioDel(props.item)"
+              @click="onScenarioDel(item)"
               color="error"
             >
               <v-icon>delete</v-icon>
             </v-btn>
-            {{ props.item.name }}
+            {{ item.name }}
           </td>
           <td>
             <input
@@ -93,19 +93,19 @@
               size="3"
               min="0"
               max="5"
-              v-model="props.item.offset"
+              v-model="item.offset"
               style="outline: 0; text-align: right;"
-              @input="onChange(props.item)"
+              @input="onChange(item)"
             />
           </td>
 
-          <td class="text-right">{{ props.item.y0 | valueFilter }}</td>
-          <td class="text-right">{{ props.item.y1 | valueFilter }}</td>
-          <td class="text-right">{{ props.item.y2 | valueFilter }}</td>
-          <td class="text-right">{{ props.item.y3 | valueFilter }}</td>
-          <td class="text-right">{{ props.item.y4 | valueFilter }}</td>
+          <td class="text-right">{{ item.y0 | valueFilter }}</td>
+          <td class="text-right">{{ item.y1 | valueFilter }}</td>
+          <td class="text-right">{{ item.y2 | valueFilter }}</td>
+          <td class="text-right">{{ item.y3 | valueFilter }}</td>
+          <td class="text-right">{{ item.y4 | valueFilter }}</td>
         </template>
-        <template slot="footer">
+        <template #body.append="">
           <tr class="lime lighten-4">
             <td>Total</td>
             <td></td>
@@ -209,7 +209,7 @@ export default {
     opList () {
       return this.opCrossList.map(o => {
         const r = { id: o.id, name: o.number + '-' + o.name }
-        for (let k in o) {
+        for (const k in o) {
           if (k[0] === 'y') r[k] = o[k]
         }
         return r
@@ -263,7 +263,7 @@ export default {
       this.modified = false
     },
     onSave () {
-      let offsetList = []
+      const offsetList = []
       this.scenarioItems.forEach(i => {
         offsetList.push({ offset: i.offset, physical_op_id: i.physical_op_id })
       })
@@ -274,7 +274,7 @@ export default {
       this.modified = false
     },
     onChange (item) {
-      let offset = Number(item.offset)
+      const offset = Number(item.offset)
       item.offset = isNaN(offset) ? 0 : offset
       const prevYears = {
         y0: item.y0,
@@ -296,8 +296,8 @@ export default {
     },
     onDownload () {
       let lines = null
-      let years = []
-      let keys = Object.keys(this.scenarios[0])
+      const years = []
+      const keys = Object.keys(this.scenarios[0])
       keys.forEach(k => {
         if (/y\d+/.test(k)) {
           years.push(k)
@@ -305,7 +305,7 @@ export default {
       })
       if (this.scenarios.length > 0) {
         lines = this.scenarios.map(l => {
-          let formattedLine = {
+          const formattedLine = {
             number: l.number,
             name: l.name,
             offset: l.offset
@@ -321,9 +321,9 @@ export default {
           return formattedLine
         })
       }
-      let columns = [
-        { header: `Numéro d'opération`, key: 'number', width: 14 },
-        { header: `Intitulé d'opération`, key: 'name', width: 50 },
+      const columns = [
+        { header: 'Numéro d\'opération', key: 'number', width: 14 },
+        { header: 'Intitulé d\'opération', key: 'name', width: 50 },
         { header: 'Décalage', key: 'offset', width: 10 }
       ]
       for (let i = 0; i < years.length; i++) {
@@ -379,9 +379,9 @@ export default {
       ]
     },
     onOpAdd (item) {
-      let found = this.scenarioItems.find(s => s.physical_op_id === item.id)
+      const found = this.scenarioItems.find(s => s.physical_op_id === item.id)
       if (!found) {
-        let initialPrevs = this.convertYearsColumnsToArray(item)
+        const initialPrevs = this.convertYearsColumnsToArray(item)
         this.scenarioItems.push({
           physical_op_id: item.id,
           name: item.name,
@@ -423,7 +423,7 @@ export default {
       this.scenarioItems = []
       this.scenarioTotal = [0, 0, 0, 0, 0]
       list.forEach(s => {
-        let years = this.convertYearsColumnsToArray(s)
+        const years = this.convertYearsColumnsToArray(s)
         this.computeYears(years, s)
         this.scenarioItems.push({
           physical_op_id: s.id,
