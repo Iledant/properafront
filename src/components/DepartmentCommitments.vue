@@ -7,6 +7,7 @@
             label="Première année"
             class="mr-2"
             v-debounce:500ms="handleFirstYear"
+            prepend-icon="calendar_today"
             :rules="[yearRule]"
           />
         </v-flex>
@@ -14,6 +15,7 @@
           <v-text-field
             label="Dernière année"
             v-debounce:500ms="handleLastYear"
+            prepend-icon="calendar_today"
             :rules="[yearRule, lastYearRule]"
           />
         </v-flex>
@@ -26,10 +28,10 @@
             no-data-text="Pas de synthèse"
             hide-default-footer
           >
-            <template slot="item" slot-scope="props">
+            <template #item="{ item }">
               <tr>
-                <td>{{ props.item.place }}</td>
-                <td class="text-right">{{ props.item.value | valueFilter }}</td>
+                <td>{{ item.place }}</td>
+                <td class="text-right">{{ item.value | valueFilter }}</td>
               </tr>
             </template>
           </v-data-table>
@@ -41,7 +43,9 @@
     </v-container>
     <v-card-actions v-if="!disabled" class="tertiary">
       <v-spacer />
-      <v-btn color="primary" text @click="onDetailedRatiosExcelExport" v-if="!disabled">Détail Excel</v-btn>
+      <v-btn color="primary" text @click="download" v-if="!disabled">
+        Détail Excel
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -50,6 +54,7 @@
 import FcPerDptChart from './Departments/FcPerDptChart.js'
 import * as types from '../store/mutation-types'
 import yearRule from './Mixins/yearRule'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'DepartmentCommitments',
@@ -61,18 +66,16 @@ export default {
       lastYear: null,
       fcPerDptHeaders: [
         { text: 'Lieu', value: 'place' },
-        { text: 'Engagements', value: 'value', align: 'center' }
+        { text: 'Engagements', value: 'value', align: 'right' }
       ],
       fcPerDptItems: []
     }
   },
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    fcPerDpt () {
-      return this.$store.state.dptRatios.commitmentsPerDpt
-    },
+    ...mapGetters(['loading']),
+    ...mapState({
+      fcPerDpt: state => state.dptRatios.commitmentsPerDpt
+    }),
     disabled () {
       return (
         !this.checkYear(this.firstYear) ||
@@ -91,7 +94,7 @@ export default {
       this.getFcPerDpt()
     },
     checkYear (y) {
-      return y && /^20\d{2}$/.test(y)
+      return /^20\d{2}$/.test(y)
     },
     lastYearRule (y) {
       return (this.checkYear(this.firstYear) && this.checkYear(y) && parseInt(y) >= parseInt(this.firstYear)) ||
@@ -105,7 +108,7 @@ export default {
         })
       }
     },
-    onDetailedRatiosExcelExport () {
+    download () {
       this.$store.dispatch(types.GET_DETAILED_COMMITMENTS_PER_DPT, {
         firstYear: this.firstYear,
         lastYear: this.lastYear

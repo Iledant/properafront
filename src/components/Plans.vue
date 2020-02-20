@@ -18,16 +18,16 @@
             no-data-text="Aucun plan"
             no-results-text="Recherche infructueuse"
           >
-            <template slot="item" slot-scope="props">
+            <template #item="{ item }">
               <tr>
-                <td class="pr-0 pl-0">
+                <td class="px-0">
                   <v-tooltip right v-if="isAdmin">
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
                         text
                         icon
                         small
-                        @click="onModify(props.item.id)"
+                        @click="onModify(item.id)"
                         class="ma-0"
                         color="secondary"
                         v-on="on"
@@ -38,14 +38,14 @@
                     <span>Modifier</span>
                   </v-tooltip>
                 </td>
-                <td class="pr-0 pl-0">
+                <td class="px-0">
                   <v-tooltip right v-if="isAdmin">
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
                         text
                         icon
                         small
-                        @click="onDelete(props.item.id)"
+                        @click="onDelete(item.id)"
                         class="ma-0"
                         color="error"
                         v-on="on"
@@ -58,16 +58,21 @@
                 </td>
                 <td>
                   <router-link
-                    :to="'/planLines/' + props.item.id"
+                    :to="'/planLines/' + item.id"
                     class="table-link"
-                  >{{ props.item.name }}</router-link>
+                  >{{ item.name }}</router-link>
                 </td>
                 <td>
-                  <v-tooltip bottom max-width="500px" color="secondary grey--text text--darken-4">
-                    <template v-slot:activator="{ on }">
-                      <div v-on="on" class="font-italic">{{ props.item.descript | truncate }}</div>
+                  <v-tooltip
+                    bottom max-width="500px"
+                    color="secondary grey--text text--darken-4"
+                  >
+                    <template #activator="{ on }">
+                      <div v-on="on" class="font-italic">
+                        {{ item.descript | truncate }}
+                      </div>
                     </template>
-                    <span>{{ props.item.descript }}</span>
+                    <span>{{ item.descript }}</span>
                   </v-tooltip>
                 </td>
               </tr>
@@ -78,10 +83,22 @@
     </v-container>
     <v-card-actions class="tertiary">
       <v-spacer />
-      <v-btn color="primary" text @click.stop="onAddClick" v-if="isAdmin">Ajouter</v-btn>
+      <v-btn color="primary" text @click.stop="onAddClick" v-if="isAdmin">
+        Ajouter
+      </v-btn>
     </v-card-actions>
-    <plan-edit-dlg v-model="showDlg" :mentions="mentions" @save="onSave" :plan="modifiedPlan" />
-    <delete-dlg v-model="removeDlg" cat="le plan" :name="deletedPlan.name" @confirm="onConfirmRmv" />
+    <plan-edit-dlg
+      v-model="showDlg"
+      :mentions="mentions"
+      @save="onSave"
+      :plan="modifiedPlan"
+    />
+    <delete-dlg
+      v-model="removeDlg"
+      cat="le plan"
+      :name="deletedPlan.name"
+      @confirm="onConfirmRmv"
+    />
   </v-card>
 </template>
 
@@ -90,6 +107,7 @@ import * as types from '../store/mutation-types.js'
 import PlanEditDlg from './Plans/PlanEditDlg'
 import DeleteDlg from './DeleteDlg'
 import isAdmin from './Mixins/isAdmin'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'Plans',
@@ -125,12 +143,10 @@ export default {
     }
   }),
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    plans () {
-      return this.$store.state.plans.plans
-    }
+    ...mapGetters(['loading']),
+    ...mapState({
+      plans: state => state.plans.plans
+    })
   },
   methods: {
     onAddClick () {
@@ -150,11 +166,10 @@ export default {
       this.showDlg = true
     },
     onSave () {
-      if (this.mentions.validate === 'Créer') {
-        this.$store.dispatch(types.ADD_PLAN, { plan: this.modifiedPlan })
-      } else {
-        this.$store.dispatch(types.UPDATE_PLAN, { plan: this.modifiedPlan })
-      }
+      const action = this.mentions.validate === 'Créer'
+        ? types.ADD_PLAN
+        : types.UPDATE_PLAN
+      this.$store.dispatch(action, { plan: this.modifiedPlan })
     },
     onDelete (id) {
       this.deletedPlan = this.plans.find(p => p.id === id)
