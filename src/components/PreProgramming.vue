@@ -2,11 +2,11 @@
   <v-card>
     <v-card-title
       class="secondary title"
-    >Pré-programmation de l'année {{ programmingsYear ? programmingsYear : '' }}</v-card-title>
-    <v-alert
-      :value="!commissions"
-      error
-    >La pré-programmation nécessite au moins une commission (Menu administration)</v-alert>
+    >Pré-programmation de l'année {{ programmingsYear ? programmingsYear : '' }}
+    </v-card-title>
+    <v-alert :value="!commissions" error>
+      La pré-programmation nécessite au moins une commission (Menu administration)
+    </v-alert>
     <v-container grid-list-md fluid v-show="commissions">
       <v-layout row wrap>
         <v-flex xs12 sm6>
@@ -16,10 +16,17 @@
             v-debounce:500ms="changeYear"
             :value="year"
             :rules="[yearRule]"
+            prepend-icon="calendar_today"
           />
         </v-flex>
         <v-flex xs12 sm6>
-          <v-text-field label="Recherche" single-line hide-details v-model="search" />
+          <v-text-field
+            label="Recherche"
+            single-line
+            hide-details
+            v-model="search"
+            prepend-icon="search"
+          />
         </v-flex>
         <v-flex xs12>
           <v-data-table
@@ -32,17 +39,28 @@
             no-data-text="Aucune programmation trouvée"
             no-results-text="Recherche infructueuse"
           >
-            <template slot="item" slot-scope="props">
+            <template #body.prepend="">
+              <tr class="grey lighten-4 font-weight-medium">
+                <td>Total</td>
+                <td class="text-right">{{ previsionTotal | valueFilter }}</td>
+                <td />
+                <td class="text-right">{{ preProgTotal | valueFilter }}</td>
+                <td />
+              </tr>
+            </template>
+            <template #item="{ item }">
               <tr>
-                <td>{{ props.item.name }}</td>
+                <td>{{ item.name }}</td>
                 <td class="text-right">
                   <v-tooltip right color="primary">
-                    <template v-slot:activator="{ on }">
-                      <div v-on="on" class="text-no-wrap">{{ props.item.prev_value | valueFilter }}</div>
+                    <template #activator="{ on }">
+                      <div v-on="on" class="text-no-wrap">
+                        {{ item.prev_value | valueFilter }}
+                      </div>
                     </template>
                     <ul>
-                      <li>Total : {{ props.item.prev_total_value | valueFilter }}</li>
-                      <li>Clé État: {{ props.item.prev_state_ratio | percentage }}</li>
+                      <li>Total : {{ item.prev_total_value | valueFilter }}</li>
+                      <li>Clé État: {{ item.prev_state_ratio | percentage }}</li>
                     </ul>
                   </v-tooltip>
                 </td>
@@ -56,7 +74,7 @@
                         icon
                         class="ma-0"
                         color="secondary"
-                        @click.stop="onCopyPrevision(props.item)"
+                        @click.stop="onCopyPrevision(item)"
                       >
                         <v-icon>redo</v-icon>
                       </v-btn>
@@ -65,42 +83,37 @@
                   </v-tooltip>
                 </td>
                 <td
-                  class="text-right primary--text programmings-editable"
-                  @click="onModifyProgrammingItem(props.item)"
+                  class="text-right primary--text table-link"
+                  @click="onModifyProgrammingItem(item)"
                 >
                   <v-tooltip right color="primary">
-                    <template v-slot:activator="{ on }">
-                      <div
-                        v-on="on"
-                        class="text-no-wrap"
-                      >{{ props.item.pre_prog_value | valueFilter }}</div>
+                    <template #activator="{ on }">
+                      <div v-on="on" class="text-no-wrap">
+                        {{ item.pre_prog_value | valueFilter }}
+                      </div>
                     </template>
                     <ul>
-                      <li>Total : {{ props.item.pre_prog_total_value | valueFilter }}</li>
-                      <li>Clé État: {{ props.item.pre_prog_state_ratio | percentage }}</li>
-                      <li>Description : {{ props.item.pre_prog_descript ? props.item.pre_prog_descript : '-' }}</li>
+                      <li>Total : {{ item.pre_prog_total_value | valueFilter }}</li>
+                      <li>Clé État: {{ item.pre_prog_state_ratio | percentage }}</li>
+                      <li>Description : {{ item.pre_prog_descript ? item.pre_prog_descript : '-' }}</li>
                     </ul>
                   </v-tooltip>
                 </td>
                 <td
-                  class="text-right primary--text programmings-editable"
-                  @click="onModifyProgrammingItem(props.item)"
-                >{{ props.item.commission_name }}</td>
+                  class="text-right primary--text table-link"
+                  @click="onModifyProgrammingItem(item)"
+                >
+                  {{ item.commission_name }}
+                </td>
               </tr>
             </template>
-            <template v-slot:body.append="">
-              <tr>
-                <td class="grey lighten-4">
-                  <strong>Total</strong>
-                </td>
-                <td class="grey lighten-4 text-right">
-                  <strong>{{ previsionTotal | valueFilter }}</strong>
-                </td>
-                <td class="grey lighten-4"></td>
-                <td class="grey lighten-4 text-right">
-                  <strong>{{ preProgTotal | valueFilter }}</strong>
-                </td>
-                <td class="grey lighten-4"></td>
+            <template #body.append="">
+              <tr class="grey lighten-4 font-weight-medium">
+                <td>Total</td>
+                <td class="text-right">{{ previsionTotal | valueFilter }}</td>
+                <td />
+                <td class="text-right">{{ preProgTotal | valueFilter }}</td>
+                <td />
               </tr>
             </template>
           </v-data-table>
@@ -170,7 +183,7 @@
               <v-text-field
                 v-model="stateRatio"
                 label="Clé État"
-                suffix="%"
+                prefix="%"
                 :rules="[isNullOrPercentage]"
                 reverse
               />
@@ -239,11 +252,11 @@ export default {
     programmingsYear: new Date().getFullYear(),
     items: [],
     headers: [
-      { text: 'Opération', align: 'center', value: 'name' },
-      { text: 'Besoin', align: 'center', value: 'prev_value' },
+      { text: 'Opération', value: 'name' },
+      { text: 'Besoin', align: 'right', value: 'prev_value' },
       { text: '', align: 'center', value: '', sortable: false, width: '1%' },
-      { text: 'Préprogrammation', align: 'center', value: 'pre_prog_value' },
-      { text: 'Commission', align: 'center', value: 'commission_date' }
+      { text: 'Préprogrammation', align: 'right', value: 'pre_prog_value' },
+      { text: 'Commission', align: 'right', value: 'commission_date' }
     ],
     previsionTotal: 0,
     preProgTotal: 0
@@ -440,13 +453,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.programmings-editable {
-  cursor: pointer;
-}
-
-.programmings-editable:hover {
-  text-decoration-line: underline;
-}
-</style>
