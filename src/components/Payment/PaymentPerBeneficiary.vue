@@ -27,29 +27,23 @@
         <v-flex xs12>
           <v-data-table
             :headers="prevPaymentHeaders"
-            :items="previsionAndRealizedList"
+            :items="items"
             class="elevation-1"
             :loading="loading"
             :search="prevPaymentSearch"
           >
-            <template slot="item" slot-scope="props">
+            <template #item="{ item }">
               <tr>
-                <td>{{ props.item.name }}</td>
-                <td class="text-right">{{ props.item.prev_payment | valueFilter }}</td>
-                <td class="text-right">{{ props.item.payment | valueFilter }}</td>
+                <td>{{ item.name }}</td>
+                <td class="text-right">{{ item.prev_payment | valueFilter }}</td>
+                <td class="text-right">{{ item.payment | valueFilter }}</td>
               </tr>
             </template>
-            <template v-slot:body.append="">
-              <tr>
-                <td class="grey lighten-4">
-                  <strong>Total</strong>
-                </td>
-                <td class="text-right grey lighten-4">
-                  <strong>{{ prevPaymentTotal | valueFilter }}</strong>
-                </td>
-                <td class="text-right grey lighten-4">
-                  <strong>{{ paymentTotal | valueFilter }}</strong>
-                </td>
+            <template #body.append="">
+              <tr class="grey lighten-4 font-weight-medium">
+                <td>Total</td>
+                <td class="text-right">{{ prevPaymentTotal | valueFilter }}</td>
+                <td class="text-right ">{{ paymentTotal | valueFilter }}</td>
               </tr>
             </template>
           </v-data-table>
@@ -68,7 +62,7 @@
       <v-btn
         color="primary"
         text
-        @click="onPaymentPrevDownload"
+        @click="download"
         :disabled="!paymentPrevTypeId"
       >Export Excel</v-btn>
     </v-card-actions>
@@ -77,74 +71,49 @@
 
 <script>
 import * as types from '../../store/mutation-types.js'
-import { excelExport } from '../Utils/excelExport.js'
+import { excelExport, valStyle } from '../Utils/excelExport.js'
+import { mapGetters, mapState } from 'vuex'
+
 export default {
   name: 'PaymentPerBeneficiary',
   data: () => ({
     paymentPrevTypeId: null,
     prevPaymentSearch: '',
     prevPaymentHeaders: [
-      { text: 'Bénéficiaire', value: 'name', align: 'center', sortable: true },
-      {
-        text: 'Prévision',
-        value: 'prev_payment',
-        align: 'center',
-        sortable: true
-      },
-      { text: 'Consommé', value: 'payment', align: 'center', sortable: true }
+      { text: 'Bénéficiaire', value: 'name' },
+      { text: 'Prévision', value: 'prev_payment', align: 'right' },
+      { text: 'Consommé', value: 'payment', align: 'right' }
     ],
     actualYear: new Date().getFullYear()
   }),
   computed: {
-    previsionAndRealizedList () {
-      return this.$store.state.summaries.previsionAndRealizedList
-    },
+    ...mapGetters(['loading']),
+    ...mapState({
+      items: state => state.summaries.previsionAndRealizedList,
+      paymentTypes: state => state.paymentRatios.paymentTypes
+    }),
     prevPaymentTotal () {
-      return this.previsionAndRealizedList.reduce(
-        (a, i) => a + i.prev_payment,
-        0
-      )
+      return this.items.reduce((a, i) => a + i.prev_payment, 0)
     },
     paymentTotal () {
-      return this.previsionAndRealizedList.reduce((a, i) => a + i.payment, 0)
-    },
-    paymentTypes () {
-      return this.$store.state.paymentRatios.paymentTypes
-    },
-    loading () {
-      return this.$store.getters.loading
+      return this.items.reduce((a, i) => a + i.payment, 0)
     }
   },
   methods: {
-    onPaymentPrevDownload () {
-      let lines = null
-      if (this.previsionAndRealizedList.length > 0) {
-        lines = this.previsionAndRealizedList.map(l => {
-          return {
-            name: l.name,
-            prev_payment: l.prev_payment ? l.prev_payment * 0.01 : 0,
-            payment: l.payment ? l.payment * 0.01 : 0
-          }
-        })
+    download () {
+      if (this.items.length > 0) {
+        const lines = this.items.map(l => ({
+          name: l.name,
+          prev_payment: l.prev_payment ? l.prev_payment * 0.01 : 0,
+          payment: l.payment ? l.payment * 0.01 : 0
+        }))
+        const columns = [
+          { header: 'Bénéficiaire', key: 'name', width: 80 },
+          { header: 'Prévision', key: 'prev_payment', ...valStyle },
+          { header: 'Consommé', key: 'payment', ...valStyle }
+        ]
+        excelExport(lines, columns, 'Consommation bénéficiaire')
       }
-      const columns = [
-        { header: 'Bénéficiaire', key: 'name', width: 80 },
-        {
-          header: 'Prévision',
-          key: 'prev_payment',
-          width: 14,
-          style: { numberFormat: '#,##0.00' },
-          addTotal: true
-        },
-        {
-          header: 'Consommé',
-          key: 'payment',
-          width: 14,
-          style: { numberFormat: '#,##0.00' },
-          addTotal: true
-        }
-      ]
-      excelExport(lines, columns, 'Consommation bénéficiaire')
     }
   },
   watch: {
