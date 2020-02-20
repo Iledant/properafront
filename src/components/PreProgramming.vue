@@ -193,10 +193,9 @@
         </v-container>
         <v-card-actions class="tertiary">
           <v-spacer />
-          <v-btn small text color="primary" @click="programmingDlg = false">Annuler</v-btn>
-          <v-btn small text color="error" @click="onProgrammingDelete">Supprimer</v-btn>
+          <v-btn text color="primary" @click="programmingDlg = false">Annuler</v-btn>
+          <v-btn text color="error" @click="onProgrammingDelete">Supprimer</v-btn>
           <v-btn
-            small
             text
             color="primary"
             @click="onProgrammingModify"

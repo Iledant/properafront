@@ -13,7 +13,7 @@
             label="Année"
             hide-details
             :value="year"
-            prepend-inner-icon="calendar_today"
+            prepend-icon="calendar_today"
             v-debounce:500ms="changeYear"
             :rules="[yearRule]"
           />
@@ -24,7 +24,7 @@
             single-line
             hide-details
             v-model="search"
-            prepend-inner-icon="search"
+            prepend-icon="search"
           />
         </v-flex>
         <v-flex xs12>
@@ -38,12 +38,35 @@
             no-data-text="Aucune programmation trouvée"
             no-results-text="Recherche infructueuse"
           >
-            <template v-slot:item="{ item }">
+            <template #body.prepend="">
+              <tr class="grey lighten-4 font-weight-medium">
+                <td>Total</td>
+                <td class="text-right font-italic">
+                  <v-tooltip right color="primary">
+                    <template v-slot:activator="{ on }">
+                      <div v-on="on">{{ previsionTotal | valueFilter }}</div>
+                    </template>
+                    <span>
+                      Le total est calculé à partir de la base de données.<br />
+                      Il ne tient pas compte des lignes doublonnées dans la
+                      programmation.
+                    </span>
+                  </v-tooltip>
+                </td>
+                <td></td>
+                <td class="text-right">{{ preProgTotal | valueFilter }}</td>
+                <td></td>
+                <td></td>
+                <td class="text-right">{{ progTotal | valueFilter }}</td>
+                <td></td>
+              </tr>
+            </template>
+            <template #item="{ item }">
               <tr>
                 <td>{{ item.name }}</td>
                 <td class="text-right">
                   <v-tooltip right color="primary">
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <div v-on="on" class="text-no-wrap">
                         {{ item.prevision | valueFilter }}
                       </div>
@@ -54,7 +77,7 @@
                 </td>
                 <td class="px-0">
                   <v-tooltip right color="primary">
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
                         v-on="on"
                         small
@@ -72,7 +95,7 @@
                 </td>
                 <td class="text-right">
                   <v-tooltip right color="primary">
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <div v-on="on" class="text-no-wrap">
                         {{ item.pre_prog_value | valueFilter }}
                       </div>
@@ -91,7 +114,7 @@
                 </td>
                 <td class="px-0">
                   <v-tooltip right color="primary">
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
                         v-on="on"
                         small
@@ -109,7 +132,7 @@
                 </td>
                 <td class="px-0">
                   <v-tooltip right color="primary">
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
                         v-on="on"
                         small
@@ -126,11 +149,11 @@
                   </v-tooltip>
                 </td>
                 <td
-                  class="text-right primary--text programmings-editable"
+                  class="text-right primary--text table-link"
                   @click="modify(item)"
                 >
                   <v-tooltip right color="primary">
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <div v-on="on" class="text-no-wrap">{{ item.value | valueFilter }}</div>
                     </template>
                     Total : {{ item.total_value | valueFilter }}<br />
@@ -138,12 +161,12 @@
                   </v-tooltip>
                 </td>
                 <td
-                  class="primary--text programmings-editable"
+                  class="primary--text table-link"
                   @click="modify(item)"
                 >{{ item.commission_name }}</td>
               </tr>
             </template>
-            <template v-slot:body.append="">
+            <template #body.append="">
               <tr class="grey lighten-4 font-weight-medium">
                 <td>Total</td>
                 <td class="text-right font-italic">
@@ -171,15 +194,13 @@
       </v-layout>
     </v-container>
     <v-card-actions class="tertiary">
-      <v-btn text color="primary" @click="download">
-        <v-icon class="mr-1">cloud_download</v-icon> Export Excel
-      </v-btn>
+      <v-btn text color="primary" @click="download">Export Excel</v-btn>
       <v-spacer v-show="programmingsModified" />
       <v-btn text color="primary" @click="onCancel" v-show="programmingsModified">
-        <v-icon class="mr-1">cancel</v-icon> Annuler
+        Annuler
       </v-btn>
       <v-btn text color="primary" @click="onSave" v-show="programmingsModified" >
-        <v-icon class="mr-1">done</v-icon> Sauver
+        Sauver
       </v-btn>
     </v-card-actions>
 
@@ -235,15 +256,9 @@
         </v-container>
         <v-card-actions class="tertiary">
           <v-spacer />
-          <v-btn text color="primary" @click.stop="dlg = false">
-            <v-icon class="mr-1">cancel</v-icon>Annuler
-            </v-btn>
-          <v-btn text color="error" @click.stop="prgDelete">
-            <v-icon class="mr-1">delete</v-icon>Supprimer
-          </v-btn>
-          <v-btn text color="primary" @click.stop="prgModify">
-            <v-icon class="mr-1">done</v-icon>Modifier
-          </v-btn>
+          <v-btn text color="primary" @click="dlg = false"> Annuler</v-btn>
+          <v-btn text color="error" @click="prgDelete">Supprimer</v-btn>
+          <v-btn text color="primary" @click="prgModify">Modifier</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -572,13 +587,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.programmings-editable {
-  cursor: pointer;
-}
-
-.programmings-editable:hover {
-  text-decoration-line: underline;
-}
-</style>
