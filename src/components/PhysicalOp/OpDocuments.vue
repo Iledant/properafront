@@ -8,7 +8,7 @@
             label="Recherche"
             single-line
             hide-details
-            v-model="docSearch"
+            v-model="search"
           />
         </v-flex>
         <v-flex sm3 />
@@ -16,23 +16,23 @@
           <v-data-table
             :headers="headers"
             :items="docs"
-            :search="docSearch"
+            :search="search"
             class="elevation-1"
             :loading="loading"
             dense
             no-data-text="Aucun document à afficher"
             no-results-text="Recherche infructueuse"
           >
-            <template slot="item" slot-scope="props">
+            <template #item="{ item }">
               <tr>
                 <td class="px-0" color="primary">
                   <v-tooltip right v-if="!isObserver">
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
                         text
                         icon
                         small
-                        @click="onModify(props.item)"
+                        @click="onModify(item)"
                         class="pa-0"
                         color="secondary"
                         v-on="on"
@@ -45,12 +45,12 @@
                 </td>
                 <td class="tx-0">
                   <v-tooltip right v-if="!isObserver" color="error">
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
                         text
                         icon
                         small
-                        @click="onDelete(props.item)"
+                        @click="onDelete(item)"
                         class="pa-0"
                         color="error"
                         v-on="on"
@@ -61,11 +61,9 @@
                     <span>Supprimer</span>
                   </v-tooltip>
                 </td>
-                <td class="text-left">
-                  <a :href="props.item.link" target="_blank" class="table-link">
-                    {{
-                    props.item.name
-                    }}
+                <td>
+                  <a :href="item.link" target="_blank" class="table-link">
+                    {{ item.name }}
                   </a>
                 </td>
               </tr>
@@ -86,7 +84,7 @@
     />
     <delete-dlg
       v-model="removeDlg"
-      cal="le document"
+      cat="le document"
       :name="delDocument.name"
       @confirm="onConfirmDel"
     />
@@ -98,6 +96,7 @@ import * as types from '../../store/mutation-types'
 import OpDocumentDlg from './OpDocumentDlg.vue'
 import isObserver from '../Mixins/isObserver'
 import DeleteDlg from '../DeleteDlg.vue'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'OpDocuments',
   props: { op: null },
@@ -112,17 +111,15 @@ export default {
     headers: [
       { text: '', value: '', align: 'center', sortable: false, width: '1%' },
       { text: '', value: '', align: 'center', sortable: false, width: '1%' },
-      { text: 'Document', value: 'name', align: 'center', sortable: true }
+      { text: 'Document', value: 'name' }
     ],
-    docSearch: ''
+    search: ''
   }),
   computed: {
-    docs () {
-      return this.$store.state.documents.documents
-    },
-    loading () {
-      return this.$store.getters.loading
-    }
+    ...mapGetters(['loading']),
+    ...mapState({
+      docs: state => state.documents.documents
+    })
   },
   methods: {
     onCreate () {
@@ -143,26 +140,16 @@ export default {
       this.delDocument = this.docs.find(d => d.id === item.id)
       this.removeDlg = true
     },
-    onCancel () {
-      this.showDlg = false
-    },
     onSave () {
       const action = this.mentions.validate === 'Créer'
         ? types.ADD_DOCUMENT
         : types.UPDATE_DOCUMENT
-      this.$store.dispatch(action, {
-        id: this.op.id,
-        document: this.modifiedDocument
-      })
-    },
-    onCancelDel () {
-      this.removeDlg = false
+      this.$store.dispatch(action,
+        { id: this.op.id, document: this.modifiedDocument })
     },
     onConfirmDel () {
-      this.$store.dispatch(types.DEL_DOCUMENT, {
-        id: this.op.id,
-        document: this.delDocument
-      })
+      this.$store.dispatch(types.DEL_DOCUMENT,
+        { id: this.op.id, document: this.delDocument })
       this.removeDlg = false
     }
   }
