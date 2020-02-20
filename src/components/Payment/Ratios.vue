@@ -6,7 +6,7 @@
           <v-flex class="xs12 subtitle-1">Chroniques enregistrées</v-flex>
           <v-flex xs12 sm6 offset-sm3 class="mb-2">
             <v-text-field
-              append-icon="search"
+              prepend-icon="search"
               label="Recherche"
               single-line
               hide-details

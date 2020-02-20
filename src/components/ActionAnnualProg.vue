@@ -17,7 +17,7 @@
         <v-flex sm3 />
         <v-flex xs12 sm6 offset-sm3>
           <v-text-field
-            append-icon="search"
+            prepend-icon="search"
             label="Recherche"
             single-line
             hide-details

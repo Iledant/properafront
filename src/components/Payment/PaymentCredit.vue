@@ -5,7 +5,7 @@
       <v-layout row wrap align-center>
         <v-flex xs12 sm6 offset-sm3>
           <v-text-field
-            append-icon="search"
+            prepend-icon="search"
             label="Recherche"
             single-line
             hide-details
@@ -62,7 +62,7 @@
         <v-flex xs12 class="title">Historique des mouvements</v-flex>
         <v-flex xs12 sm6 offset-sm3>
           <v-text-field
-            append-icon="search"
+            prepend-icon="search"
             label="Recherche"
             single-line
             hide-details

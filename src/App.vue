@@ -161,5 +161,6 @@ export default {
 }
 .table-link:hover {
   text-decoration-line: underline;
+  cursor: pointer;
 }
 </style>

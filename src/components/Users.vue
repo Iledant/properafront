@@ -5,7 +5,7 @@
       <v-layout wrap>
         <v-flex class="xs12 sm6 offset-sm3">
           <v-text-field
-            append-icon="search"
+            prepend-icon="search"
             label="Recherche"
             single-line
             hide-details

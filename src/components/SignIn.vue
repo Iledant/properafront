@@ -17,7 +17,7 @@
               label="Mot de passe"
               v-model="password"
               :rules="[checkIfNotEmpty]"
-              :append-icon="icon"
+              :prepend-icon="icon"
               @click:append="showPassword = !showPassword"
               :type="type"
               required

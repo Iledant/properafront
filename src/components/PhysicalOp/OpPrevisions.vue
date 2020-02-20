@@ -23,7 +23,7 @@
             :items-per-page="-1"
             :loading="loading"
           >
-            <template v-slot:body.prepend="">
+            <template #body.prepend="">
               <tr class="green lighten-3">
                 <td></td>
                 <td rowspan="2" class="text-center">Total</td>
@@ -74,7 +74,7 @@
 
             <template v-slot:item="{ item }">
               <tr :class="item.id % 2 ? 'green lighten-5' : 'green lighten-4'">
-                <td class="pl-0 pr-0" rowspan="4">
+                <td class="px-0" rowspan="4">
                   <v-tooltip right v-if="item.year === maxYear">
                     <template v-slot:activator="{ on }">
                       <v-btn
@@ -181,7 +181,7 @@
               </tr>
             </template>
 
-            <template v-slot:body.append="">
+            <template #body.append="">
               <tr class="green lighten-3">
                 <td></td>
                 <td rowspan="2" class="text-center">Total</td>
@@ -203,10 +203,10 @@
       </v-Layout>
     </v-card-text>
     <v-card-actions v-if="!isObserver" class="tertiary">
-      <v-btn color="primary" small text @click="onAddClick">Ajouter</v-btn>
+      <v-btn color="primary" text @click="onAddClick">Ajouter</v-btn>
       <v-spacer />
-      <v-btn color="primary" small text @click="onCancel" v-show="modified">Annuler</v-btn>
-      <v-btn color="primary" small text @click="onSave" v-show="modified">Valider</v-btn>
+      <v-btn color="primary" text @click="onCancel" v-show="modified">Annuler</v-btn>
+      <v-btn color="primary" text @click="onSave" v-show="modified">Valider</v-btn>
     </v-card-actions>
   </v-card>
 </template>

@@ -13,7 +13,7 @@
                 label="Mot de passe"
                 v-model="password"
                 :rules="[checkIfNotEmpty]"
-                :append-icon="hideOldPassword ? 'visibility' : 'visibility_off'"
+                :prepend-icon="hideOldPassword ? 'visibility' : 'visibility_off'"
                 @click:append="hideOldPassword = !hideOldPassword"
                 :type="hideOldPassword ? 'password' : 'text'"
                 required
@@ -25,7 +25,7 @@
                 label="Nouveau mot de passe"
                 v-model="newPassword"
                 :rules="[checkIfNotEmpty]"
-                :append-icon="hideNewPassword ? 'visibility' : 'visibility_off'"
+                :prepend-icon="hideNewPassword ? 'visibility' : 'visibility_off'"
                 @click:append="hideNewPassword = !hideNewPassword"
                 :type="hideNewPassword ? 'password' : 'text'"
                 required
@@ -36,7 +36,7 @@
                 label="Confirmer le nouveau de passe"
                 v-model="confirmPassword"
                 :rules="[checkIfNotEmpty, checkSimilar]"
-                :append-icon="
+                :prepend-icon="
                   hideConfirmPassword ? 'visibility' : 'visibility_off'
                 "
                 @click:append="hideConfirmPassword = !hideConfirmPassword"

@@ -10,7 +10,7 @@
             single-line
             hide-details
             v-debounce:500ms="handleFcSearch"
-            append-icon="search"
+            prepend-icon="search"
           />
         </v-flex>
         <v-flex xs12 sm6>
@@ -19,7 +19,7 @@
             single-line
             hide-details
             v-debounce:500ms="handleFcMinYear"
-            append-icon="search"
+            prepend-icon="search"
             :rules="[yearRule]"
           />
         </v-flex>
@@ -77,7 +77,7 @@
         <v-flex sm3 />
         <v-flex xs6 offset-sm3>
           <v-text-field
-            append-icon="search"
+            prepend-icon="search"
             label="Recherche d'une ligne de plan"
             single-line
             hide-details
@@ -111,7 +111,7 @@
             single-line
             hide-details
             v-debounce:500ms="handleFcPlSearch"
-            append-icon="search"
+            prepend-icon="search"
           />
         </v-flex>
         <v-flex xs12 sm6>
@@ -120,7 +120,7 @@
             single-line
             hide-details
             v-debounce:500ms="handleFcPlMinYear"
-            append-icon="search"
+            prepend-icon="search"
             :rules="[yearRule]"
           />
         </v-flex>

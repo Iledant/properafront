@@ -1,6 +1,8 @@
 <template>
   <v-card>
-    <v-card-title class="secondary title">Comparaison besoins, pré- et programmation</v-card-title>
+    <v-card-title class="secondary">
+      Comparaison besoins, pré- et programmation
+    </v-card-title>
     <v-container grid-list-md fluid>
       <v-layout row wrap>
         <v-flex xs12 sm6 offset-sm3>
@@ -15,7 +17,7 @@
         <v-flex sm3 />
         <v-flex xs12 sm6 offset-sm3>
           <v-text-field
-            append-icon="search"
+            prepend-icon="search"
             label="Recherche"
             single-line
             hide-details

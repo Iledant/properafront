@@ -10,7 +10,7 @@
             single-line
             hide-details
             v-debounce:500ms="handleFcSearch"
-            append-icon="search"
+            prepend-icon="search"
           />
         </v-flex>
         <v-flex xs12 sm6>
@@ -19,7 +19,7 @@
             single-line
             hide-details
             v-debounce:500ms="handleFcMinYear"
-            append-icon="search"
+            prepend-icon="search"
             :rules="[yearRule]"
           />
         </v-flex>
@@ -55,7 +55,7 @@
         </v-flex>
         <v-flex xs12 sm6 offset-sm3>
           <v-text-field
-            append-icon="search"
+            prepend-icon="search"
             label="Recherche d'opération"
             single-line
             hide-details
@@ -85,7 +85,7 @@
             single-line
             hide-details
             v-debounce:500ms="handleFcOpSearch"
-            append-icon="search"
+            prepend-icon="search"
           />
         </v-flex>
         <v-flex xs12 sm6>
@@ -94,7 +94,7 @@
             single-line
             hide-details
             v-debounce:500ms="handleFcOpMinYear"
-            append-icon="search"
+            prepend-icon="search"
             :rules="[yearRule]"
           />
         </v-flex>

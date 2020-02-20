@@ -18,22 +18,36 @@
             no-data-text="Aucune opération"
             no-results-text="Aucune opération trouvée"
           >
-            <template v-slot:item="{ item: { id, name, number, value } }">
+            <template #item="{ item: { id, name, number, value } }">
               <tr>
                 <td class="pl-0 pr-0">
                   <v-tooltip right v-if="!isObserver">
-                    <template v-slot:activator="{ on }">
-                      <v-btn text icon small @click.stop="onModify(id)" class="pa-0" v-on="on">
+                    <template #activator="{ on }">
+                      <v-btn
+                        text
+                        icon
+                        small
+                        @click.stop="onModify(id)"
+                        class="pa-0"
+                        v-on="on"
+                      >
                         <v-icon color="secondary">edit</v-icon>
                       </v-btn>
                     </template>
                     <span>Modifier</span>
                   </v-tooltip>
                 </td>
-                <td class="pl-0 pr-0">
+                <td class="px-0">
                   <v-tooltip right v-if="isAdmin">
-                    <template v-slot:activator="{ on }">
-                      <v-btn text icon small @click.stop="onDelete(id)" class="pa-0" v-on="on">
+                    <template #activator="{ on }">
+                      <v-btn
+                        text
+                        icon
+                        small
+                        @click="onDelete(id)"
+                        class="pa-0"
+                        v-on="on"
+                      >
                         <v-icon color="error">delete</v-icon>
                       </v-btn>
                     </template>
@@ -61,9 +75,8 @@
         </v-flex>
       </v-layout>
     </v-container>
-    <v-divider />
-    <v-card-actions>
-      <v-btn text color="primary" @click="onAddClick" v-if="isAdmin">Ajouter</v-btn>
+    <v-card-actions class="tertiary">
+      <v-btn text color="primary" @click="onAdd" v-if="isAdmin">Ajouter</v-btn>
       <v-spacer />
       <v-btn text color="primary" @click="onExcelExport">Export Excel</v-btn>
     </v-card-actions>
@@ -83,7 +96,8 @@ import OpEditDlg from './PhysicalOps/OpEditDlg.vue'
 import DeleteDlg from './DeleteDlg.vue'
 import isAdmin from './Mixins/isAdmin'
 import isObserver from './Mixins/isObserver'
-import { excelExport } from './Utils/excelExport'
+import { excelExport, dateStyle, valStyle, percentStyle } from './Utils/excelExport'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'PhysicalOps',
@@ -97,27 +111,21 @@ export default {
     deletedOp: null,
     mentions: { title: 'Nouvelle opération', validate: 'Créer' },
     headers: [
-      { text: '', value: '', sortable: false, align: 'center', width: '1%' },
-      { text: '', value: '', sortable: false, align: 'center', width: '1%' },
-      { text: 'Numéro', value: 'number', sortable: true, align: 'center' },
-      { text: 'Nom', value: 'name', sortable: true, align: 'center' },
-      { text: 'Valeur', value: 'value', sortable: true, align: 'center' }
+      { text: '', value: '', sortable: false, width: '1%' },
+      { text: '', value: '', sortable: false, width: '1%' },
+      { text: 'Numéro', value: 'number', sortable: true },
+      { text: 'Nom', value: 'name', sortable: true },
+      { text: 'Valeur', value: 'value', sortable: true, align: 'right' }
     ],
     items: []
   }),
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    opList () {
-      return this.$store.state.physops.ops
-    },
-    actionList () {
-      return this.$store.state.budgetTables.actionList
-    },
-    paymentTypesList () {
-      return this.$store.state.paymentRatios.paymentTypes
-    },
+    ...mapGetters(['loading']),
+    ...mapState({
+      actionList: state => state.budgetTables.actionList,
+      opList: state => state.physops.ops,
+      paymentTypesList: state => state.paymentRatios.paymentTypes
+    }),
     deletedOpName () {
       return this.deletedOp
         ? (this.deletedOp.number + '-' + this.deletedOp.name)
@@ -133,7 +141,7 @@ export default {
       this.$store.dispatch(types.DEL_PHYSICAL_OP, { op: this.deletedOp })
       this.removeDlg = false
     },
-    onAddClick () {
+    onAdd () {
       this.op = {
         id: 0,
         number: '',
@@ -194,30 +202,10 @@ export default {
           width: 10,
           style: { numberFormat: '#,##0' }
         },
-        {
-          header: 'Evaluation',
-          key: 'value',
-          width: 14,
-          style: { numberFormat: '#,##0.00' }
-        },
-        {
-          header: 'Date de valeur',
-          key: 'valuedate',
-          width: 10,
-          style: { numberFormat: 'dd/mm/yyyy' }
-        },
-        {
-          header: 'VAN',
-          key: 'van',
-          width: 14,
-          style: { numberFormat: '#,##0.00' }
-        },
-        {
-          header: 'TRI',
-          key: 'tri',
-          width: 10,
-          style: { numberFormat: '0.00%' }
-        },
+        { header: 'Evaluation', key: 'value', ...valStyle },
+        { header: 'Date de valeur', key: 'valuedate', ...dateStyle },
+        { header: 'VAN', key: 'van', ...valStyle },
+        { header: 'TRI', key: 'tri', ...percentStyle },
         { header: 'Référence de chronique', key: 'payment_type_id', width: 10 },
         {
           header: 'Référence d\'action budgétaire',

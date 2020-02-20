@@ -14,7 +14,7 @@
         </v-flex>
         <v-flex xs12 sm6>
           <v-text-field
-            append-icon="search"
+            prepend-icon="search"
             label="Recherche"
             single-line
             hide-details

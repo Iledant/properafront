@@ -10,7 +10,7 @@
             single-line
             hide-details
             v-model="search"
-            append-icon="search"
+            prepend-icon="search"
           />
         </v-flex>
         <v-flex xs12>
@@ -45,7 +45,7 @@
         </v-flex>
         <v-flex xs12 sm6 offset-sm3>
           <v-text-field
-            append-icon="search"
+            prepend-icon="search"
             label="Recherche d'opération"
             single-line
             hide-details
@@ -75,7 +75,7 @@
             single-line
             hide-details
             v-model="opPdgSearch"
-            append-icon="search"
+            prepend-icon="search"
           />
         </v-flex>
         <v-flex sm3 />

@@ -4,7 +4,7 @@
       <v-layout row wrap>
         <v-flex xs12 sm6 offset-sm3>
           <v-text-field
-            append-icon="search"
+            prepend-icon="search"
             label="Recherche"
             class="pb-3"
             single-line

@@ -16,7 +16,7 @@
             single-line
             hide-details
             v-model="opSearch"
-            append-icon="search"
+            prepend-icon="search"
           />
         </v-flex>
       </v-layout>
@@ -56,7 +56,7 @@
         >
         <v-flex xs6>
           <v-text-field
-            append-icon="search"
+            prepend-icon="search"
             label="Recherche"
             single-line
             hide-details
