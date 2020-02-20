@@ -98,7 +98,11 @@
           />
         </v-flex>
         <v-flex xs12 sm6 offset-sm3>
-          <v-text-field v-model="summarySearch" label="Recherche" />
+          <v-text-field
+            v-model="summarySearch"
+            label="Recherche"
+            prepend-icon="search"
+          />
         </v-flex>
         <v-flex sm3 />
         <v-flex xs12>
@@ -155,9 +159,19 @@
       </v-layout>
     </v-container>
 
-    <payment-need-dlg :PaymentNeed="modifiedItem" v-model="dlg" :action="action" @save="save" />
+    <payment-need-dlg
+      :PaymentNeed="modifiedItem"
+      v-model="dlg"
+      :action="action"
+      @save="save"
+    />
 
-    <delete-dlg v-model="delDlg" cat="la prévision" :name="delName" @confirm="confirmDelete" />
+    <delete-dlg
+      v-model="delDlg"
+      cat="la prévision"
+      :name="delName"
+      @confirm="confirmDelete"
+    />
   </v-card>
 </template>
 
@@ -167,7 +181,9 @@ import isAdmin from './Mixins/isAdmin'
 import DeleteDlg from './DeleteDlg.vue'
 import PaymentNeedDlg from './Payment/PaymentNeedDlg.vue'
 import yearRule from './Mixins/yearRule'
-import { excelExport } from './Utils/excelExport.js'
+import { excelExport, valStyle, dateStyle } from './Utils/excelExport.js'
+import { mapGetters, mapState } from 'vuex'
+
 const nullItem = {
   ID: 0,
   BeneficiaryID: null,
@@ -210,18 +226,12 @@ export default {
     }
   },
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    items () {
-      return this.$store.state.previsions.paymentNeeds
-    },
-    paymentTypes () {
-      return this.$store.state.paymentRatios.paymentTypes
-    },
-    needsAndForecasts () {
-      return this.$store.state.previsions.needsAndForecasts
-    },
+    ...mapGetters(['loading']),
+    ...mapState({
+      items: state => state.previsions.paymentNeeds,
+      paymentTypes: state => state.paymentRatios.paymentTypes,
+      needsAndForecasts: state => state.previsions.needsAndForecasts
+    }),
     totalNeed () {
       return this.needsAndForecasts.reduce((a, c) => a + c.Need, 0)
     },
@@ -254,14 +264,15 @@ export default {
     },
     remove (item) {
       this.modifiedItem = { ...item }
-      this.delName = `${item.BeneficiaryName} du ` + new Date(item.Date).toISOString().substr(0, 10)
+      this.delName = `${item.BeneficiaryName} du ` +
+        new Date(item.Date).toISOString().substr(0, 10)
       this.delDlg = true
     },
     confirmDelete () {
       this.$store.dispatch(types.DELETE_PAYMENT_NEED, this.modifiedItem.ID)
     },
     checkYear (y) {
-      return y && /^20\d{2}$/.test(y)
+      return /^20\d{2}$/.test(y)
     },
     getNeedsAndForecast () {
       if (this.pmtTypeID !== null && this.checkYear(this.year)) {
@@ -280,28 +291,10 @@ export default {
       }))
       const columns = [
         { header: 'Bénéficiaire', key: 'BeneficiaryName', width: 30 },
-        { header: 'Date', key: 'Date', width: 14, style: { numberFormat: 'dd/mm/yy' } },
-        {
-          header: 'Prévision',
-          key: 'Need',
-          width: 14,
-          style: { numberFormat: '#,##0.00' },
-          addTotal: true
-        },
-        {
-          header: 'Paiement',
-          key: 'Payment',
-          width: 14,
-          style: { numberFormat: '#,##0.00' },
-          addTotal: true
-        },
-        {
-          header: 'Statistique',
-          key: 'Forecast',
-          width: 14,
-          style: { numberFormat: '#,##0.00' },
-          addTotal: true
-        },
+        { header: 'Date', key: 'Date', ...dateStyle },
+        { header: 'Prévision', key: 'Need', ...valStyle },
+        { header: 'Paiement', key: 'Payment', ...valStyle },
+        { header: 'Statistique', key: 'Forecast', ...valStyle },
         { header: 'Commentaire', key: 'Comment', width: 50 }
       ]
       excelExport(lines, columns, 'Prévision de bénéficiaire')

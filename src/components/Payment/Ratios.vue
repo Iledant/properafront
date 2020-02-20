@@ -25,16 +25,16 @@
               no-data-text="Aucune ligne à afficher"
               no-results-text="Recherche infructueuse"
             >
-              <template slot="item" slot-scope="props">
+              <template #item="{ item }">
                 <tr>
-                  <td class="pl-0 pr-0">
+                  <td class="px-0">
                     <v-tooltip right v-if="isAdmin">
-                      <template v-slot:activator="{ on }">
+                      <template #activator="{ on }">
                         <v-btn
                           text
                           icon
                           small
-                          @click="onTypeModify(props.item)"
+                          @click="onTypeModify(item)"
                           class="ma-0"
                           v-on="on"
                           color="secondary"
@@ -47,12 +47,12 @@
                   </td>
                   <td class="pl-0 pr-0">
                     <v-tooltip right v-if="isAdmin">
-                      <template v-slot:activator="{ on }">
+                      <template #activator="{ on }">
                         <v-btn
                           text
                           icon
                           small
-                          @click="onTypeDelete(props.item)"
+                          @click="onTypeDelete(item)"
                           class="ma-0"
                           v-on="on"
                           color="error"
@@ -63,7 +63,7 @@
                       <span>Supprimer</span>
                     </v-tooltip>
                   </td>
-                  <td>{{ props.item.name }}</td>
+                  <td>{{ item.name }}</td>
                 </tr>
               </template>
             </v-data-table>
@@ -79,6 +79,7 @@
               single-line
               hide-details
               v-debounce:500ms="onCalculate"
+              prepend-icon="calendar_today"
               :rules="[yearRule]"
             />
           </v-flex>
@@ -92,18 +93,18 @@
               :loading="loading"
               no-data-text="Aucune ligne à afficher"
             >
-              <template slot="item" slot-scope="props">
+              <template #item="{ item }">
                 <tr>
-                  <td class="text-right">{{ props.item.index }}</td>
-                  <td class="text-right">{{ props.item.ratio | percentage }}</td>
+                  <td class="text-right">{{ item.index }}</td>
+                  <td class="text-right">{{ item.ratio | percentage }}</td>
                 </tr>
               </template>
-              <template v-slot:body.append="">
-                <tr>
-                  <td class="text-center body-2 grey lighten-4">Total</td>
-                  <td
-                    class="text-right body-2 grey lighten-4"
-                  >{{ yearPaymentRatioListTotal | percentage }}</td>
+              <template #body.append="">
+                <tr class="grey lighten-4 font-weight-medium">
+                  <td class="text-center">Total</td>
+                  <td class="text-right">
+                    {{ yearPaymentRatioListTotal | percentage }}
+                  </td>
                 </tr>
               </template>
             </v-data-table>
@@ -113,7 +114,7 @@
           </v-flex>
 
           <v-flex xs12 class="mr-2 subtitle-1">Détail de la chronique</v-flex>
-          <v-flex xs12>
+          <v-flex xs12 sm6 offset-sm3>
             <v-select
               :items="paymentTypes"
               v-model="typeId"
@@ -121,8 +122,10 @@
               single-line
               item-text="name"
               item-value="id"
+              prepend-icon="calendar_today"
             />
           </v-flex>
+          <v-flex sm3 />
           <v-flex xs12>
             <v-data-table
               :headers="ratioHeaders"
@@ -132,17 +135,17 @@
               dense
               no-data-text="Aucune ligne à afficher"
             >
-              <template slot="item" slot-scope="props">
+              <template #item="{ item }">
                 <tr>
                   <td class="text-center">
                     <v-tooltip right v-if="isAdmin">
-                      <template v-slot:activator="{ on }">
+                      <template #activator="{ on }">
                         <v-btn
                           text
                           icon
                           small
                           class="ma-0"
-                          @click="onModifyRatio(props.item)"
+                          @click="onModifyRatio(item)"
                           v-on="on"
                           color="secondary"
                         >
@@ -152,16 +155,16 @@
                       <span>Modifier</span>
                     </v-tooltip>
                   </td>
-                  <td class="text-right">{{ props.item.index }}</td>
-                  <td class="text-right">{{ props.item.ratio | percentage }}</td>
+                  <td class="text-right">{{ item.index }}</td>
+                  <td class="text-right">{{ item.ratio | percentage }}</td>
                 </tr>
               </template>
-              <template v-slot:body.append="">
-                <tr>
-                  <td colspan="2" class="body-2 text-center grey lighten-4">Total</td>
-                  <td
-                    class="body-2 text-right grey lighten-4"
-                  >{{ paymentRatioListTotal | percentage }}</td>
+              <template #body.append="">
+                <tr class=" grey lighten-4 font-weight-medium">
+                  <td colspan="2" class="text-center">Total</td>
+                  <td class="text-right">
+                    {{ paymentRatioListTotal | percentage }}
+                  </td>
                 </tr>
               </template>
             </v-data-table>
@@ -193,9 +196,7 @@
     <v-dialog v-model="showModifyDlg" max-width="600px" persistent>
       <v-card>
         <v-card-title class="primary white--text body-2">
-          {{
-          modifyDlgTitle
-          }}
+          {{ modifyDlgTitle }}
         </v-card-title>
         <v-container grid-list-md fluid>
           <v-text-field label="Nom" required v-model="modifiedTypeName" />
@@ -208,7 +209,9 @@
             text
             @click="onDlgModify"
             :disabled="modifyDlgDisabled"
-          >{{ modifyDlgConfirm }}</v-btn>
+          >
+            {{ modifyDlgConfirm }}
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -268,6 +271,7 @@
 <script>
 import * as types from '../../store/mutation-types.js'
 import yearRule from '../Mixins/yearRule'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'Ratios',
   mixins: [yearRule],
@@ -285,12 +289,7 @@ export default {
     typeHeaders: [
       { text: '', value: '', align: 'center', sortable: false, width: '1%' },
       { text: '', value: '', align: 'center', sortable: false, width: '1%' },
-      {
-        text: 'Nom de la chronique',
-        value: 'name',
-        align: 'center',
-        sortable: true
-      }
+      { text: 'Nom de la chronique', value: 'name', sortable: true }
     ],
     typeItems: [],
     typeSearch: '',
@@ -312,21 +311,13 @@ export default {
     paymentRatioListModified: false
   }),
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    isAdmin () {
-      return this.$store.state.token.isAdmin
-    },
-    paymentTypes () {
-      return this.$store.state.paymentRatios.paymentTypes
-    },
-    paymentRatios () {
-      return this.$store.state.paymentRatios.paymentRatios
-    },
-    yearPaymentRatios () {
-      return this.$store.state.paymentRatios.yearPaymentRatios
-    },
+    ...mapGetters(['loading']),
+    ...mapState({
+      isAdmin: state => state.token.isAdmin,
+      paymentTypes: state => state.paymentRatios.paymentTypes,
+      paymentRatios: state => state.paymentRatios.paymentRatios,
+      yearPaymentRatios: state => state.paymentRatios.yearPaymentRatios
+    }),
     modifyDlgDisabled () {
       return !this.modifiedTypeName
     },
