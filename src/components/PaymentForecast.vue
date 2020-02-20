@@ -26,7 +26,7 @@
               <tr>
                 <td class="pr-0 pl-0">
                   <v-tooltip right v-if="isAdmin">
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
                         text
                         icon
@@ -44,7 +44,7 @@
                 </td>
                 <td class="pr-0 pl-0">
                   <v-tooltip right v-if="isAdmin">
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
                         text
                         icon
@@ -90,7 +90,12 @@
           />
         </v-flex>
         <v-flex xs12 sm6>
-          <v-text-field v-model="year" label="Année de prévision" :rules="[yearRule]" />
+          <v-text-field
+            v-model="year"
+            label="Année de prévision"
+            :rules="[yearRule]"
+            prepend-icon="calendar_today"
+          />
         </v-flex>
         <v-flex xs12 sm6 offset-sm3>
           <v-text-field v-model="summarySearch" label="Recherche" />
@@ -105,7 +110,7 @@
             :search="summarySearch"
             dense
           >
-            <template v-slot:body.prepend="">
+            <template #body.prepend="">
               <tr class="font-weight-medium grey lighten-4">
                 <td colspan="2">Total</td>
                 <td class="text-right">{{ totalNeed | valueFilter }}</td>
@@ -114,7 +119,7 @@
                 <td />
               </tr>
             </template>
-            <template v-slot:item="{ item }">
+            <template #item="{ item }">
               <tr>
                 <td>{{ item.BeneficiaryName }}</td>
                 <td>{{ item.Date | dateFilter }}</td>
@@ -143,7 +148,9 @@
           </v-data-table>
         </v-flex>
         <v-flex xs12 class="text-right">
-          <v-btn color="primary" text :disabled="disabled" @click="download">Export Excel</v-btn>
+          <v-btn color="primary" text :disabled="disabled" @click="download">
+            Export Excel
+          </v-btn>
         </v-flex>
       </v-layout>
     </v-container>
