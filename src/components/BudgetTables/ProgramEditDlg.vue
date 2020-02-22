@@ -1,7 +1,7 @@
 <template>
-  <v-dialog :value="value" @input="$emit('input', false)" max-width="600px" persistent>
+  <v-dialog :value="value" max-width="600px" persistent>
     <v-card class="elevation-1">
-      <v-card-title class="secondary title">{{ mentions.title }}</v-card-title>
+      <v-card-title class="secondary">{{ mentions.title }}</v-card-title>
       <v-container grid-list-md>
         <v-layout row wrap align-baseline>
           <v-flex xs12>
@@ -18,9 +18,7 @@
             <v-text-field label="Code" v-model="code" required :rules="[checkCode]" />
           </v-flex>
           <v-flex xs1 class="subtitle-1">
-            {{
-            code.length > 2 ? this.code.substr(1, 2) : ''
-            }}
+            {{ code.length > 2 ? this.code.substr(1, 2) : '' }}
           </v-flex>
           <v-flex xs11>
             <v-text-field
@@ -33,7 +31,6 @@
             <v-text-field
               label="Intitulé"
               v-model="BudgetProgram.name"
-              required
               :rules="[checkIfNotEmpty]"
             />
           </v-flex>
@@ -43,9 +40,7 @@
         <v-spacer />
         <v-btn color="primary" text @click="$emit('input', false)">Annuler</v-btn>
         <v-btn color="primary" text @click="onSave" :disabled="disabled">
-          {{
-          mentions.validate
-          }}
+          {{ mentions.validate }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -54,6 +49,7 @@
 
 <script>
 import checkIfNotEmpty from '../Mixins/CheckIfNotEmpty'
+import { mapState } from 'vuex'
 export default {
   name: 'ProgramEditDlg',
   mixins: [checkIfNotEmpty],
@@ -70,7 +66,10 @@ export default {
         subfunction: ''
       })
     },
-    mentions: Object,
+    mentions: {
+      type: Object,
+      default: v => ({ title: 'Nouveau programme', validate: 'Créer' })
+    },
     value: { type: Boolean, default: false }
   },
   computed: {
@@ -83,27 +82,18 @@ export default {
         this.BudgetProgram.chapter_id === null
       )
     },
-    chapters () {
-      return this.$store.state.budgetTables.chapterList
-    },
-    items () {
-      return this.chapters.map(c => ({
-        id: c.id,
-        code: `${c.code} - ${c.name}`
-      }))
-    }
+    ...mapState({
+      items: state => state.budgetTables.chapterList.map(c =>
+        ({ id: c.id, code: `${c.code} - ${c.name}` }))
+    })
   },
   data: () => ({ code: '' }),
   methods: {
     checkCode (input) {
-      return input.length === 6
-        ? true
-        : 'Le code programme doit comporter 6 chiffres'
+      return input.length === 6 || 'Le code programme doit comporter 6 chiffres'
     },
     checkSubfunction (input) {
-      return !input || input.length === 1
-        ? true
-        : 'Au plus un chiffre pour la sous-fonction'
+      return !input || input.length === 1 || 'Au plus un chiffre pour la sous-fonction'
     },
     onSave () {
       if (!this.disabled) {

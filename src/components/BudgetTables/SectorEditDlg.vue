@@ -1,7 +1,7 @@
 <template>
-  <v-dialog :value="value" @input="$emit('input', false)" max-width="600px" persistent>
+  <v-dialog :value="value" max-width="600px" persistent>
     <v-card class="elevation-1">
-      <v-card-title class="secondary title">{{ mentions.title }}</v-card-title>
+      <v-card-title class="secondary">{{ mentions.title }}</v-card-title>
       <v-container grid-list-md fluid>
         <v-layout row wrap>
           <v-flex xs12>
@@ -9,7 +9,6 @@
               label="Code"
               v-model="BudgetSector.code"
               class="pr-2"
-              required
               :rules="[checkIfNotEmpty]"
             />
           </v-flex>
@@ -17,7 +16,6 @@
             <v-text-field
               label="Intitulé"
               v-model="BudgetSector.name"
-              required
               :rules="[checkIfNotEmpty]"
             />
           </v-flex>
@@ -26,7 +24,9 @@
       <v-card-actions class="tertiary">
         <v-spacer />
         <v-btn color="primary" text @click="$emit('input', false)">Annuler</v-btn>
-        <v-btn color="primary" text @click="onSave" :disabled="disabled">{{ mentions.validate }}</v-btn>
+        <v-btn color="primary" text @click="onSave" :disabled="disabled">
+          {{ mentions.validate }}
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -50,9 +50,7 @@ export default {
   },
   computed: {
     disabled () {
-      return (
-        this.BudgetSector.name === '' || this.BudgetSector.code === ''
-      )
+      return !this.BudgetSector.name || !this.BudgetSector.code
     }
   },
   methods: {
