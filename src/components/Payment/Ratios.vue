@@ -195,11 +195,9 @@
 
     <v-dialog v-model="showModifyDlg" max-width="600px" persistent>
       <v-card>
-        <v-card-title class="primary white--text body-2">
-          {{ modifyDlgTitle }}
-        </v-card-title>
+        <v-card-title class="secondary">{{ modifyDlgTitle }}</v-card-title>
         <v-container grid-list-md fluid>
-          <v-text-field label="Nom" required v-model="modifiedTypeName" />
+          <v-text-field label="Nom" v-model="modifiedTypeName" />
         </v-container>
         <v-card-actions>
           <v-spacer />
@@ -218,26 +216,32 @@
 
     <v-dialog v-model="showCreateYearRatiosDlg" max-width="600px">
       <v-card>
-        <v-card-title class="primary white--text body-2">Nouvelle chronique tirées des ratios</v-card-title>
+        <v-card-title class="secondary">
+          Nouvelle chronique tirées des ratios
+        </v-card-title>
         <v-container grid-list-md fluid>
-          <v-text-field label="Nom" required v-model="yearRatiosName" />
+          <v-text-field label="Nom" v-model="yearRatiosName" />
         </v-container>
-        <v-card-actions>
+        <v-card-actions class="tertiary">
           <v-spacer />
-          <v-btn color="primary" text @click="showCreateYearRatiosDlg = false">Annuler</v-btn>
+          <v-btn color="primary" text @click="showCreateYearRatiosDlg = false">
+            Annuler
+          </v-btn>
           <v-btn
             color="primary"
             text
             @click="onYearRatiosCreate"
             :disabled="yearRatiosDisabled"
-          >Créer</v-btn>
+          >
+            Créer
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
     <v-dialog v-model="showDeletedDlg" max-width="600px">
       <v-card>
-        <v-card-title class="error white--text body-2">Supprimer la chronique ?</v-card-title>
+        <v-card-title class="error white--text">Supprimer la chronique ?</v-card-title>
         <v-card-text>Supprimer la chronique {{ deletedTypeName }}</v-card-text>
         <v-card-actions>
           <v-spacer />
@@ -249,9 +253,9 @@
 
     <v-dialog v-model="showModifyRatioDlg" max-width="600px" persistent>
       <v-card>
-        <v-card-title class="primary white--text">Modification du ratio</v-card-title>
+        <v-card-title class="secondary">Modification du ratio</v-card-title>
         <v-container grid-list-md fluid>
-          <v-text-field v-model="modifiedRatio" label="Ratio" required suffix="%" />
+          <v-text-field v-model="modifiedRatio" label="Ratio" suffix="%" />
         </v-container>
         <v-card-actions>
           <v-spacer />
@@ -277,19 +281,19 @@ export default {
   mixins: [yearRule],
   data: () => ({
     ratioHeaders: [
-      { text: '', value: '', align: 'center', sortable: false, width: '1%' },
-      { text: 'Année AP +', value: 'index', align: 'right', sortable: true },
-      { text: 'Ratio CP/AP', value: 'ratio', align: 'right', sortable: true }
+      { text: '', value: '', sortable: false, width: '1%' },
+      { text: 'Année AP +', value: 'index', align: 'right' },
+      { text: 'Ratio CP/AP', value: 'ratio', align: 'right' }
     ],
     yearRatioHeaders: [
-      { text: 'Index', value: 'index', align: 'right', sortable: true },
-      { text: 'Ratio', value: 'ratio', align: 'right', sortable: true }
+      { text: 'Index', value: 'index', align: 'right' },
+      { text: 'Ratio', value: 'ratio', align: 'right' }
     ],
     ratioItems: [],
     typeHeaders: [
-      { text: '', value: '', align: 'center', sortable: false, width: '1%' },
-      { text: '', value: '', align: 'center', sortable: false, width: '1%' },
-      { text: 'Nom de la chronique', value: 'name', sortable: true }
+      { text: '', value: '', sortable: false, width: '1%' },
+      { text: '', value: '', sortable: false, width: '1%' },
+      { text: 'Nom de la chronique', value: 'name' }
     ],
     typeItems: [],
     typeSearch: '',
@@ -344,9 +348,8 @@ export default {
     onCalculate (y) {
       this.commitmentYear = y
       if (!this.commitmentYearDisabled) {
-        this.$store.dispatch(types.GET_YEAR_PAYMENT_RATIOS, {
-          Year: parseInt(this.commitmentYear)
-        })
+        this.$store.dispatch(types.GET_YEAR_PAYMENT_RATIOS,
+          { Year: parseInt(this.commitmentYear) })
       }
     },
     onTypeModify (item) {
@@ -386,9 +389,7 @@ export default {
     },
     onDlgDelete () {
       this.showDeletedDlg = false
-      this.$store.dispatch(types.DELETE_PAYMENT_TYPE, {
-        id: this.deletedTypeId
-      })
+      this.$store.dispatch(types.DELETE_PAYMENT_TYPE, { id: this.deletedTypeId })
     },
     onPaymentRatioAdd () {
       if (!this.paymentRatioListAddDisabled) {
@@ -415,10 +416,8 @@ export default {
     },
     onYearRatiosCreate () {
       if (this.yearRatiosName) {
-        this.$store.dispatch(types.ADD_YEAR_RATIOS, {
-          name: this.yearRatiosName,
-          ratios: this.yearPaymentRatios
-        })
+        this.$store.dispatch(types.ADD_YEAR_RATIOS,
+          { name: this.yearRatiosName, ratios: this.yearPaymentRatios })
         this.showCreateYearRatiosDlg = false
       }
     },
