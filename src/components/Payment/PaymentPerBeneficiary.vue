@@ -30,8 +30,16 @@
             :items="items"
             class="elevation-1"
             :loading="loading"
+            dense
             :search="prevPaymentSearch"
           >
+            <template #body.prepend="">
+              <tr class="grey lighten-4 font-weight-medium">
+                <td>Total</td>
+                <td class="text-right">{{ prevPaymentTotal | valueFilter }}</td>
+                <td class="text-right ">{{ paymentTotal | valueFilter }}</td>
+              </tr>
+            </template>
             <template #item="{ item }">
               <tr>
                 <td>{{ item.name }}</td>
@@ -101,27 +109,24 @@ export default {
   },
   methods: {
     download () {
-      if (this.items.length > 0) {
-        const lines = this.items.map(l => ({
-          name: l.name,
-          prev_payment: l.prev_payment ? l.prev_payment * 0.01 : 0,
-          payment: l.payment ? l.payment * 0.01 : 0
-        }))
-        const columns = [
-          { header: 'Bénéficiaire', key: 'name', width: 80 },
-          { header: 'Prévision', key: 'prev_payment', ...valStyle },
-          { header: 'Consommé', key: 'payment', ...valStyle }
-        ]
-        excelExport(lines, columns, 'Consommation bénéficiaire')
-      }
+      if (!this.items.length) return
+      const lines = this.items.map(l => ({
+        name: l.name,
+        prev_payment: l.prev_payment ? l.prev_payment * 0.01 : 0,
+        payment: l.payment ? l.payment * 0.01 : 0
+      }))
+      const columns = [
+        { header: 'Bénéficiaire', key: 'name', width: 80 },
+        { header: 'Prévision', key: 'prev_payment', ...valStyle },
+        { header: 'Consommé', key: 'payment', ...valStyle }
+      ]
+      excelExport(lines, columns, 'Consommation bénéficiaire')
     }
   },
   watch: {
     paymentPrevTypeId (newId) {
-      this.$store.dispatch(types.GET_PAYMENT_PREVISION_AND_REALIZED, {
-        year: this.actualYear,
-        paymentTypeId: newId
-      })
+      this.$store.dispatch(types.GET_PAYMENT_PREVISION_AND_REALIZED,
+        { year: this.actualYear, paymentTypeId: newId })
     }
   }
 }

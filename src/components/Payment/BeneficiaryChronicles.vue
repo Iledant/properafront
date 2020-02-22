@@ -4,7 +4,7 @@
       <v-layout row wrap>
         <v-flex xs12 sm6 offset-sm3>
           <v-autocomplete
-            :items="beneficiariesList"
+            :items="beneficiaries"
             v-model="beneficiaryId"
             label="Bénéficiaire"
             item-text="name"
@@ -14,7 +14,10 @@
         </v-flex>
         <v-flex sm3 />
         <v-flex xs12>
-          <beneficiary-chronicles-chart :height="400" :beneficiaryId="beneficiaryId" />
+          <beneficiary-chronicles-chart
+            :height="400"
+            :beneficiaryId="beneficiaryId"
+          />
         </v-flex>
       </v-layout>
     </v-container>
@@ -23,8 +26,8 @@
       <v-btn
         text
         color="primary"
-        :disabled="beneficiaryPaymentsChronicles.length === 0"
-        @click="onExcelExport"
+        :disabled="!chronicles.length"
+        @click="download"
       >Export Excel</v-btn>
     </v-card-actions>
   </v-card>
@@ -32,36 +35,25 @@
 
 <script>
 import BeneficiaryChroniclesChart from './BeneficiaryChroniclesChart.js'
-import { excelExport } from '../Utils/excelExport.js'
+import { excelExport, valStyle } from '../Utils/excelExport.js'
+import { mapState } from 'vuex'
 export default {
   name: 'BeneficiaryChronicles',
   components: { 'beneficiary-chronicles-chart': BeneficiaryChroniclesChart },
   data: () => ({ beneficiaryId: null }),
   computed: {
-    beneficiariesList () {
-      return this.$store.state.beneficiaries.beneficiaries
-    },
-    beneficiaryPaymentsChronicles () {
-      return this.$store.state.previsions.beneficiaryPaymentsChronicles
-    }
+    ...mapState({
+      beneficiaries: state => state.beneficiaries.beneficiaries,
+      chronicles: state => state.previsions.beneficiaryPaymentsChronicles
+    })
   },
   methods: {
-    onExcelExport () {
-      const decemberChronicles = this.beneficiaryPaymentsChronicles.filter(
-        c => c.month === 12
-      )
-      const lines = decemberChronicles.map(l => ({
-        year: l.year,
-        cumulated: l.cumulated
-      }))
+    download () {
+      const lines = this.chronicles.filter(c => c.month === 12).map(l =>
+        ({ year: l.year, cumulated: l.cumulated }))
       const columns = [
         { header: 'Année', key: 'year', width: 8 },
-        {
-          header: 'Consommation',
-          key: 'cumulated',
-          width: 20,
-          style: { numberFormat: '#,##0.00' }
-        }
+        { header: 'Consommation', key: 'cumulated', ...valStyle }
       ]
       excelExport(lines, columns, 'Consommation bénéficiaire')
     }

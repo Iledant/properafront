@@ -1,7 +1,7 @@
 <template>
-  <v-dialog :value="value" max-width="600px" @input="$emit('input', false)" persistent>
+  <v-dialog :value="value" max-width="600px" persistent>
     <v-card>
-      <v-card-title class="secondary title">{{ title }}</v-card-title>
+      <v-card-title class="secondary">{{ title }}</v-card-title>
       <v-card-text>
         <v-container grid-list-md fluid>
           <v-layout row wrap>
@@ -25,7 +25,7 @@
                 max-width="290px"
                 min-width="290px"
               >
-                <template v-slot:activator="{ on }">
+                <template #activator="{ on }">
                   <v-text-field
                     v-on="on"
                     label="Date"
@@ -34,7 +34,12 @@
                     readonly
                   />
                 </template>
-                <v-date-picker v-model="pnDate" no-title color="primary" @input="menu = false" />
+                <v-date-picker
+                  v-model="pnDate"
+                  no-title
+                  color="primary"
+                  @input="menu = false"
+                />
               </v-menu>
             </v-flex>
             <v-flex xs12>
@@ -60,7 +65,9 @@
       <v-card-actions class="tertiary">
         <v-spacer />
         <v-btn color="primary" text @click="$emit('input', false)">Annuler</v-btn>
-        <v-btn color="primary" text @click="onSave" :disabled="disabled">{{ button }}</v-btn>
+        <v-btn color="primary" text @click="onSave" :disabled="disabled">
+          {{ button }}
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -97,9 +104,7 @@ export default {
       return this.action === 'create' ? 'Créer' : 'Modifier'
     },
     disabled () {
-      return this.pnValue === '' ||
-        this.pnDate === '' ||
-        this.PaymentNeed.BeneficiaryID === null
+      return !this.pnValue || !this.pnDate || !this.PaymentNeed.BeneficiaryID
     },
     formattedDate () {
       return dateFilter(this.pnDate)
@@ -123,7 +128,8 @@ export default {
   watch: {
     PaymentNeed (p) {
       this.pnValue = this.formatCurrency(this.PaymentNeed.Value)
-      this.pnDate = p.Date ? new Date(this.PaymentNeed.Date).toISOString().substr(0, 10) : ''
+      this.pnDate = p.Date ? new Date(this.PaymentNeed.Date).toISOString()
+        .substr(0, 10) : ''
     }
   }
 }

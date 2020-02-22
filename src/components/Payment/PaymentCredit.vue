@@ -1,121 +1,119 @@
 <template>
-  <v-card>
-    <v-container grid-list-md class="pa-0">
-      <v-flex xs12 class="title">Enveloppes disponibles</v-flex>
-      <v-layout row wrap align-center>
-        <v-flex xs12 sm6 offset-sm3>
-          <v-text-field
-            prepend-icon="search"
-            label="Recherche"
-            single-line
-            hide-details
-            v-model="creditsSearch"
-          />
-        </v-flex>
-        <v-flex sm3 />
-        <v-flex xs12>
-          <v-data-table
-            :headers="creditsHeaders"
-            :items="credits"
-            class="elevation-1"
-            :loading="loading"
-            dense
-            :search="creditsSearch"
-            no-data-text="Aucune ligne à afficher"
-            no-results-text="Recherche infructueuse"
-          >
-            <template #body.prepend="">
-              <tr class="font-weight-medium grey lighten-3">
-                <td colspan="7" class="text-center">Total</td>
-                <td class="text-right">{{ creditsTotal | valueFilter }}</td>
-              </tr>
-            </template>
-            <template #item="{ item }">
-              <tr>
-                <td>{{ item.Chapter }}</td>
-                <td>{{ item.Function }}</td>
-                <td class="text-right">{{ item.Primitive | valueFilter }}</td>
-                <td class="text-right">{{ item.Reported | valueFilter }}</td>
-                <td class="text-right">{{ item.Added | valueFilter }}</td>
-                <td class="text-right">{{ item.Modified | valueFilter }}</td>
-                <td class="text-right">{{ item.Movement | valueFilter }}</td>
-                <td class="text-right">{{ item.Total | valueFilter }}</td>
-              </tr>
-            </template>
-            <template #body.append="">
-              <tr class="font-weight-medium grey lighten-3">
-                <td colspan="7" class="text-center">Total</td>
-                <td class="text-right">{{ creditsTotal | valueFilter }}</td>
-              </tr>
-            </template>
-          </v-data-table>
-        </v-flex>
-        <v-flex xs12 class="text-right">
-          <v-btn
-            color="primary"
-            text
-            small
-            @click="creditsDownload"
-            :disabled="credits.length === 0"
-          >Export Excel</v-btn>
-        </v-flex>
-        <v-flex xs12 class="title">Historique des mouvements</v-flex>
-        <v-flex xs12 sm6 offset-sm3>
-          <v-text-field
-            prepend-icon="search"
-            label="Recherche"
-            single-line
-            hide-details
-            v-model="journalSearch"
-          />
-        </v-flex>
-        <v-flex sm3 />
-        <v-flex xs12>
-          <v-data-table
-            :headers="journalHeaders"
-            :items="journal"
-            class="elevation-1"
-            :loading="loading"
-            dense
-            :search="journalSearch"
-            no-data-text="Aucune ligne à afficher"
-            no-results-text="Recherche infructueuse"
-          >
-            <template v-slot:body.prepend="">
-              <tr class="font-weight-medium grey lighten-3">
-                <td colspan="4" class="text-center">Total</td>
-                <td class="text-right">{{ journalTotal | valueFilter }}</td>
-              </tr>
-            </template>
-            <template #item="{ item }">
-              <tr>
-                <td>{{ item.Chapter }}</td>
-                <td>{{ item.Function }}</td>
-                <td>{{ item.CreationDate | dateFilter }}</td>
-                <td>{{ item.Name }}</td>
-                <td class="text-right">{{ item.Value | valueFilter }}</td>
-              </tr>
-            </template>
-            <template v-slot:body.append="">
-              <tr class="font-weight-medium grey lighten-3">
-                <td colspan="4" class="text-center">Total</td>
-                <td class="text-right">{{ journalTotal | valueFilter }}</td>
-              </tr>
-            </template>
-          </v-data-table>
-        </v-flex>
-        <v-flex xs12 class="text-right">
-          <v-btn
-            color="primary"
-            text
-            small
-            @click="journalDownload"
-            :disabled="credits.length === 0"
-          >Export Excel</v-btn>
-        </v-flex>
-      </v-layout>
-    </v-container>
-  </v-card>
+  <v-container grid-list-md fluid>
+    <v-flex xs12 class="title">Enveloppes disponibles</v-flex>
+    <v-layout row wrap align-center>
+      <v-flex xs12 sm6 offset-sm3>
+        <v-text-field
+          prepend-icon="search"
+          label="Recherche"
+          single-line
+          hide-details
+          v-model="creditsSearch"
+        />
+      </v-flex>
+      <v-flex sm3 />
+      <v-flex xs12>
+        <v-data-table
+          :headers="creditsHeaders"
+          :items="credits"
+          class="elevation-1"
+          :loading="loading"
+          dense
+          :search="creditsSearch"
+          no-data-text="Aucune ligne à afficher"
+          no-results-text="Recherche infructueuse"
+        >
+          <template #body.prepend="">
+            <tr class="font-weight-medium grey lighten-3">
+              <td colspan="7" class="text-center">Total</td>
+              <td class="text-right">{{ creditsTotal | valueFilter }}</td>
+            </tr>
+          </template>
+          <template #item="{ item }">
+            <tr>
+              <td>{{ item.Chapter }}</td>
+              <td>{{ item.Function }}</td>
+              <td class="text-right">{{ item.Primitive | valueFilter }}</td>
+              <td class="text-right">{{ item.Reported | valueFilter }}</td>
+              <td class="text-right">{{ item.Added | valueFilter }}</td>
+              <td class="text-right">{{ item.Modified | valueFilter }}</td>
+              <td class="text-right">{{ item.Movement | valueFilter }}</td>
+              <td class="text-right">{{ item.Total | valueFilter }}</td>
+            </tr>
+          </template>
+          <template #body.append="">
+            <tr class="font-weight-medium grey lighten-3">
+              <td colspan="7" class="text-center">Total</td>
+              <td class="text-right">{{ creditsTotal | valueFilter }}</td>
+            </tr>
+          </template>
+        </v-data-table>
+      </v-flex>
+      <v-flex xs12 class="text-right">
+        <v-btn
+          color="primary"
+          text
+          small
+          @click="creditsDownload"
+          :disabled="!credits.length"
+        >Export Excel</v-btn>
+      </v-flex>
+      <v-flex xs12 class="title">Historique des mouvements</v-flex>
+      <v-flex xs12 sm6 offset-sm3>
+        <v-text-field
+          prepend-icon="search"
+          label="Recherche"
+          single-line
+          hide-details
+          v-model="journalSearch"
+        />
+      </v-flex>
+      <v-flex sm3 />
+      <v-flex xs12>
+        <v-data-table
+          :headers="journalHeaders"
+          :items="journal"
+          class="elevation-1"
+          :loading="loading"
+          dense
+          :search="journalSearch"
+          no-data-text="Aucune ligne à afficher"
+          no-results-text="Recherche infructueuse"
+        >
+          <template #body.prepend="">
+            <tr class="font-weight-medium grey lighten-3">
+              <td colspan="4" class="text-center">Total</td>
+              <td class="text-right">{{ journalTotal | valueFilter }}</td>
+            </tr>
+          </template>
+          <template #item="{ item }">
+            <tr>
+              <td>{{ item.Chapter }}</td>
+              <td>{{ item.Function }}</td>
+              <td>{{ item.CreationDate | dateFilter }}</td>
+              <td>{{ item.Name }}</td>
+              <td class="text-right">{{ item.Value | valueFilter }}</td>
+            </tr>
+          </template>
+          <template #body.append="">
+            <tr class="font-weight-medium grey lighten-3">
+              <td colspan="4" class="text-center">Total</td>
+              <td class="text-right">{{ journalTotal | valueFilter }}</td>
+            </tr>
+          </template>
+        </v-data-table>
+      </v-flex>
+      <v-flex xs12 class="text-right">
+        <v-btn
+          color="primary"
+          text
+          small
+          @click="journalDownload"
+          :disabled="!credits.length"
+        >Export Excel</v-btn>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>

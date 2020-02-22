@@ -25,17 +25,16 @@ export default {
   }),
   props: { beneficiaryId: null },
   computed: {
-    beneficiaryPaymentsChronicles () {
+    chronicles () {
       return this.$store.state.previsions.beneficiaryPaymentsChronicles
     }
   },
   watch: {
     beneficiaryId (newId) {
-      this.$store.dispatch(types.GET_BEN_PMT_CHRONICLES, {
-        beneficiaryId: newId
-      })
+      this.$store.dispatch(types.GET_BEN_PMT_CHRONICLES,
+        { beneficiaryId: newId })
     },
-    beneficiaryPaymentsChronicles (list) {
+    chronicles (list) {
       this.paymentDatas.datasets = convertQueryChroniclesToChartDataset(list)
       this.renderChart(this.paymentDatas, {
         responsive: true,
