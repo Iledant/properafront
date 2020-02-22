@@ -8,27 +8,27 @@
             label="Recherche"
             single-line
             hide-details
-            v-model="fcSearch"
+            v-model="search"
           />
         </v-flex>
         <v-flex xs12 class="mt-3">
           <v-data-table
-            :headers="fcHeaders"
-            :items="filteredFcList"
+            :headers="headers"
+            :items="filteredCommitments"
             :loading="loading"
             dense
             no-data-text="Aucun engagement"
             no-results-text="Aucun engagement trouvé"
             class="elevation-1"
           >
-            <template v-slot:body.prepend="">
+            <template #body.prepend="">
               <tr class="grey lighten-4 font-weight-medium">
                 <td colspan="6" class="text-center">Total de la recherche</td>
                 <td class="text-right">{{ commitmentTotal | valueFilter }}</td>
                 <td class="text-right">{{ availableTotal | valueFilter }}</td>
               </tr>
             </template>
-            <template v-slot:item="{item}">
+            <template #item="{item}">
               <tr>
                 <td class="text-no-wrap">{{ item.date | dateFilter }}</td>
                 <td class="text-no-wrap">{{ item.iris_code }}</td>
@@ -40,7 +40,7 @@
                 <td class="text-right text-no-wrap">{{ item.available | valueFilter }}</td>
               </tr>
             </template>
-            <template v-slot:body.append="">
+            <template #body.append="">
               <tr class="grey lighten-4 font-weight-medium">
                 <td colspan="6" class="text-center">Total de la recherche</td>
                 <td class="text-right">{{ commitmentTotal | valueFilter }}</td>
@@ -53,19 +53,20 @@
     </v-container>
     <v-card-actions class="tertiary">
       <v-spacer />
-      <v-btn text small color="primary" @click="onCommitmentDownload">Export Excel</v-btn>
+      <v-btn text color="primary" @click="download">Export Excel</v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
 import { excelExport, valStyle, dateStyle } from '../Utils/excelExport'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'OpCommitments',
   data: () => ({
-    fcSearch: '',
-    fcHeaders: [
+    search: '',
+    headers: [
       { text: 'Date', value: 'date' },
       { text: 'Code IRIS', value: 'iris_code' },
       { text: 'Date de caducité', value: 'lapse_date' },
@@ -78,27 +79,25 @@ export default {
   }),
   props: { op: Object },
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    fcList () {
-      return this.$store.state.previsions.fcList
-    },
-    filteredFcList () {
-      const upSearch = this.fcSearch.toUpperCase()
-      return this.fcList.filter(f => Object.values(f).some(
+    ...mapGetters(['loading']),
+    ...mapState({
+      commitments: state => state.previsions.fcList
+    }),
+    filteredCommitments () {
+      const upSearch = this.search.toUpperCase()
+      return this.commitments.filter(f => Object.values(f).some(
         v => v && v.toString().toUpperCase().includes(upSearch)))
     },
     commitmentTotal () {
-      return this.filteredFcList.reduce((a, c) => a + c.value, 0)
+      return this.filteredCommitments.reduce((a, c) => a + c.value, 0)
     },
     availableTotal () {
-      return this.filteredFcList.reduce((a, c) => a + Number(c.available), 0)
+      return this.filteredCommitments.reduce((a, c) => a + Number(c.available), 0)
     }
   },
   methods: {
-    onCommitmentDownload () {
-      const lines = this.fcList.map(f => ({
+    download () {
+      const lines = this.commitments.map(f => ({
         date: new Date(f.date),
         iris_code: f.iris_code,
         name: f.name,

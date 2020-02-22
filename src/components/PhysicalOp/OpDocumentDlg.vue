@@ -3,11 +3,10 @@
     :value="value"
     max-width="600px"
     v-if="document"
-    @input="$emit('input',false)"
     persistent
   >
     <v-card>
-      <v-card-title class="primary title white--text">{{ mentions.title }}</v-card-title>
+      <v-card-title class="secondary">{{ mentions.title }}</v-card-title>
       <v-container grid-list-md fluid>
         <v-layout row wrap>
           <v-flex xs12>
@@ -15,7 +14,6 @@
               label="Description"
               v-model="document.name"
               :rules="[checkIfNotEmpty]"
-              required
             />
           </v-flex>
           <v-flex xs12>
@@ -23,7 +21,6 @@
               label="Lien vers le document"
               v-model="document.link"
               :rules="[checkIfNotEmpty]"
-              required
             />
           </v-flex>
         </v-layout>
@@ -31,7 +28,9 @@
       <v-card-actions class="tertiary">
         <v-spacer />
         <v-btn color="primary" text @click="$emit('input',false)">Annuler</v-btn>
-        <v-btn color="primary" text @click="onSave" :disabled="disabled">{{ mentions.validate }}</v-btn>
+        <v-btn color="primary" text @click="onSave" :disabled="disabled">
+          {{ mentions.validate }}
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -52,11 +51,12 @@ export default {
   },
   computed: {
     disabled () {
-      return this.document.name.length === 0 || this.document.link.length === 0
+      return !this.document.name.length || !this.document.link.length
     }
   },
   methods: {
     onSave () {
+      if (this.disabled) return
       this.$emit('save')
       this.$emit('input', false)
     }

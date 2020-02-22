@@ -22,11 +22,11 @@
             no-data-text="Aucun événement à afficher"
             no-results-text="Recherche infructueuse"
           >
-            <template v-slot:item="{item}">
+            <template #item="{item}">
               <tr>
                 <td class="text-center px-0">
                   <v-tooltip right v-if="!isObserver">
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
                         icon
                         text
@@ -44,7 +44,7 @@
                 </td>
                 <td class="text-center px-0">
                   <v-tooltip right v-if="!isObserver">
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
                         icon
                         text
@@ -60,10 +60,10 @@
                     <span>Supprimer</span>
                   </v-tooltip>
                 </td>
-                <td class="text-center">{{ item.date | dateFilter }}</td>
-                <td class="text-left">{{ item.name }}</td>
-                <td class="text-left">{{ item.descript }}</td>
-                <td class="text-center">{{ item.iscertain | yesNoFilter }}</td>
+                <td class="text-right">{{ item.date | dateFilter }}</td>
+                <td >{{ item.name }}</td>
+                <td >{{ item.descript }}</td>
+                <td>{{ item.iscertain | yesNoFilter }}</td>
               </tr>
             </template>
           </v-data-table>
@@ -94,6 +94,7 @@ import * as types from '../../store/mutation-types'
 import OpEventDlg from './OpEventDlg.vue'
 import isObserver from '../Mixins/isObserver'
 import DeleteDlg from '../DeleteDlg.vue'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'OpEvents',
   props: { op: null },
@@ -106,22 +107,20 @@ export default {
     modifiedEvent: null,
     mentions: { title: 'Modification de l\'événement', validate: 'Modifier' },
     headers: [
-      { text: '', value: '', align: 'center', width: '1%', sortable: false },
-      { text: '', value: '', align: 'center', width: '1%', sortable: false },
-      { text: 'Date', value: 'date', align: 'center' },
-      { text: 'Nom', value: 'name', align: 'center' },
-      { text: 'Description', value: 'descript', align: 'center' },
-      { text: 'Certain', value: 'isCertain', align: 'center' }
+      { text: '', value: '', width: '1%', sortable: false },
+      { text: '', value: '', width: '1%', sortable: false },
+      { text: 'Date', value: 'date', align: 'right' },
+      { text: 'Nom', value: 'name' },
+      { text: 'Description', value: 'descript' },
+      { text: 'Certain', value: 'isCertain' }
     ],
     eventSearch: ''
   }),
   computed: {
-    events () {
-      return this.$store.state.physops.events
-    },
-    loading () {
-      return this.$store.getters.loading
-    }
+    ...mapGetters(['loading']),
+    ...mapState({
+      events: state => state.physops.events
+    })
   },
   methods: {
     onModify (id) {
@@ -144,10 +143,8 @@ export default {
         ? types.ADD_EVENT
         : types.UPDATE_EVENT
       const { date, ...others } = this.modifiedEvent
-      this.$store.dispatch(action, {
-        id: this.op.id,
-        event: { date: new Date(date), ...others }
-      })
+      this.$store.dispatch(action,
+        { id: this.op.id, event: { date: new Date(date), ...others } })
     },
     onCreate () {
       this.mentions = { title: 'Nouvel événement', validate: 'Créer' }
@@ -161,16 +158,12 @@ export default {
       this.showDlg = true
     },
     onDelete (id) {
-      this.deletedEvent = this.$store.state.physops.events.find(
-        e => e.id === id
-      )
+      this.deletedEvent = this.events.find(e => e.id === id)
       this.removeDlg = true
     },
     onConfirmDel () {
-      this.$store.dispatch(types.DEL_EVENT, {
-        id: this.op.id,
-        event: this.deletedEvent
-      })
+      this.$store.dispatch(types.DEL_EVENT,
+        { id: this.op.id, event: this.deletedEvent })
       this.removeDlg = false
     }
   }

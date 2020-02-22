@@ -72,11 +72,11 @@
               </tr>
             </template>
 
-            <template v-slot:item="{ item }">
+            <template #item="{ item }">
               <tr :class="item.id % 2 ? 'green lighten-5' : 'green lighten-4'">
                 <td class="px-0" rowspan="4">
                   <v-tooltip right v-if="item.year === maxYear">
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
                         text
                         x-small
@@ -216,6 +216,7 @@ import * as types from '../../store/mutation-types.js'
 import isObserver from '../Mixins/isObserver'
 import currencyInput from '../Mixins/currencyInput'
 import { percentageInput, percentageInputParse } from '../../filters/filters'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'OpPrevisions',
@@ -408,18 +409,18 @@ export default {
     }
   },
   computed: {
-    prevCommitments () {
-      return this.$store.state.previsions.prevCommitmentList
-    },
-    prevPayments () {
-      return this.$store.state.previsions.prevPaymentList
-    },
-    pendingCommitment () {
-      return this.$store.state.previsions.opPendingCommitment
-    },
-    paymentList () {
-      return this.$store.state.previsions.paymentList
-    },
+    ...mapGetters(['loading']),
+    ...mapState({
+      prevCommitments: state => state.previsions.prevCommitmentList,
+      prevPayments: state => state.previsions.prevPaymentList,
+      pendingCommitment: state => state.previsions.opPendingCommitment,
+      paymentList: state => state.previsions.paymentList,
+      fcList: state => state.previsions.fcList,
+      paymentTypes: state => state.paymentRatios.paymentTypes,
+      paymentRatios: state => state.paymentRatios.paymentRatios,
+      paymentLastDate: state => state.importLog.paymentLastDate,
+      commitmentLastDate: state => state.importLog.commitmentLastDate
+    }),
     thisYearCommitments () {
       return this.fcList.reduce(
         (acc, fc) =>
@@ -433,12 +434,6 @@ export default {
           acc + (Number(p.date.slice(0, 4)) === this.minYear ? p.value : 0),
         0
       )
-    },
-    loading () {
-      return this.$store.getters.loading
-    },
-    fcList () {
-      return this.$store.state.previsions.fcList
     },
     pastCommitments () {
       return this.fcList
@@ -458,18 +453,6 @@ export default {
     },
     totalPayment () {
       return this.items.reduce((a, b) => a + b.payment, this.pastPayments)
-    },
-    paymentTypes () {
-      return this.$store.state.paymentRatios.paymentTypes
-    },
-    paymentRatios () {
-      return this.$store.state.paymentRatios.paymentRatios
-    },
-    paymentLastDate () {
-      return this.$store.state.importLog.paymentLastDate
-    },
-    commitmentLastDate () {
-      return this.$store.state.importLog.commitmentLastDate
     }
   },
   watch: {

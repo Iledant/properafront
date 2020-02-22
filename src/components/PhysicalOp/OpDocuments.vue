@@ -109,8 +109,8 @@ export default {
     modifiedDocument: { name: '', link: '' },
     mentions: { title: 'Modification du document', validate: 'Modifier' },
     headers: [
-      { text: '', value: '', align: 'center', sortable: false, width: '1%' },
-      { text: '', value: '', align: 'center', sortable: false, width: '1%' },
+      { text: '', value: '', sortable: false, width: '1%' },
+      { text: '', value: '', sortable: false, width: '1%' },
       { text: 'Document', value: 'name' }
     ],
     search: ''

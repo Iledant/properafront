@@ -22,7 +22,7 @@
             :search="bSearch"
             class="elevation-1"
           >
-            <template v-slot:item="{item}">
+            <template #item="{item}">
               <tr>
                 <td>{{ item.beneficiary }}</td>
                 <td class="text-right">{{ item.commitment | valueFilter }}</td>
@@ -35,13 +35,14 @@
     </v-container>
     <v-card-actions class="tertiary">
       <v-spacer />
-      <v-btn text small color="primary" @click="onBeneficiaryDownload">Export Excel</v-btn>
+      <v-btn text color="primary" @click="download">Export Excel</v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import { excelExport } from '../Utils/excelExport'
+import { excelExport, valStyle } from '../Utils/excelExport'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'OpBeneficiariesState',
@@ -49,39 +50,20 @@ export default {
   data: () => ({
     bSearch: '',
     bHeaders: [
-      {
-        text: 'Bénéficiaire',
-        value: 'beneficiary',
-        align: 'center',
-        sortable: true
-      },
-      {
-        text: 'Engagement',
-        value: 'commitment',
-        align: 'center',
-        sortable: true
-      },
-      {
-        text: 'Mandatement',
-        value: 'payment',
-        align: 'center',
-        sortable: true
-      }
+      { text: 'Bénéficiaire', value: 'beneficiary' },
+      { text: 'Engagement', align: 'right', value: 'commitment' },
+      { text: 'Mandatement', value: 'payment', align: 'right' }
     ]
   }),
   computed: {
-    fcPerBeneficiary () {
-      return this.$store.state.previsions.fcPerBeneficiary
-    },
-    loading () {
-      return this.$store.getters.loading
-    },
-    paymentPerBeneficiary () {
-      return this.$store.state.previsions.paymentPerBeneficiary
-    },
+    ...mapGetters(['loading']),
+    ...mapState({
+      commitments: state => state.previsions.fcPerBeneficiary,
+      payments: state => state.previsions.paymentPerBeneficiary
+    }),
     bItems () {
-      const fcList = this.fcPerBeneficiary || []
-      const pList = this.paymentPerBeneficiary
+      const fcList = this.commitments || []
+      const pList = this.payments
       return fcList.map(f => {
         const p = pList.find(o => o.beneficiary === f.beneficiary)
         return {
@@ -93,7 +75,7 @@ export default {
     }
   },
   methods: {
-    onBeneficiaryDownload () {
+    download () {
       const lines = this.bItems.map(o => ({
         beneficiary: o.beneficiary,
         commitment: o.commitment ? 0.01 * o.commitment : 0,
@@ -101,20 +83,8 @@ export default {
       }))
       const columns = [
         { header: 'Bénéficiaire', key: 'beneficiary', width: 50 },
-        {
-          header: 'Engagements',
-          key: 'commitment',
-          width: 14,
-          style: { numberFormat: '#,##0.00' },
-          addTotal: true
-        },
-        {
-          header: 'Mandatements',
-          key: 'payment',
-          width: 14,
-          style: { numberFormat: '#,##0.00' },
-          addTotal: true
-        }
+        { header: 'Engagements', key: 'commitment', ...valStyle },
+        { header: 'Mandatements', key: 'payment', ...valStyle }
       ]
       excelExport(
         lines,
