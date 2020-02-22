@@ -1,7 +1,7 @@
 <template>
-  <v-dialog :value="value" max-width="650px" v-if="op" @input="$emit('input', false)" persistent>
+  <v-dialog :value="value" max-width="650px" v-if="op" persistent>
     <v-card>
-      <v-card-title class="secondary title">{{ mentions.title }}</v-card-title>
+      <v-card-title class="secondary">{{ mentions.title }}</v-card-title>
       <v-container grid-list-md fluid>
         <v-layout row wrap>
           <v-flex xs12 sm4>
@@ -19,7 +19,6 @@
               :readonly="!isAdmin"
               v-model="op.name"
               :rules="[checkIfNotEmpty]"
-              required
             />
           </v-flex>
           <v-flex xs12>
@@ -138,30 +137,22 @@
       </v-container>
       <v-card-actions class="tertiary">
         <v-spacer />
-        <v-btn color="primary" text right @click="$emit('input', false)">Annuler</v-btn>
-        <v-btn
-          color="primary"
-          text
-          right
-          @click="onSave"
-          :disabled="disabled"
-        >{{ mentions.validate }}</v-btn>
+        <v-btn color="primary" text @click="$emit('input', false)">Annuler</v-btn>
+        <v-btn color="primary" text @click="onSave" :disabled="disabled">
+          {{ mentions.validate }}
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
-import {
-  dateValueFilter,
-  intFormat,
-  triFormat
-}
-  from '../../filters/filters'
+import { dateValueFilter, intFormat, triFormat } from '../../filters/filters'
 import checkIfNotEmpty from '../Mixins/CheckIfNotEmpty'
 import * as types from '../../store/mutation-types'
 import isAdmin from '../Mixins/isAdmin'
 import currencyInput from '../Mixins/currencyInput'
+import { mapState } from 'vuex'
 
 export default {
   name: 'OpEditDlg',
@@ -177,54 +168,43 @@ export default {
   data: () => ({
     menu: false,
     plan_id: null,
-    actionItems: [],
     val: '',
     van: '',
     len: '',
     tri: ''
   }),
   computed: {
+    ...mapState({
+      actionItems: state => [
+        { id: null, name: '<aucune action>' },
+        ...state.budgetTables.actionList
+      ],
+      plans: state => [
+        { id: null, name: '<aucun ligne de plan>' },
+        ...state.planLines.planLines
+      ],
+      paymentTypesItem: state => [
+        { id: null, name: '<aucune chronique>' },
+        ...state.paymentRatios.paymentTypes
+      ],
+      planLines: state => [
+        { id: null, name: '<aucun ligne de plan>' },
+        ...state.planLines.planLines
+      ],
+      steps: state => [
+        { id: null, name: '<aucune étape>' },
+        ...state.stepsAndCategories.steps
+      ],
+      categories: state => [
+        { id: null, name: '<aucune catégorie>' },
+        ...state.stepsAndCategories.categories
+      ]
+    }),
     formattedValueDate () {
       return dateValueFilter(this.op.valuedate)
     },
     disabled () {
-      return this.op.name.length === 0 || !this.testNumberFormat(this.op.number)
-    },
-    actionList () {
-      return this.$store.state.budgetTables.actionList
-    },
-    paymentTypesList () {
-      return this.$store.state.paymentRatios.paymentTypes
-    },
-    plans () {
-      return [
-        { id: null, name: '<aucun plan>' },
-        ...this.$store.state.plans.plans
-      ]
-    },
-    planLines () {
-      return [
-        { id: null, name: '<aucun ligne de plan>' },
-        ...this.$store.state.planLines.planLines
-      ]
-    },
-    paymentTypesItem () {
-      return [
-        { id: null, name: '<aucune chronique>' },
-        ...this.paymentTypesList
-      ]
-    },
-    steps () {
-      return [
-        { id: null, name: '<aucune étape>' },
-        ...this.$store.state.stepsAndCategories.steps
-      ]
-    },
-    categories () {
-      return [
-        { id: null, name: '<aucune catégorie>' },
-        ...this.$store.state.stepsAndCategories.categories
-      ]
+      return !this.op.name.length || !this.testNumberFormat(this.op.number)
     }
   },
   methods: {
