@@ -1,7 +1,7 @@
 <template>
-  <v-dialog :value="value" @input="$emit('input', false)" max-width="600px" v-if="user" persistent>
+  <v-dialog :value="value" max-width="600px" v-if="user" persistent>
     <v-card class="mt-2">
-      <v-card-title class="secondary title">{{ mentions.title }}</v-card-title>
+      <v-card-title class="secondary">{{ mentions.title }}</v-card-title>
       <v-container grid-list-md fluid>
         <v-layout row wrap>
           <v-flex xs12>
@@ -9,7 +9,6 @@
               label="Nom complet"
               v-model="user.name"
               :rules="[checkIfNotEmpty]"
-              required
               data-cy="userDlgName"
             />
           </v-flex>
@@ -18,7 +17,6 @@
               label="email"
               v-model="user.email"
               :rules="[checkIfNotEmpty, emailCheck]"
-              required
               data-cy="userDlgEmail"
             />
           </v-flex>
@@ -33,23 +31,40 @@
         </v-layout>
         <v-layout>
           <v-flex xs6>
-            <v-select :items="items" v-model="user.role" label="Rôle" data-cy="userDlgRole" />
+            <v-select
+              :items="items"
+              v-model="user.role"
+              label="Rôle"
+              data-cy="userDlgRole"
+            />
           </v-flex>
           <v-flex xs6>
-            <v-checkbox label="Activé ?" v-model="user.active" data-cy="userDlgActive" />
+            <v-checkbox
+              label="Activé ?"
+              v-model="user.active"
+              data-cy="userDlgActive"
+            />
           </v-flex>
         </v-layout>
       </v-container>
       <v-card-actions class="tertiary">
         <v-spacer />
-        <v-btn color="primary" text @click="$emit('input', false)" data-cy="useDlgCancel">Annuler</v-btn>
+        <v-btn
+          color="primary"
+          text @click="$emit('input', false)"
+          data-cy="useDlgCancel"
+        >
+          Annuler
+        </v-btn>
         <v-btn
           color="primary"
           text
           @click="onSave"
           :disabled="disabled"
           data-cy="userDlgSave"
-        >{{ mentions.validate }}</v-btn>
+        >
+          {{ mentions.validate }}
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -76,16 +91,14 @@ export default {
     disabled () {
       if (this.mentions && this.mentions.validate === 'Créer') {
         return (
-          this.user.email.length === 0 ||
-          this.user.name.length === 0 ||
-          this.user.password.length === 0 ||
+          !this.user.email ||
+          !this.user.name ||
+          !this.user.password ||
           !this.emailCheck(this.user.email)
         )
       }
       return (
-        this.user.email.length === 0 ||
-        this.user.name.length === 0 ||
-        !this.emailCheck(this.user.email)
+        !this.user.email || !this.user.name || !this.emailCheck(this.user.email)
       )
     }
   },
@@ -97,6 +110,7 @@ export default {
       return re.test(input) || 'Adresse email attendue'
     },
     onSave () {
+      if (this.disabled) return
       this.$emit('save')
       this.$emit('input', false)
     }
