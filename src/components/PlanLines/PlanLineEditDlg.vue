@@ -1,24 +1,17 @@
 <template>
-  <v-dialog
-    :value="value"
-    max-width="600px"
-    @input="$emit('input', false)"
-    v-if="planline"
-    persistent
-  >
+  <v-dialog :value="value" max-width="600px" v-if="planline" persistent>
     <v-card>
-      <v-card-title class="secondary title">{{ mentions.title }}</v-card-title>
+      <v-card-title class="secondary">{{ mentions.title }}</v-card-title>
       <v-container grid-list-md fluid>
         <v-layout row wrap>
           <v-flex xs12>
-            <v-text-field label="Nom" v-model="name" :rules="[checkIfNotEmpty]" required />
+            <v-text-field label="Nom" v-model="name" :rules="[checkIfNotEmpty]" />
           </v-flex>
           <v-flex xs6>
             <v-text-field
               label="Montant Région"
               v-model="val"
               :rules="[checkIfNotEmpty]"
-              required
               v-currency
               reverse
             />
@@ -34,7 +27,9 @@
       <v-card-actions class="tertiary">
         <v-spacer />
         <v-btn color="primary" text @click="$emit('input', false)">Annuler</v-btn>
-        <v-btn color="primary" text @click="onSave" :disabled="disabled">{{ mentions.validate }}</v-btn>
+        <v-btn color="primary" text @click="onSave" :disabled="disabled">
+          {{ mentions.validate }}
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -65,7 +60,7 @@ export default {
   },
   computed: {
     disabled () {
-      return this.name === '' || this.planline.val === ''
+      return !this.name || !this.planline.val
     }
   },
   methods: {
