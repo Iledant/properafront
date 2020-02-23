@@ -1,24 +1,23 @@
 <template>
   <v-card>
-    <v-card-title class="secondary title">Gestion de la structure budgétaire</v-card-title>
+    <v-card-title class="secondary title">
+      Gestion de la structure budgétaire
+    </v-card-title>
     <v-container fluid class="pa-0">
-      <v-tabs v-model="tab" background-color="secondary" slider-color="primary" centered>
+      <v-tabs
+        v-model="tab"
+        background-color="secondary"
+        slider-color="primary"
+        centered
+      >
         <v-tab>Chapitre</v-tab>
-        <v-tab-item>
-          <chapters />
-        </v-tab-item>
+        <v-tab-item><chapters /> </v-tab-item>
         <v-tab>Secteur</v-tab>
-        <v-tab-item>
-          <sectors />
-        </v-tab-item>
+        <v-tab-item><sectors /></v-tab-item>
         <v-tab>Programmes</v-tab>
-        <v-tab-item>
-          <programs />
-        </v-tab-item>
+        <v-tab-item><programs /></v-tab-item>
         <v-tab>Actions</v-tab>
-        <v-tab-item>
-          <actions />
-        </v-tab-item>
+        <v-tab-item><actions /></v-tab-item>
       </v-tabs>
     </v-container>
   </v-card>

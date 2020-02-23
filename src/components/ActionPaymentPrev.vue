@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="secondary title">
+    <v-card-title class="secondary">
       Prévisions de CP par actions budgétaires pour l'année en cours
     </v-card-title>
     <v-container grid-list-md fluid>
@@ -20,15 +20,15 @@
             no-data-text="Aucune prévision trouvée"
             no-results-text="Recherche infructueuse"
           >
-            <template v-slot:item="{item}">
+            <template #item="{item}">
               <tr>
                 <td>{{ item.chapter }}</td>
                 <td>{{ item.sector }}</td>
                 <td>{{ item.function }}</td>
                 <td>{{ item.action_code }}</td>
                 <td>{{ item.action_name }}</td>
-                <td>{{ item.pmt_prevision | prevFilter }}</td>
-                <td>{{ item.payment | prevFilter }}</td>
+                <td class="text-right">{{ item.pmt_prevision | prevFilter }}</td>
+                <td class="text-right">{{ item.payment | prevFilter }}</td>
               </tr>
             </template>
           </v-data-table>
@@ -45,6 +45,7 @@
 <script>
 import * as types from '../store/mutation-types'
 import { excelExport, valStyle } from './Utils/excelExport'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'ActionPaymentPrev',
   data () {
@@ -56,16 +57,14 @@ export default {
         { text: 'Fonction', value: 'function' },
         { text: 'Action', value: 'action_code' },
         { text: 'Nom', value: 'action_name' },
-        { text: 'Prévision', value: 'pmt_prevision' },
-        { text: 'Paiements', value: 'payment' }
+        { text: 'Prévision', value: 'pmt_prevision', align: 'right' },
+        { text: 'Paiements', value: 'payment', align: 'right' }
       ]
     }
   },
   methods: {
     async dataExport () {
-      if (this.items.length === 0) {
-        return
-      }
+      if (this.items.length === 0) return
       const columns = [
         { header: 'Chap.', key: 'chapter', width: 10 },
         { header: 'Sect.', key: 'sector', width: 10 },
@@ -79,12 +78,10 @@ export default {
     }
   },
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    items () {
-      return this.$store.state.previsions.curYearActionPmtPrevisions
-    }
+    ...mapGetters(['loading']),
+    ...mapState({
+      items: state => state.previsions.curYearActionPmtPrevisions
+    })
   },
   created () {
     this.$store.dispatch(types.GET_CUR_YEAR_ACTION_PMT_PREV)

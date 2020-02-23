@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="secondary title">Liens engagements / plans</v-card-title>
+    <v-card-title class="secondary">Liens engagements / plans</v-card-title>
     <v-container fluid grid-list-md>
       <v-layout row wrap>
         <v-flex xs12 class="subtitle-1">Engagements non liés à un plan</v-flex>
@@ -38,11 +38,13 @@
             no-results-text="Recherche infructueuse"
             :footer-props="{ disableItemsPerPage: true }"
           >
-            <template v-slot:item.fcDate="{ item }">
+            <template #item.fcDate="{ item }">
               <div class="text-no-wrap">{{ item.fcDate | dateFilter }}</div>
             </template>
-            <template v-slot:item.fcValue="{ item }">
-              <div class="text-no-wrap text-right">{{ item.fcValue | valueFilter }}</div>
+            <template #item.fcValue="{ item }">
+              <div class="text-no-wrap text-right">
+                {{ item.fcValue | valueFilter }}
+              </div>
             </template>
           </v-data-table>
         </v-flex>
@@ -99,7 +101,7 @@
             single-select
             dense
           >
-            <template v-slot:item.value="{ item }">
+            <template #item.value="{ item }">
               <div class="text-right">{{ item.value | valueFilter }}</div>
             </template>
           </v-data-table>
@@ -139,11 +141,13 @@
             no-results-text="Recherche infructueuse"
             :footer-props="{ disableItemsPerPage: true }"
           >
-            <template v-slot:item.fcDate="{ item }">
+            <template #item.fcDate="{ item }">
               <div class="text-no-wrap">{{ item.fcDate | dateFilter }}</div>
             </template>
-            <template v-slot:item.fcValue="{ item }">
-              <div class="text-no-wrap text-right">{{ item.fcValue | valueFilter }}</div>
+            <template #item.fcValue="{ item }">
+              <div class="text-no-wrap text-right">
+                {{ item.fcValue | valueFilter }}
+              </div>
             </template>
           </v-data-table>
         </v-flex>
@@ -164,6 +168,7 @@
 <script>
 import * as types from '../store/mutation-types'
 import yearRule from './Mixins/yearRule'
+import { mapGetters, mapState } from 'vuex'
 const yearTest = y => /^20\d{2}$/.test(y)
 export default {
   name: 'CmtPlanLinks',
@@ -276,29 +281,14 @@ export default {
     }
   },
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    plans () {
-      return this.$store.state.plans.plans
-    },
-    plList () {
-      return this.$store.state.planLines.planLines
-    },
-    fcPlUnlinkedList () {
-      return this.$store.state.previsions.fcPlUnlinkedList
-    },
-    fcUPlNumber () {
-      return this.$store.state.previsions.fcPlUnlinkedItemsCount
-    },
-    fcUPlPage () {
-      return this.$store.state.previsions.fcPlUnlinkedCurrentPageNumber
-    },
-    linkDisabled () {
-      return this.fcSelected.length === 0 || this.plSelected.length === 0
-    },
-    fcPlLinkedList () {
-      return this.$store.state.previsions.fcPlLinkedList.map(l => ({
+    ...mapGetters(['loading']),
+    ...mapState({
+      plans: state => state.plans.plans,
+      plList: state => state.planLines.planLines,
+      fcPlUnlinkedList: state => state.previsions.fcPlUnlinkedList,
+      fcUPlNumber: state => state.previsions.fcPlUnlinkedItemsCount,
+      fcUPlPage: state => state.previsions.fcPlUnlinkedCurrentPageNumber,
+      fcPlLinkedList: state => state.previsions.fcPlLinkedList.map(l => ({
         id: l.fcId,
         fcName: l.fcName,
         iris_code: l.iris_code,
@@ -306,16 +296,15 @@ export default {
         fcValue: l.fcValue,
         fcBeneficiary: l.fcBeneficiary,
         plName: l.plName
-      }))
-    },
-    fcLPlPage () {
-      return this.$store.state.previsions.fcPlLinkedCurrentPageNumber
-    },
-    fcPlNumber () {
-      return this.$store.state.previsions.fcPlLinkedItemsCount
+      })),
+      fcLPlPage: state => state.previsions.fcPlLinkedCurrentPageNumber,
+      fcPlNumber: state => state.previsions.fcPlLinkedItemsCount
+    }),
+    linkDisabled () {
+      return !this.fcSelected.length || !this.plSelected.length
     },
     unlinkDisabled () {
-      return this.fcPlSelected.length === 0
+      return !this.fcPlSelected.length
     }
   },
   created () {

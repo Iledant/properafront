@@ -1,6 +1,8 @@
 <template>
   <v-card>
-    <v-card-title class="secondary title">Suivi de la programmation annuelle</v-card-title>
+    <v-card-title class="secondary title">
+      Suivi de la programmation annuelle
+    </v-card-title>
     <v-container grid-list-md fluid>
       <v-layout row wrap>
         <v-flex xs12 sm6 offset-sm3>
@@ -34,39 +36,61 @@
             no-data-text="Aucune ligne à afficher"
             no-results-text="Recherche infructueuse"
           >
-            <template v-slot:body.prepend="">
+            <template #body.prepend="">
               <tr class="grey lighten-4 font-weight-medium">
                 <td colspan="2" class="text-center">Total</td>
-                <td class="text-right text-no-wrap">{{ programmingsTotal | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ commitmentTotal | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ pendingsTotal | valueFilter }}</td>
+                <td class="text-right text-no-wrap">
+                  {{ programmingsTotal | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ commitmentTotal | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ pendingsTotal | valueFilter }}
+                </td>
               </tr>
               <tr class="grey lighten-4 font-weight-medium">
                 <td colspan="2" class="text-center">Budget disponible</td>
-                <td class="text-right text-no-wrap">{{ availableBudget | valueFilter }}</td>
+                <td class="text-right text-no-wrap">
+                  {{ availableBudget | valueFilter }}
+                </td>
                 <td class="text-right text-no-wrap"></td>
                 <td class="text-right text-no-wrap"></td>
               </tr>
             </template>
-            <template v-slot:item="{ item }">
+            <template #item="{ item }">
               <tr>
                 <td>{{ item.operation_number }} - {{ item.name }}</td>
                 <td>{{ item.date | dateFilter }}</td>
-                <td class="text-right text-no-wrap">{{ item.programmings | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ item.commitment | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ item.pendings | valueFilter }}</td>
+                <td class="text-right text-no-wrap">
+                  {{ item.programmings | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ item.commitment | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ item.pendings | valueFilter }}
+                </td>
               </tr>
             </template>
-            <template v-slot:body.append="">
+            <template #body.append="">
               <tr class="grey lighten-4 font-weight-medium">
                 <td colspan="2" class="text-center">Total</td>
-                <td class="text-right text-no-wrap">{{ programmingsTotal | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ commitmentTotal | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ pendingsTotal | valueFilter }}</td>
+                <td class="text-right text-no-wrap">
+                  {{ programmingsTotal | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ commitmentTotal | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ pendingsTotal | valueFilter }}
+                </td>
               </tr>
               <tr class="grey lighten-4 font-weight-medium">
                 <td colspan="2" class="text-center">Budget disponible</td>
-                <td class="text-right text-no-wrap">{{ availableBudget | valueFilter }}</td>
+                <td class="text-right text-no-wrap">
+                  {{ availableBudget | valueFilter }}
+                </td>
                 <td class="text-right text-no-wrap"></td>
                 <td class="text-right text-no-wrap"></td>
               </tr>
@@ -89,6 +113,7 @@
 <script>
 import { excelExport, dateStyle, valStyle } from './Utils/excelExport'
 import * as types from '../store/mutation-types'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'AnnualProg',
   data () {
@@ -96,24 +121,23 @@ export default {
       year: new Date().getFullYear(),
       search: '',
       headers: [
-        { text: 'Nom (opération, IRIS)', value: 'name', align: 'center' },
-        { text: 'Date', value: 'date', align: 'center' },
-        { text: 'Programmé', value: 'programmings', align: 'center' },
-        { text: 'Affecté', value: 'commitment', align: 'center' },
-        { text: 'En cours', value: 'pendings', align: 'center' }
+        { text: 'Nom (opération, IRIS)', value: 'name' },
+        { text: 'Date', value: 'date' },
+        { text: 'Programmé', value: 'programmings', align: 'right' },
+        { text: 'Affecté', value: 'commitment', align: 'right' },
+        { text: 'En cours', value: 'pendings', align: 'right' }
       ]
     }
   },
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    items () {
-      return this.$store.state.summaries.annualProg
-    },
-    creditsList () {
-      return this.$store.state.budgetTables.creditsList
-    },
+    ...mapGetters(['loading']),
+    ...mapState({
+      items: state => state.summaries.annualProg,
+      creditsList: state => state.budgetTables.creditsList,
+      prgYears: state => state.programmings.programmingsYears,
+      commitmentLastDate: state => state.importLog.commitmentLastDate,
+      pendingsLastDate: state => state.importLog.pendingsLastDate
+    }),
     availableBudget () {
       return this.creditsList.reduce(
         (a, c) =>
@@ -132,38 +156,27 @@ export default {
     },
     pendingsTotal () {
       return this.items.reduce((tot, i) => tot + (i.pendings || 0), 0)
-    },
-    prgYears () {
-      return this.$store.state.programmings.programmingsYears
-    },
-    commitmentLastDate () {
-      return this.$store.state.importLog.commitmentLastDate
-    },
-    pendingsLastDate () {
-      return this.$store.state.importLog.pendingsLastDate
     }
   },
   methods: {
     download () {
-      let lines = null
-      if (this.items.length > 0) {
-        lines = this.items.map(l => {
-          return {
-            number: l.operation_number,
-            name: l.name,
-            step_name: l.step_name,
-            chapter: l.chapter_code,
-            category_name: l.category_name,
-            date: new Date(l.date),
-            programmings: l.programmings * 0.01,
-            pendings: l.pendings * 0.01,
-            commitment: l.commitment * 0.01,
-            totalProgrammings: l.total_programmings * 0.01,
-            stateRatio: l.state_ratio,
-            stateValue: ''
-          }
-        })
-      }
+      if (this.items.length === 0) return
+      const lines = this.items.map(l => {
+        return {
+          number: l.operation_number,
+          name: l.name,
+          step_name: l.step_name,
+          chapter: l.chapter_code,
+          category_name: l.category_name,
+          date: new Date(l.date),
+          programmings: l.programmings * 0.01,
+          pendings: l.pendings * 0.01,
+          commitment: l.commitment * 0.01,
+          totalProgrammings: l.total_programmings * 0.01,
+          stateRatio: l.state_ratio,
+          stateValue: ''
+        }
+      })
       const columns = [
         { header: 'Numéro d\'opération', key: 'number', width: 8 },
         { header: 'Nom de l\'opération', key: 'name', width: 50 },

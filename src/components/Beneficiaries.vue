@@ -1,10 +1,16 @@
 <template>
   <v-card>
-    <v-card-title class="secondary title">Gestion des bénéficiaires</v-card-title>
+    <v-card-title class="secondary">Gestion des bénéficiaires</v-card-title>
     <v-container grid-list-md fluid>
       <v-layout row wrap>
         <v-flex xs12 sm6 offset-sm3>
-          <v-text-field label="Recherche" single-line hide-details v-model="search" />
+          <v-text-field
+            label="Recherche"
+            single-line
+            hide-details
+            v-model="search"
+            prepend-icon="search"
+          />
         </v-flex>
         <v-flex sm3 />
         <v-flex xs12>
@@ -18,11 +24,11 @@
             no-data-text="Aucun bénéficiaire trouvé"
             no-results-text="Recherche infructueuse"
           >
-            <template v-slot:item="{item}">
+            <template #item="{item}">
               <tr>
-                <td class="pl-0 pr-0">
+                <td class="px-0">
                   <v-tooltip right color="primary">
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
                         text
                         icon
@@ -31,7 +37,7 @@
                         color="secondary"
                         v-on="on"
                       >
-                        <v-icon class="ma-0">edit</v-icon>
+                        <v-icon>edit</v-icon>
                       </v-btn>
                     </template>
                     <span>Changer le nom</span>
@@ -52,6 +58,7 @@
 <script>
 import * as types from '../store/mutation-types.js'
 import BeneficiaryEditDlg from './Beneficiaries/BeneficiaryEditDlg.vue'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'Beneficiaries',
   components: { BeneficiaryEditDlg },
@@ -66,24 +73,19 @@ export default {
     showDlg: false
   }),
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    beneficiaries () {
-      return this.$store.state.beneficiaries.beneficiaries
-    }
+    ...mapGetters(['loading']),
+    ...mapState({
+      beneficiaries: state => state.beneficiaries.beneficiaries
+    })
   },
   methods: {
     edit (item) {
-      const b = this.beneficiaries.find(b => b.id === item.id)
-      this.item = { ...b }
+      this.item = { ...item }
       this.showDlg = true
     },
     save () {
-      this.$store.dispatch(types.UPDATE_BENEFICIARY, {
-        id: this.item.id,
-        name: this.item.name
-      })
+      this.$store.dispatch(types.UPDATE_BENEFICIARY,
+        { id: this.item.id, name: this.item.name })
     }
   },
   created () {

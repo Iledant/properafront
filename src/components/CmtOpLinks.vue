@@ -1,9 +1,11 @@
 <template>
   <v-card>
-    <v-card-title class="secondary title">Liens engagements / opérations</v-card-title>
+    <v-card-title class="secondary">Liens engagements / opérations</v-card-title>
     <v-container grid-list-md fluid>
       <v-layout row wrap>
-        <v-flex xs12 class="subtitle-1">Engagements non rattachés à une opération</v-flex>
+        <v-flex xs12 class="subtitle-1">
+          Engagements non rattachés à une opération
+        </v-flex>
         <v-flex xs12 sm6>
           <v-text-field
             label="Recherche (nom, bénéficiaire, code IRIS)"
@@ -38,9 +40,13 @@
             no-results-text="Recherche infructueuse"
             :footer-props="{ disableItemsPerPage: true }"
           >
-            <template v-slot:item.fcDate="{ item }">{{ item.fcDate | dateFilter }}</template>
-            <template v-slot:item.fcValue="{ item }">
-              <div class="text-no-wrap text-right">{{ item.fcValue | valueFilter }}</div>
+            <template #item.fcDate="{ item }">
+              {{ item.fcDate | dateFilter }}
+            </template>
+            <template #item.fcValue="{ item }">
+              <div class="text-no-wrap text-right">
+                {{ item.fcValue | valueFilter }}
+              </div>
             </template>
           </v-data-table>
         </v-flex>
@@ -78,7 +84,9 @@
             single-select
           />
         </v-flex>
-        <v-flex xs12 class="subtitle-1 mt-5">Engagements et opérations liés</v-flex>
+        <v-flex xs12 class="subtitle-1 mt-5">
+          Engagements et opérations liés
+        </v-flex>
         <v-flex xs12 sm6>
           <v-text-field
             label="Recherche (code IRIS, nom IRIS, bénéficiaire, opération)"
@@ -113,16 +121,20 @@
             no-results-text="Recherche infructueuse"
             :footer-props="{ disableItemsPerPage: true }"
           >
-            <template v-slot:item.fcDate="{ item }">
+            <template #item.fcDate="{ item }">
               <div class="text-no-wrap">{{ item.fcDate | dateFilter }}</div>
             </template>
-            <template v-slot:item.fcValue="{ item }">
-              <div class="text-no-wrap text-right">{{ item.fcValue | valueFilter }}</div>
+            <template #item.fcValue="{ item }">
+              <div class="text-no-wrap text-right">
+                {{ item.fcValue | valueFilter }}
+              </div>
             </template>
           </v-data-table>
         </v-flex>
         <v-flex xs12 class="text-right tertiary">
-          <v-btn text small @click="download" color="primary">Télécharger tous les liens</v-btn>
+          <v-btn text small @click="download" color="primary">
+            Télécharger tous les liens
+          </v-btn>
           <v-btn
             text
             small
@@ -258,13 +270,8 @@ export default {
       fcNumber: s => s.previsions.fcOpUnlinkedItemsCount,
       fcUOpPage: s => s.previsions.fcOpUnlinkedCurrentPageNumber,
       fcLOpPage: s => s.previsions.fcOpLinkedCurrentPageNumber,
-      fcOpNumber: s => s.previsions.fcOpLinkedItemsCount
-    }),
-    linkDisabled () {
-      return this.fcSelected.length === 0 || this.opSelected.length === 0
-    },
-    fcOpLinkedList () {
-      return this.$store.state.previsions.fcOpLinkedList.map(l => ({
+      fcOpNumber: s => s.previsions.fcOpLinkedItemsCount,
+      fcOpLinkedList: s => s.previsions.fcOpLinkedList.map(l => ({
         id: l.fcId,
         fcName: l.fcName,
         iris_code: l.iris_code,
@@ -274,9 +281,12 @@ export default {
         opName: l.opName,
         opNumber: l.opNumber
       }))
+    }),
+    linkDisabled () {
+      return !this.fcSelected || !this.opSelected.length
     },
     unlinkDisabled () {
-      return this.fcOpSelected.length === 0
+      return !this.fcOpSelected.length
     }
   },
   created () {

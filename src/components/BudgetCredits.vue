@@ -1,27 +1,32 @@
 <template>
   <v-card>
-    <v-card-title class="secondary title">
+    <v-card-title class="secondary">
       AP votées, gelées, mises en réserve
     </v-card-title>
     <v-container grid-list-md fluid>
       <v-layout row wrap>
         <v-flex xs12 sm6 offset-sm3>
-          <v-text-field label="Recherche" single-line hide-details v-model="search" />
+          <v-text-field
+            label="Recherche"
+            single-line
+            hide-details
+            v-model="search"
+          />
         </v-flex>
         <v-flex sm3 />
         <v-flex xs12>
           <v-data-table
             :loading="loading"
             :headers="headers"
-            :items="creditsList"
+            :items="credits"
             :search="search"
             dense
             class="elevation-1"
             no-data-text="Aucun crédit trouvé"
             no-results-text="Recherche infructueuse"
           >
-            <template v-slot:item="{ item }">
-              <tr class="bc-editable" @click="modify(item)">
+            <template #item="{ item }">
+              <tr class="table-link primary--text" @click="modify(item)">
                 <td>{{ item.commission_date | dateFilter }}</td>
                 <td>{{ item.chapter }}</td>
                 <td class="text-right">
@@ -55,6 +60,7 @@
 <script>
 import * as types from '../store/mutation-types.js'
 import BudgetCreditsDlg from './Settings/BudgetCreditsDlg.vue'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'BudgetCredits',
@@ -73,12 +79,10 @@ export default {
     mentions: { title: 'Modifier la ligne de crédit', validate: 'Modifier' }
   }),
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    creditsList () {
-      return this.$store.state.budgetTables.creditsList
-    }
+    ...mapGetters(['loading']),
+    ...mapState({
+      credits: state => state.budgetTables.creditsList
+    })
   },
   methods: {
     modify (item) {
@@ -129,14 +133,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.bc-editable {
-  cursor: pointer;
-}
-
-.bc-editable:hover {
-  color: #1976d2;
-  text-decoration-line: underline;
-}
-</style>

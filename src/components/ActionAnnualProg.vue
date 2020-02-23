@@ -1,8 +1,8 @@
 <template>
   <v-card>
-    <v-card-title
-      class="secondary title"
-    >Ventilation de la programmation annuelle par actions budgétaires</v-card-title>
+    <v-card-title class="secondary">
+      Ventilation de la programmation annuelle par actions budgétaires
+    </v-card-title>
     <v-container grid-list-md fluid>
       <v-layout row wrap>
         <v-flex xs12 sm6 offset-sm3>
@@ -36,30 +36,28 @@
             no-data-text="Aucune ligne à afficher"
             no-results-text="Recherche infructueuse"
           >
-            <template v-slot:body.prepend="">
+            <template #body.prepend="">
               <tr class="grey lighten-4 font-weight-medium">
-                <td colspan="2" class="text-center">
-                  <strong>Total</strong>
-                </td>
+                <td colspan="2" class="text-center">Total</td>
                 <td class="text-right text-no-wrap">
-                  <strong>{{ total | valueFilter }}</strong>
+                  {{ total | valueFilter }}
                 </td>
               </tr>
             </template>
-            <template v-slot:item="{item}">
+            <template #item="{item}">
               <tr>
                 <td>{{ item.action_code }}</td>
                 <td>{{ item.action_name }}</td>
-                <td class="text-right text-no-wrap">{{ item.value | valueFilter }}</td>
+                <td class="text-right text-no-wrap">
+                  {{ item.value | valueFilter }}
+                </td>
               </tr>
             </template>
-            <template v-slot:body.append="">
+            <template #body.append="">
               <tr class="grey lighten-4 font-weight-medium">
-                <td colspan="2" class="text-center">
-                  <strong>Total</strong>
-                </td>
+                <td colspan="2" class="text-center">Total</td>
                 <td class="text-right text-no-wrap">
-                  <strong>{{ total | valueFilter }}</strong>
+                  {{ total | valueFilter }}
                 </td>
               </tr>
             </template>
@@ -69,7 +67,9 @@
     </v-container>
     <v-card-actions class="tertiary">
       <v-spacer />
-      <v-btn color="primary" text @click="download">Export Excel</v-btn>
+      <v-btn color="primary" text @click="download" :disabled="!this.items.length">
+        Export Excel
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -84,9 +84,9 @@ export default {
       year: new Date().getFullYear(),
       search: '',
       headers: [
-        { text: 'Numéro d\'action', value: 'action_code', align: 'center' },
-        { text: 'Intitulé', value: 'action_name', align: 'center' },
-        { text: 'Programmé', value: 'value', align: 'center' }
+        { text: 'Numéro d\'action', value: 'action_code' },
+        { text: 'Intitulé', value: 'action_name' },
+        { text: 'Programmé', value: 'value', align: 'right' }
       ]
     }
   },
@@ -102,16 +102,10 @@ export default {
   },
   methods: {
     download () {
-      let lines = null
-      if (this.items.length > 0) {
-        lines = this.items.map(l => {
-          return {
-            code: l.action_code,
-            name: l.action_name,
-            value: l.value * 0.01
-          }
-        })
-      }
+      if (!this.items.length) return
+      const lines = this.items.map(l =>
+        ({ code: l.action_code, name: l.action_name, value: l.value * 0.01 })
+      )
       const columns = [
         { header: 'Code d\'action', key: 'code', width: 15 },
         { header: 'Intitulé', key: 'name', width: 50 },
@@ -121,15 +115,13 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch(types.GET_BUDGET_ACTION_PROGRAMMATION_AND_YEARS, {
-      year: this.actualYear
-    })
+    this.$store.dispatch(types.GET_BUDGET_ACTION_PROGRAMMATION_AND_YEARS,
+      { year: this.actualYear })
   },
   watch: {
     year (y) {
-      this.$store.dispatch(types.GET_BUDGET_ACTION_PROGRAMMATION, {
-        year: y
-      })
+      this.$store.dispatch(types.GET_BUDGET_ACTION_PROGRAMMATION,
+        { year: y })
     }
   }
 }
