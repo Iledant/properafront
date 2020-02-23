@@ -22,15 +22,29 @@
             no-data-text="Aucune ligne à afficher"
             no-results-text="Recherche infructueuse"
           >
-            <template v-slot:item="{item}">
+            <template #item="{item}">
               <tr>
                 <td class="px-0">
-                  <v-btn icon text small class="pa-0" color="secondary" @click="edit(item)">
+                  <v-btn
+                    icon
+                    text
+                    small
+                    class="pa-0"
+                    color="secondary"
+                    @click="edit(item)"
+                  >
                     <v-icon>edit</v-icon>
                   </v-btn>
                 </td>
                 <td class="px-0">
-                  <v-btn icon text small class="pa-0" color="error" @click="remove(item)">
+                  <v-btn
+                    icon
+                    text
+                    small
+                    class="pa-0"
+                    color="error"
+                    @click="remove(item)"
+                  >
                     <v-icon>delete</v-icon>
                   </v-btn>
                 </td>
@@ -68,6 +82,7 @@
 import * as types from '../../store/mutation-types.js'
 import ActionEditDlg from '../BudgetTables/ActionEditDlg.vue'
 import DeleteDlg from '../DeleteDlg.vue'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'Actions',
   components: { ActionEditDlg, DeleteDlg },
@@ -76,11 +91,11 @@ export default {
     headers: [
       { text: '', value: '', sortable: false, width: '1%' },
       { text: '', value: '', sortable: false, width: '1%' },
-      { text: 'Chapitre', value: 'chapter', align: 'center' },
-      { text: 'Secteur', value: 'sector', align: 'center' },
-      { text: 'Programme', value: 'program', align: 'center' },
-      { text: 'Code action', value: 'code', align: 'center' },
-      { text: 'Intitulé', value: 'name', align: 'center' }
+      { text: 'Chapitre', value: 'chapter' },
+      { text: 'Secteur', value: 'sector' },
+      { text: 'Programme', value: 'program' },
+      { text: 'Code action', value: 'code' },
+      { text: 'Intitulé', value: 'name' }
     ],
     search: '',
     deletedAction: null,
@@ -89,32 +104,23 @@ export default {
     showActionDlg: false
   }),
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    chapters () {
-      return this.$store.state.budgetTables.chapterList
-    },
-    sectors () {
-      return this.$store.state.budgetTables.sectorList
-    },
-    programs () {
-      return this.$store.state.budgetTables.programList
-    },
-    actions () {
-      return this.$store.state.budgetTables.actionList
-    },
+    ...mapGetters(['loading']),
+    ...mapState({
+      chapter: state => state.budgetTables.chapterList,
+      sectors: state => state.budgetTables.sectorList,
+      programs: state => state.budgetTables.programList,
+      actions: state => state.budgetTables.actionList
+    }),
     actionItems () {
       const pList = this.programs
       const cList = this.chapters
       const sList = this.sectors
-      if (
-        !pList ||
-        pList.length === 0 ||
+      if (!pList ||
+        !pList.length ||
         !cList ||
-        cList.length === 0 ||
+        !cList.length ||
         !sList ||
-        sList.length === 0
+        !sList.length
       ) {
         return []
       }
@@ -169,15 +175,10 @@ export default {
       this.showActionDlg = true
     },
     save () {
-      if (this.mentions.validate === 'Créer') {
-        this.$store.dispatch(types.ADD_BUDGET_ACTION, {
-          BudgetAction: this.action
-        })
-      } else {
-        this.$store.dispatch(types.UPDATE_BUDGET_ACTION, {
-          BudgetAction: this.action
-        })
-      }
+      const action = this.mentions.validate === 'Créer'
+        ? types.ADD_BUDGET_ACTION
+        : types.UPDATE_BUDGET_ACTION
+      this.$store.dispatch(action, { BudgetAction: this.action })
       this.showActionDlg = false
     }
   }

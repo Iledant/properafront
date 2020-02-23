@@ -23,7 +23,7 @@
             no-data-text="Aucune ligne à afficher"
             no-results-text="Recherche infructueuse"
           >
-            <template v-slot:item="{item}">
+            <template #item="{item}">
               <tr>
                 <td class="px-0">
                   <v-btn
@@ -49,10 +49,10 @@
                     <v-icon>delete</v-icon>
                   </v-btn>
                 </td>
-                <td class="text-left">{{ item.chapter }}</td>
-                <td class="text-center">{{ item.subfunction }}</td>
-                <td class="text-center">{{ item.code }}</td>
-                <td class="text-left">{{ item.name }}</td>
+                <td>{{ item.chapter }}</td>
+                <td>{{ item.subfunction }}</td>
+                <td>{{ item.code }}</td>
+                <td>{{ item.name }}</td>
               </tr>
             </template>
           </v-data-table>
@@ -82,6 +82,17 @@
 import * as types from '../../store/mutation-types.js'
 import ProgramEditDlg from '../BudgetTables/ProgramEditDlg.vue'
 import DeleteDlg from '../DeleteDlg.vue'
+import { mapGetters, mapState } from 'vuex'
+const nullProgram = {
+  id: 0,
+  name: '',
+  code_contract: '',
+  code_function: '',
+  code_number: '',
+  chapter_id: null,
+  subfunction: ''
+}
+
 export default {
   name: 'Programs',
   components: { ProgramEditDlg, DeleteDlg },
@@ -90,52 +101,25 @@ export default {
     programHeaders: [
       { text: '', value: '', sortable: false, width: '1%' },
       { text: '', value: '', sortable: false, width: '1%' },
-      { text: 'Chapitre', value: 'chapter', align: 'center', sortable: true },
-      {
-        text: 'Sous-fonction',
-        value: 'subfunction',
-        align: 'center',
-        sortable: true
-      },
-      {
-        text: 'Code programme',
-        value: 'code',
-        align: 'center',
-        sortable: true
-      },
-      { text: 'Intitulé', value: 'name', align: 'center', sortable: true }
+      { text: 'Chapitre', value: 'chapter' },
+      { text: 'Sous-fonction', value: 'subfunction' },
+      { text: 'Code programme', value: 'code' },
+      { text: 'Intitulé', value: 'name' }
     ],
     search: '',
-    deletedProgram: {
-      id: 0,
-      name: '',
-      code_contract: '',
-      code_function: '',
-      code_number: '',
-      chapter_id: null,
-      subfunction: ''
-    },
+    deletedProgram: { ...nullProgram },
     deleteDlg: false,
-    program: {
-      id: 0,
-      name: '',
-      code_contract: '',
-      code_function: '',
-      code_number: '',
-      chapter_id: null,
-      subfunction: ''
-    },
+    program: { ...nullProgram },
     showProgramDlg: false
   }),
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    chapters () {
-      return this.$store.state.budgetTables.chapterList
-    },
+    ...mapGetters(['loading']),
+    ...mapState({
+      chapters: state => state.budgetTables.chapterList,
+      programList: state => state.budgetTables.programList
+    }),
     programs () {
-      return this.$store.state.budgetTables.programList.map(p => {
+      return this.programList.map(p => {
         const chapter = this.chapters.find(c => c.id === p.chapter_id)
         return {
           id: p.id,
@@ -154,7 +138,7 @@ export default {
   },
   methods: {
     remove (item) {
-      this.deletedProgram = this.programs.find(c => c.id === item.id)
+      this.deletedProgram = { ...item }
       this.deleteDlg = true
     },
     confirmDelete () {
@@ -164,21 +148,12 @@ export default {
       this.deleteDlg = false
     },
     add () {
-      this.program = {
-        id: 0,
-        name: '',
-        code_contract: '',
-        code_function: '',
-        code_number: '',
-        chapter_id: null,
-        subfunction: ''
-      }
+      this.program = { ...nullProgram }
       this.mentions = { title: 'Nouveau programme', validate: 'Créer' }
       this.showProgramDlg = true
     },
     edit (item) {
-      const p = this.programs.find(c => c.id === item.id)
-      this.program = { ...p }
+      this.program = { ...item }
       this.mentions = { title: 'Modifier le programme', validate: 'Modifier' }
       this.showProgramDlg = true
     },

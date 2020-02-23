@@ -14,7 +14,7 @@
         <v-flex sm3 />
         <v-flex xs12>
           <v-data-table
-            :headers="sectorHeaders"
+            :headers="headers"
             :items="sectors"
             class="elevation-1 mt-2 mb-2"
             :loading="loading"
@@ -23,20 +23,20 @@
             no-data-text="Aucune ligne à afficher"
             no-results-text="Recherche infructueuse"
           >
-            <template v-slot:item="{item}">
+            <template #item="{item}">
               <tr>
                 <td class="pa-0">
-                  <v-btn icon text small class="pa-0" @click="edit(item)" color="secondary">
+                  <v-btn icon text small @click="edit(item)" color="secondary">
                     <v-icon>edit</v-icon>
                   </v-btn>
                 </td>
                 <td class="pa-0">
-                  <v-btn text icon small class="pa-0" @click="remove(item)" color="error">
+                  <v-btn text icon small @click="remove(item)" color="error">
                     <v-icon>delete</v-icon>
                   </v-btn>
                 </td>
-                <td class="text-center">{{ item.code }}</td>
-                <td class="text-left">{{ item.name }}</td>
+                <td>{{ item.code }}</td>
+                <td>{{ item.name }}</td>
               </tr>
             </template>
           </v-data-table>
@@ -66,34 +66,34 @@
 import * as types from '../../store/mutation-types.js'
 import SectorEditDlg from '../BudgetTables/SectorEditDlg.vue'
 import DeleteDlg from '../DeleteDlg.vue'
+import { mapGetters, mapState } from 'vuex'
+const nullSector = { id: 0, name: '', code: '' }
 export default {
   name: 'Sectors',
   components: { SectorEditDlg, DeleteDlg },
   data: () => ({
     mentions: { title: 'Nouveau secteur', validate: 'Créer' },
-    sectorHeaders: [
+    headers: [
       { text: '', value: 'action', sortable: false, width: '1%' },
       { text: '', value: 'action', sortable: false, width: '1%' },
-      { text: 'Code', value: 'code', align: 'center', sortable: true },
-      { text: 'Intitulé', value: 'name', align: 'center', sortable: true }
+      { text: 'Code', value: 'code' },
+      { text: 'Intitulé', value: 'name' }
     ],
     search: '',
-    deletedSector: { id: 0, name: '', code: '' },
+    deletedSector: { ...nullSector },
     sectorDeleteDlg: false,
-    sector: { id: 0, name: '', code: '' },
+    sector: { ...nullSector },
     showSectorDlg: false
   }),
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    sectors () {
-      return this.$store.state.budgetTables.sectorList
-    }
+    ...mapGetters(['loading']),
+    ...mapState({
+      sectors: state => state.budgetTables.sectorList
+    })
   },
   methods: {
     remove (item) {
-      this.deletedSector = this.sectors.find(c => c.id === item.id)
+      this.deletedSector = { ...item }
       this.sectorDeleteDlg = true
     },
     confirmDelete () {
@@ -103,13 +103,12 @@ export default {
       this.sectorDeleteDlg = false
     },
     add () {
-      this.sector = { id: 0, name: '', code: '' }
+      this.sector = { ...nullSector }
       this.mentions = { title: 'Nouveau secteur', validate: 'Créer' }
       this.showSectorDlg = true
     },
     edit (item) {
-      const s = this.sectors.find(c => c.id === item.id)
-      this.sector = { ...s }
+      this.sector = { ...item }
       this.mentions = { title: 'Modifier le secteur', validate: 'Modifier' }
       this.showSectorDlg = true
     },

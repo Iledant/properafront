@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :value="value" max-width="600px" @input="$emit('input', false)" persistent>
+  <v-dialog :value="value" max-width="600px" persistent>
     <v-card>
       <v-card-title class="secondary title">{{ mentions.title }}</v-card-title>
       <v-card-text>
@@ -15,7 +15,7 @@
                 max-width="290px"
                 min-width="290px"
               >
-                <template v-slot:activator="{ on }">
+                <template #activator="{ on }">
                   <v-text-field
                     v-on="on"
                     label="Date"
@@ -46,7 +46,9 @@
       <v-card-actions class="tertiary">
         <v-spacer />
         <v-btn color="primary" text @click="$emit('input', false)">Annuler</v-btn>
-        <v-btn color="primary" text @click="onSave" :disabled="disabled">{{ mentions.validate }}</v-btn>
+        <v-btn color="primary" text @click="onSave" :disabled="disabled">
+          {{ mentions.validate }}
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -59,7 +61,10 @@ export default {
   name: 'CommissionDlg',
   mixins: [checkIfNotEmpty],
   props: {
-    Commission: Object,
+    Commission: {
+      type: Object,
+      default: v => ({ id: 0, name: '', date: null })
+    },
     value: { type: Boolean, default: false },
     mentions: {
       title: { type: String, default: 'Modifier la commission' },
@@ -69,7 +74,7 @@ export default {
   data: () => ({ menu: false }),
   computed: {
     disabled () {
-      return this.Commission.name.length === 0 || this.Commission.date === null
+      return !this.Commission.name || this.Commission.date === null
     },
     formattedDate () {
       return dateFilter(this.Commission.date)
@@ -77,10 +82,9 @@ export default {
   },
   methods: {
     onSave () {
-      if (!this.disabled) {
-        this.$emit('save')
-        this.$emit('input', false)
-      }
+      if (this.disabled) return
+      this.$emit('save')
+      this.$emit('input', false)
     }
   }
 }

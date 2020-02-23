@@ -23,20 +23,34 @@
             no-results-text="Recherche infructueuse"
             :search="search"
           >
-            <template v-slot:item="{item}">
+            <template #item="{item}">
               <tr>
                 <td class="pa-0">
-                  <v-btn text icon small class="ma-0" @click="edit(item)" color="secondary">
+                  <v-btn
+                    text
+                    icon
+                    small
+                    class="ma-0"
+                    @click="edit(item)"
+                    color="secondary"
+                  >
                     <v-icon>edit</v-icon>
                   </v-btn>
                 </td>
                 <td class="pa-0">
-                  <v-btn text icon small class="ma-0" @click="remove(item)" color="error">
+                  <v-btn
+                    text
+                    icon
+                    small
+                    class="ma-0"
+                    @click="remove(item)"
+                    color="error"
+                  >
                     <v-icon>delete</v-icon>
                   </v-btn>
                 </td>
-                <td class="text-center">{{ item.code }}</td>
-                <td class="text-left">{{ item.name }}</td>
+                <td>{{ item.code }}</td>
+                <td>{{ item.name }}</td>
               </tr>
             </template>
           </v-data-table>
@@ -45,13 +59,13 @@
     </v-container>
     <v-card-actions class="tertiary">
       <v-spacer />
-      <v-btn color="primary" text @click="onChapAdd">Ajouter</v-btn>
+      <v-btn color="primary" text @click="add()">Ajouter</v-btn>
     </v-card-actions>
     <chapter-edit-dlg
       v-model="showChapterDlg"
       :mentions="mentions"
       :BudgetChapter="chapter"
-      @save="onChapterSave($event)"
+      @save="save($event)"
     />
     <delete-dlg
       v-model="deleteDlg"
@@ -66,54 +80,53 @@
 import * as types from '../../store/mutation-types.js'
 import ChapterEditDlg from '../BudgetTables/ChapterEditDlg.vue'
 import DeleteDlg from '../DeleteDlg.vue'
+import { mapGetters, mapState } from 'vuex'
+const nullChapter = { id: 0, name: '', code: '' }
+
 export default {
   name: 'Chapters',
   components: { ChapterEditDlg, DeleteDlg },
   data: () => ({
     mentions: { title: 'Nouveau chapitre', validate: 'Créer' },
     headers: [
-      { text: '', value: '', align: 'center', sortable: false, width: '1%' },
-      { text: '', value: '', align: 'center', sortable: false, width: '1%' },
-      { text: 'Code', value: 'code', align: 'center', sortable: true },
-      { text: 'Intitulé', value: 'name', align: 'center', sortable: true }
+      { text: '', value: '', sortable: false, width: '1%' },
+      { text: '', value: '', sortable: false, width: '1%' },
+      { text: 'Code', value: 'code' },
+      { text: 'Intitulé', value: 'name' }
     ],
     search: '',
-    deletedChap: { id: 0, name: '', code: '' },
+    deletedChap: { ...nullChapter },
     deleteDlg: false,
-    chapter: { id: 0, name: '', code: '' },
+    chapter: { ...nullChapter },
     showChapterDlg: false
   }),
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    chapters () {
-      return this.$store.state.budgetTables.chapterList
-    }
+    ...mapGetters(['loading']),
+    ...mapState({
+      chapters: state => state.budgetTables.chapterList
+    })
   },
   methods: {
     remove (item) {
-      this.deletedChap = this.chapters.find(c => c.id === item.id)
+      this.deletedChap = { ...item }
       this.deleteDlg = true
     },
     confirmDelete () {
-      this.$store.dispatch(types.DEL_BUDGET_CHAPTER, {
-        BudgetChapter: this.deletedChap
-      })
+      this.$store.dispatch(types.DEL_BUDGET_CHAPTER,
+        { BudgetChapter: this.deletedChap })
       this.deleteDlg = false
     },
-    onChapAdd () {
-      this.chapter = { id: 0, name: '', code: '' }
+    add () {
+      this.chapter = { ...nullChapter }
       this.mentions = { title: 'Nouveau chapitre', validate: 'Créer' }
       this.showChapterDlg = true
     },
     edit (item) {
-      const found = this.chapters.find(c => c.id === item.id)
-      this.chapter = { ...found }
+      this.chapter = { ...item }
       this.mentions = { title: 'Modifier le chapitre', validate: 'Modifier' }
       this.showChapterDlg = true
     },
-    onChapterSave () {
+    save () {
       const dispatch =
         this.mentions.validate === 'Créer'
           ? types.ADD_BUDGET_CHAPTER

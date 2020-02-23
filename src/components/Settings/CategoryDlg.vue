@@ -1,18 +1,24 @@
 <template>
-  <v-dialog :value="value" @input="$emit('input', false)" max-width="600px" persistent>
+  <v-dialog :value="value" max-width="600px" persistent>
     <v-card>
-      <v-card-title class="secondary title">{{ mentions.title }}</v-card-title>
+      <v-card-title class="secondary">{{ mentions.title }}</v-card-title>
       <v-container grid-list-md fluid>
         <v-layout row wrap>
           <v-flex xs12>
-            <v-text-field label="Nom" v-model="Category.name" required :rules="[checkIfNotEmpty]" />
+            <v-text-field
+              label="Nom"
+              v-model="Category.name"
+              required :rules="[checkIfNotEmpty]"
+            />
           </v-flex>
         </v-layout>
       </v-container>
       <v-card-actions class="tertiary">
         <v-spacer />
         <v-btn color="primary" text @click="$emit('input', false)">Annuler</v-btn>
-        <v-btn color="primary" text @click="onSave" :disabled="disabled">{{ mentions.validate }}</v-btn>
+        <v-btn color="primary" text @click="onSave" :disabled="disabled">
+          {{ mentions.validate }}
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -24,7 +30,7 @@ export default {
   name: 'CategoryDlg',
   mixins: [checkIfNotEmpty],
   props: {
-    Category: Object,
+    Category: { type: Object, default: v => ({ name: '' }) },
     mentions: {
       title: { type: String, default: 'Modifier la catégorie' },
       validate: { type: String, default: 'Modifier' }
@@ -34,15 +40,14 @@ export default {
   data: () => ({ menu: false }),
   computed: {
     disabled () {
-      return this.Category.name === ''
+      return !this.Category.name
     }
   },
   methods: {
     onSave () {
-      if (!this.disabled) {
-        this.$emit('save')
-        this.$emit('input', false)
-      }
+      if (this.disabled) return
+      this.$emit('save')
+      this.$emit('input', false)
     }
   }
 }
