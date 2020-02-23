@@ -24,11 +24,21 @@
             <template v-slot:body.prepend="">
               <tr class="grey lighten-4 font-weight-medium">
                 <td colspan="3" class="text-center">Total</td>
-                <td class="text-right text-no-wrap">{{ total_valueTotal | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ valueTotal | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ commitmentTotal | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ programmingsTotal | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ prevTotal | valueFilter }}</td>
+                <td class="text-right text-no-wrap">
+                  {{ total_valueTotal | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ valueTotal | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ commitmentTotal | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ programmingsTotal | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ prevTotal | valueFilter }}
+                </td>
               </tr>
             </template>
             <template v-slot:item="{item}">
@@ -79,21 +89,41 @@
                     Description : {{ item.descript || '-' }}
                   </v-tooltip>
                 </td>
-                <td class="text-right text-no-wrap">{{ item.total_value | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ item.value | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ item.commitment | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ item.programmings | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ item.prev | valueFilter }}</td>
+                <td class="text-right text-no-wrap">
+                  {{ item.total_value | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ item.value | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ item.commitment | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ item.programmings | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ item.prev | valueFilter }}
+                </td>
               </tr>
             </template>
             <template v-slot:body.append="">
               <tr class="grey lighten-4 font-weight-medium">
                 <td colspan="3" class="text-center">Total</td>
-                <td class="text-right text-no-wrap">{{ total_valueTotal | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ valueTotal | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ commitmentTotal | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ programmingsTotal | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ prevTotal | valueFilter }}</td>
+                <td class="text-right text-no-wrap">
+                  {{ total_valueTotal | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ valueTotal | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ commitmentTotal | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ programmingsTotal | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ prevTotal | valueFilter }}
+                </td>
               </tr>
             </template>
           </v-data-table>
@@ -102,9 +132,13 @@
     </v-container>
     <v-card-actions class="tertiary">
       <v-spacer />
-      <v-btn text small color="primary" @click="onDetailedDownload">Détail Excel</v-btn>
-      <v-btn text small color="primary" @click="onDownload">Export Excel</v-btn>
-      <v-btn text small color="primary" @click.stop="onCreate" v-if="isAdmin">Ajouter</v-btn>
+      <v-btn text small color="primary" @click="detailedDownload">
+        Détail Excel
+      </v-btn>
+      <v-btn text small color="primary" @click="download">Export Excel</v-btn>
+      <v-btn text small color="primary" @click.stop="onCreate" v-if="isAdmin">
+        Ajouter
+      </v-btn>
     </v-card-actions>
 
     <plan-line-edit-dlg
@@ -128,7 +162,8 @@ import * as types from '../store/mutation-types.js'
 import isAdmin from './Mixins/isAdmin'
 import PlanLineEditDlg from './PlanLines/PlanLineEditDlg'
 import DeleteDlg from './DeleteDlg.vue'
-import { excelExport } from './Utils/excelExport'
+import { excelExport, valStyle, percentStyle, dateStyle } from './Utils/excelExport'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'PlanLines',
@@ -161,21 +196,16 @@ export default {
     prevTotal: 0
   }),
   computed: {
+    ...mapGetters(['loading']),
+    ...mapState({
+      planLines: state => state.planLines.planLines,
+      detailedPlanLines: state => state.planLines.detailedPlanLines,
+      beneficiaryList: state => state.planLines.planLineBeneficiaries,
+      plans: state => state.plans.plans
+    }),
     plan () {
       const numberId = Number(this.plan_id)
-      return this.$store.state.plans.plans.find(p => p.id === numberId)
-    },
-    planLines () {
-      return this.$store.state.planLines.planLines
-    },
-    detailedPlanLines () {
-      return this.$store.state.planLines.detailedPlanLines
-    },
-    beneficiaryList () {
-      return this.$store.state.planLines.planLineBeneficiaries
-    },
-    loading () {
-      return this.$store.getters.loading
+      return this.plans.find(p => p.id === numberId)
     }
   },
   methods: {
@@ -221,7 +251,7 @@ export default {
     onCancelRmv () {
       this.removeDlg = false
     },
-    onDownload () {
+    download () {
       let planLines = null
       const years = []
       const beneficiaries = []
@@ -254,57 +284,22 @@ export default {
       }
       const columns = [
         { header: 'Ligne de plan', key: 'name', width: 20 },
-        {
-          header: 'Montant total',
-          key: 'total_value',
-          width: 14,
-          style: { numberFormat: '#,##0.00' },
-          addTotal: true
-        },
-        {
-          header: 'Montant région',
-          key: 'value',
-          width: 14,
-          style: { numberFormat: '#,##0.00' },
-          addTotal: true
-        }
+        { header: 'Montant total', key: 'total_value', ...valStyle },
+        { header: 'Montant région', key: 'value', ...valStyle }
       ]
       for (const b of beneficiaries) {
         const beneficiaryId = Number(b.slice(1))
         const beneficiary = this.beneficiaryList.find(b => b.id === beneficiaryId)
-        columns.push({
-          header: beneficiary.name,
-          key: b,
-          width: 14,
-          style: { numberFormat: '0.00%' }
-        })
+        columns.push({ header: beneficiary.name, key: b, ...percentStyle })
       }
-      columns.push({
-        header: 'Déjà engagé',
-        key: 'commitment',
-        width: 14,
-        style: { numberFormat: '#,##0.00' },
-        addTotal: true
-      })
-      columns.push({
-        header: 'Programmé',
-        key: 'programmings',
-        width: 14,
-        style: { numberFormat: '#,##0.00' },
-        addTotal: true
-      })
+      columns.push({ header: 'Déjà engagé', key: 'commitment', ...valStyle })
+      columns.push({ header: 'Programmé', key: 'programmings', ...valStyle })
       for (const y of years) {
-        columns.push({
-          header: y,
-          key: 'zz' + y,
-          width: 14,
-          style: { numberFormat: '#,##0.00' },
-          addTotal: true
-        })
+        columns.push({ header: y, key: 'zz' + y, ...valStyle })
       }
       excelExport(planLines, columns, 'Lignes de plan')
     },
-    onDetailedDownload () {
+    detailedDownload () {
       let planLines = null
       const years = []
       if (this.detailedPlanLines.length > 0) {
@@ -344,18 +339,8 @@ export default {
       }
       const columns = [
         { header: 'Ligne de plan', key: 'name', width: 20 },
-        {
-          header: 'Montant total',
-          key: 'total_value',
-          width: 16,
-          style: { numberFormat: '#,##0.00', wrapText: true }
-        },
-        {
-          header: 'Montant région',
-          key: 'value',
-          width: 14,
-          style: { numberFormat: '#,##0.00', wrapText: true }
-        },
+        { header: 'Montant total', key: 'total_value', ...valStyle },
+        { header: 'Montant région', key: 'value', ...valStyle },
         {
           header: 'Code de l\'opération',
           key: 'op_number',
@@ -365,12 +350,7 @@ export default {
         { header: 'Nom de l\'opération', key: 'op_name', width: 30 },
         { header: 'Catégorie', key: 'category', width: 15 },
         { header: 'Etape', key: 'step', width: 15 },
-        {
-          header: 'Date d\'engagement',
-          key: 'commitment_date',
-          width: 12,
-          style: { numberFormat: 'dd/mm/yyyy', wrapText: true }
-        },
+        { header: 'Date d\'engagement', key: 'commitment_date', ...dateStyle },
         {
           header: 'Code IRIS',
           key: 'commitment_code',
@@ -378,35 +358,12 @@ export default {
           style: { wrapText: true }
         },
         { header: 'Nom IRIS', key: 'commitment_name', width: 30 },
-        {
-          header: 'Montant de l\'engagement',
-          key: 'commitment_value',
-          width: 14,
-          style: { numberFormat: '#,##0.00', wrapText: true },
-          addTotal: true
-        },
-        {
-          header: 'Date programmation',
-          key: 'programmings_date',
-          width: 12,
-          style: { numberFormat: 'dd/mm/yyyy', wrapText: true }
-        },
-        {
-          header: 'Montant programmé',
-          key: 'programmings_value',
-          width: 14,
-          style: { numberFormat: '#,##0.00', wrapText: true },
-          addTotal: true
-        }
+        { header: 'Montant de l\'engagement', key: 'commitment_value', ...valStyle },
+        { header: 'Date programmation', key: 'programmings_date', ...dateStyle },
+        { header: 'Montant programmé', key: 'programmings_value', ...valStyle }
       ]
       for (const year of years) {
-        columns.push({
-          header: year,
-          key: 'zz' + year,
-          width: 14,
-          style: { numberFormat: '#,##0.00' },
-          addTotal: true
-        })
+        columns.push({ header: year, key: 'zz' + year, ...valStyle })
       }
       excelExport(planLines, columns, 'Détail lignes de plan')
     }

@@ -1,7 +1,12 @@
 <template>
-  <v-dialog :value="value" @input="$emit('input', false)" max-width="600px" persistent>
+  <v-dialog
+    :value="value"
+    @input="$emit('input', false)"
+    max-width="600px"
+    persistent
+  >
     <v-card>
-      <v-card-title class="primary white--text title">Inscription à Propera</v-card-title>
+      <v-card-title class="primary white--text">Inscription à Propera</v-card-title>
       <v-container grid-list-md fluid>
         <v-layout wrap>
           <v-text-field
@@ -36,7 +41,14 @@
       </v-container>
       <v-card-actions class="tertiary">
         <v-spacer />
-        <v-btn text color="primary" @click="$emit('input', false)" data-cy="signUpCancel">Annuler</v-btn>
+        <v-btn
+          text
+          color="primary"
+          @click="$emit('input', false)"
+          data-cy="signUpCancel"
+        >
+          Annuler
+        </v-btn>
         <v-btn
           text
           color="primary"
@@ -53,6 +65,7 @@
 <script>
 import checkIfNotEmpty from './Mixins/CheckIfNotEmpty'
 import * as types from '../store/mutation-types.js'
+import { mapGetters } from 'vuex'
 export default {
   name: 'SignUp',
   mixins: [checkIfNotEmpty],
@@ -65,11 +78,9 @@ export default {
     email: ''
   }),
   computed: {
+    ...mapGetters(['loading']),
     disabled () {
-      return this.name === '' || this.password === '' || this.email === ''
-    },
-    loading () {
-      return this.$store.getters.loading
+      return !this.name || !this.password || !this.email
     }
   },
   methods: {

@@ -36,7 +36,7 @@
             no-data-text="Aucune ligne à afficher"
             no-results-text="Recherche infructueuse"
           >
-            <template v-slot:body.prepend="">
+            <template #body.prepend="">
               <tr class="grey lighten-4 font-weight-medium">
                 <td colspan="2" class="text-center">Total</td>
                 <td class="text-right">{{ prgTotal | valueFilter }}</td>
@@ -44,16 +44,22 @@
                 <td class="text-right">{{ prevTotal | valueFilter }}</td>
               </tr>
             </template>
-            <template v-slot:item="{ item }">
+            <template #item="{ item }">
               <tr>
                 <td>{{ item.number }}</td>
                 <td>{{ item.name }}</td>
-                <td class="text-right text-no-wrap">{{ item.programmings | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ item.pre_programmings | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ item.prevision | valueFilter }}</td>
+                <td class="text-right text-no-wrap">
+                  {{ item.programmings | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ item.pre_programmings | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ item.prevision | valueFilter }}
+                </td>
               </tr>
             </template>
-            <template v-slot:body.append="">
+            <template #body.append="">
               <tr class="grey lighten-4 font-weight-medium">
                 <td colspan="2" class="text-center">Total</td>
                 <td class="text-right">{{ prgTotal | valueFilter }}</td>
@@ -75,6 +81,7 @@
 <script>
 import { excelExport, valStyle } from './Utils/excelExport'
 import * as types from '../store/mutation-types'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'PrevPreProg',
   data () {
@@ -82,24 +89,20 @@ export default {
       search: '',
       year: new Date().getFullYear(),
       headers: [
-        { text: 'Numéro', value: 'number', align: 'center' },
-        { text: 'Nom', value: 'name', align: 'center' },
-        { text: 'Programmé', value: 'programmings', align: 'center' },
-        { text: 'Préprogrammé', value: 'pre_programmings', align: 'center' },
-        { text: 'Prévision', value: 'prevision', align: 'center' }
+        { text: 'Numéro', value: 'number' },
+        { text: 'Nom', value: 'name' },
+        { text: 'Programmé', value: 'programmings', align: 'right' },
+        { text: 'Préprogrammé', value: 'pre_programmings', align: 'right' },
+        { text: 'Prévision', value: 'prevision', align: 'right' }
       ]
     }
   },
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    prgYears () {
-      return this.$store.state.programmings.programmingsYears
-    },
-    items () {
-      return this.$store.state.summaries.progPrevisions
-    },
+    ...mapGetters(['loading']),
+    ...mapState({
+      prgYears: state => state.programmings.programmingsYears,
+      items: state => state.summaries.progPrevisions
+    }),
     prgTotal () {
       return this.items.reduce((a, c) => a + c.programmings, 0)
     },
@@ -112,20 +115,16 @@ export default {
   },
   methods: {
     download () {
-      let lines = null
-      if (this.items.length > 0) {
-        lines = this.items.map(l => {
-          return {
-            number: l.number,
-            name: l.name,
-            category_name: l.category_name,
-            chapter_code: l.chapter_code,
-            programmings: l.programmings * 0.01,
-            pre_programmings: l.pre_programmings * 0.01,
-            prevision: l.prevision * 0.01
-          }
-        })
-      }
+      if (!this.items.length) return
+      const lines = this.items.map(l => ({
+        number: l.number,
+        name: l.name,
+        category_name: l.category_name,
+        chapter_code: l.chapter_code,
+        programmings: l.programmings * 0.01,
+        pre_programmings: l.pre_programmings * 0.01,
+        prevision: l.prevision * 0.01
+      }))
       const columns = [
         { header: 'Numéro d\'opération', key: 'number', width: 8 },
         { header: 'Nom de l\'opération', key: 'name', width: 50 },

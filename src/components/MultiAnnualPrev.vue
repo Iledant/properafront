@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="secondary title">Prévisions pluriannuelles</v-card-title>
+    <v-card-title class="secondary">Prévisions pluriannuelles</v-card-title>
     <v-container grid-list-md fluid>
       <v-layout row wrap>
         <v-flex xs12 sm6 offset-sm3>
@@ -24,17 +24,27 @@
             no-data-text="Aucune ligne à afficher"
             no-results-text="Recherche infructueuse"
           >
-            <template v-slot:body.prepend="">
+            <template #body.prepend="">
               <tr class="grey lighten-4 font-weight-medium">
                 <td>Total</td>
-                <td class="text-right text-no-wrap">{{ y0Total | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ y1Total | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ y2Total | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ y3Total | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ y4Total | valueFilter }}</td>
+                <td class="text-right text-no-wrap">
+                  {{ y0Total | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ y1Total | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ y2Total | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ y3Total | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ y4Total | valueFilter }}
+                </td>
               </tr>
             </template>
-            <template v-slot:item="{ item }">
+            <template #item="{ item }">
               <tr>
                 <td>{{ item.number }} - {{ item.name }}</td>
                 <td
@@ -54,14 +64,24 @@
                 >{{ item.y4 ? item.y4.value : null | valueFilter }}</td>
               </tr>
             </template>
-            <template v-slot:body.append="">
+            <template #body.append="">
               <tr class="grey lighten-4 font-weight-medium">
                 <td>Total</td>
-                <td class="text-right text-no-wrap">{{ y0Total | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ y1Total | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ y2Total | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ y3Total | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ y4Total | valueFilter }}</td>
+                <td class="text-right text-no-wrap">
+                  {{ y0Total | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ y1Total | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ y2Total | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ y3Total | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ y4Total | valueFilter }}
+                </td>
               </tr>
             </template>
           </v-data-table>
@@ -76,8 +96,9 @@
 </template>
 
 <script>
-import { excelExport, getExcelColumnName } from './Utils/excelExport'
+import { excelExport, getExcelColumnName, valStyle, percentStyle } from './Utils/excelExport'
 import * as types from '../store/mutation-types'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'MultiAnnualPrev',
   data () {
@@ -85,12 +106,12 @@ export default {
       year: new Date().getFullYear(),
       search: '',
       headers: [
-        { text: 'Opération', value: 'name', align: 'center', sortable: true },
-        { value: 'y1', align: 'center', sortable: true },
-        { value: 'y2', align: 'center', sortable: true },
-        { value: 'y3', align: 'center', sortable: true },
-        { value: 'y4', align: 'center', sortable: true },
-        { value: 'y5', align: 'center', sortable: true }
+        { text: 'Opération', value: 'name' },
+        { value: 'y1', align: 'right' },
+        { value: 'y2', align: 'right' },
+        { value: 'y3', align: 'right' },
+        { value: 'y4', align: 'right' },
+        { value: 'y5', align: 'right' }
       ],
       actualYear: new Date().getFullYear(),
       y0Total: 0,
@@ -101,37 +122,33 @@ export default {
     }
   },
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    items () {
-      return this.$store.state.summaries.multiannualProg
-    }
+    ...mapGetters(['loading']),
+    ...mapState({
+      items: state => state.summaries.multiannualProg
+    })
   },
   methods: {
     download () {
-      let lines = null
+      if (!this.items.length) return
       const keys = Object.keys(this.items[0])
       const years = keys.filter(k => /y\d+/.test(k))
-      if (this.items.length > 0) {
-        lines = this.items.map(l => {
-          const formattedLine = {
-            number: l.number,
-            name: l.name,
-            step_name: l.step_name,
-            category_name: l.category_name,
-            state_value: ''
-          }
-          for (const y of years) {
-            formattedLine[y + 'value'] = l[y] ? l[y].value * 0.01 : 0
-            formattedLine[y + 'total_value'] = l[y]
-              ? l[y].total_value * 0.01
-              : 0
-            formattedLine[y + 'state_ratio'] = l[y] ? l[y].state_ratio : 0
-          }
-          return formattedLine
-        })
-      }
+      const lines = this.items.map(l => {
+        const formattedLine = {
+          number: l.number,
+          name: l.name,
+          step_name: l.step_name,
+          category_name: l.category_name,
+          state_value: ''
+        }
+        for (const y of years) {
+          formattedLine[y + 'value'] = l[y] ? l[y].value * 0.01 : 0
+          formattedLine[y + 'total_value'] = l[y]
+            ? l[y].total_value * 0.01
+            : 0
+          formattedLine[y + 'state_ratio'] = l[y] ? l[y].state_ratio : 0
+        }
+        return formattedLine
+      })
       const columns = [
         { header: 'Numéro', key: 'number', width: 10 },
         { header: 'Nom', key: 'name', width: 50 },
@@ -145,22 +162,17 @@ export default {
         columns.push({
           header: String(this.actualYear + i + '\n Montant région'),
           key: years[i] + 'value',
-          width: 14,
-          style: { numberFormat: '#,##0.00', wrapText: true },
-          addTotal: true
+          ...valStyle
         })
         columns.push({
           header: String(this.actualYear + i + '\n Montant total'),
           key: years[i] + 'total_value',
-          width: 14,
-          style: { numberFormat: '#,##0.00', wrapText: true },
-          addTotal: true
+          ...valStyle
         })
         columns.push({
           header: String(this.actualYear + i + '\n Clé État'),
           key: years[i] + 'state_ratio',
-          width: 14,
-          style: { numberFormat: '0.00%', wrapText: true }
+          ...percentStyle
         })
         columns.push({
           header: String(this.actualYear + i + '\n Montant État'),

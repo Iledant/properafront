@@ -1,9 +1,13 @@
 <template>
   <v-card>
-    <v-card-title class="secondary title">Liens dossiers en cours / opérations</v-card-title>
+    <v-card-title class="secondary">
+        Liens dossiers en cours / opérations
+      </v-card-title>
     <v-container fluid grid-list-md>
       <v-layout row wrap>
-        <v-flex xs12 class="subtitle-1">Dossiers en cours non liés à une opération</v-flex>
+        <v-flex xs12 class="subtitle-1">
+          Dossiers en cours non liés à une opération
+        </v-flex>
         <v-flex xs12 sm6 offset-sm3>
           <v-text-field
             label="Recherche (nom, bénéficiaire, code IRIS)"
@@ -26,11 +30,13 @@
             no-data-text="Aucun engagement à rattacher trouvé"
             no-results-text="Recherche infructueuse"
           >
-            <template v-slot:item.fcDate="{ item }">
+            <template #item.fcDate="{ item }">
               <div class="text-no-wrap">{{ item.fcDate | dateFilter }}</div>
             </template>
-            <template v-slot:item.fcValue="{ item }">
-              <div class="text-no-wrap text-right">{{ item.fcValue | valueFilter }}</div>
+            <template #item.fcValue="{ item }">
+              <div class="text-no-wrap text-right">
+                {{ item.fcValue | valueFilter }}
+              </div>
             </template>
           </v-data-table>
         </v-flex>
@@ -68,7 +74,9 @@
             single-select
           />
         </v-flex>
-        <v-flex xs12 class="subtitle-1 mt-5">Dossiers en cours et opérations liés</v-flex>
+        <v-flex xs12 class="subtitle-1 mt-5">
+          Dossiers en cours et opérations liés
+        </v-flex>
         <v-flex xs12 sm6 offset-sm3>
           <v-text-field
             label="Recherche"
@@ -92,11 +100,15 @@
             no-data-text="Aucun engagement à rattacher trouvé"
             no-results-text="Recherche infructueuse"
           >
-            <template v-slot:item.commission_date="{ item }">
-              <div class="text-no-wrap">{{ item.commission_date | dateFilter }}</div>
+            <template #item.commission_date="{ item }">
+              <div class="text-no-wrap">
+                {{ item.commission_date | dateFilter }}
+              </div>
             </template>
-            <template v-slot:item.proposed_value="{ item }">
-              <div class="text-no-wrap text-right">{{ item.proposed_value | valueFilter }}</div>
+            <template #item.proposed_value="{ item }">
+              <div class="text-no-wrap text-right">
+                {{ item.proposed_value | valueFilter }}
+              </div>
             </template>
           </v-data-table>
         </v-flex>
@@ -107,7 +119,9 @@
             @click="unlink"
             color="primary"
             :disabled="unlinkDisabled"
-          >Supprimer le lien</v-btn>
+          >
+            Supprimer le lien
+          </v-btn>
         </v-flex>
       </v-layout>
     </v-container>
@@ -116,6 +130,7 @@
 
 <script>
 import * as types from '../store/mutation-types'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'PendingsOpLinks',
   data: () => ({
@@ -126,7 +141,7 @@ export default {
       { text: 'Libellé', value: 'name', sortable: false },
       { text: 'Bénéficiaire', value: 'beneficiary', sortable: false },
       { text: 'Date', value: 'fcDate', sortable: false },
-      { text: 'Montant', value: 'fcValue', sortable: false }
+      { text: 'Montant', value: 'fcValue', align: 'right', sortable: false }
     ],
     opSelected: [],
     opSearch: '',
@@ -139,7 +154,7 @@ export default {
     opPdgHeaders: [
       { text: 'Engagement', value: 'name', sortable: false },
       { text: 'Date', value: 'commission_date', sortable: false },
-      { text: 'Montant', value: 'proposed_value', sortable: false },
+      { text: 'Montant', value: 'proposed_value', align: 'right', sortable: false },
       { text: 'Bénéficiaire', value: 'beneficiary', sortable: false },
       { text: 'Opération', value: 'op_name', sortable: false }
     ]
@@ -166,23 +181,17 @@ export default {
     }
   },
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
+    ...mapGetters(['loading']),
+    ...mapState({
+      fcItems: state => state.previsions.unlinkedPendingsList,
+      opList: state => state.physops.ops,
+      opPdgLinkedList: state => state.previsions.linkedPendingsList
+    }),
     linkDisabled () {
-      return this.fcSelected.length === 0 || this.opSelected.length === 0
+      return !this.fcSelected.length || !this.opSelected.length
     },
     unlinkDisabled () {
-      return this.opPdgSelected.length === 0
-    },
-    fcItems () {
-      return this.$store.state.previsions.unlinkedPendingsList
-    },
-    opList () {
-      return this.$store.state.physops.ops
-    },
-    opPdgLinkedList () {
-      return this.$store.state.previsions.linkedPendingsList
+      return !this.opPdgSelected.length
     }
   },
   created () {

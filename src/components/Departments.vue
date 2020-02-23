@@ -1,20 +1,19 @@
 <template>
   <v-card>
-    <v-card-title class="secondary title">Analyse par départements</v-card-title>
+    <v-card-title class="secondary">Analyse par départements</v-card-title>
     <v-container fluid class="pa-0">
-      <v-tabs v-model="tab" background-color="secondary" slider-color="primary" centered>
+      <v-tabs
+        v-model="tab"
+        background-color="secondary"
+        slider-color="primary"
+        centered
+      >
         <v-tab>Engagements</v-tab>
-        <v-tab-item>
-          <department-commitments />
-        </v-tab-item>
+        <v-tab-item><department-commitments /></v-tab-item>
         <v-tab>Programmation</v-tab>
-        <v-tab-item>
-          <department-prog />
-        </v-tab-item>
+        <v-tab-item><department-prog /></v-tab-item>
         <v-tab>Ratios</v-tab>
-        <v-tab-item>
-          <department-ratios />
-        </v-tab-item>
+        <v-tab-item><department-ratios /></v-tab-item>
       </v-tabs>
     </v-container>
   </v-card>

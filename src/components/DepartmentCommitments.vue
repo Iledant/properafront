@@ -5,7 +5,6 @@
         <v-flex xs6 sm3 offset-sm3>
           <v-text-field
             label="Première année"
-            class="mr-2"
             v-debounce:500ms="handleFirstYear"
             prepend-icon="calendar_today"
             :rules="[yearRule]"
@@ -97,22 +96,19 @@ export default {
       return /^20\d{2}$/.test(y)
     },
     lastYearRule (y) {
-      return (this.checkYear(this.firstYear) && this.checkYear(y) && parseInt(y) >= parseInt(this.firstYear)) ||
+      return (this.checkYear(this.firstYear) && this.checkYear(y) &&
+        parseInt(y) >= parseInt(this.firstYear)) ||
         'Doit être supérieure à la première'
     },
     getFcPerDpt () {
       if (!this.disabled) {
-        this.$store.dispatch(types.GET_COMMITMENTS_PER_DPT, {
-          firstYear: this.firstYear,
-          lastYear: this.lastYear
-        })
+        this.$store.dispatch(types.GET_COMMITMENTS_PER_DPT,
+          { firstYear: this.firstYear, lastYear: this.lastYear })
       }
     },
     download () {
-      this.$store.dispatch(types.GET_DETAILED_COMMITMENTS_PER_DPT, {
-        firstYear: this.firstYear,
-        lastYear: this.lastYear
-      })
+      this.$store.dispatch(types.GET_DETAILED_COMMITMENTS_PER_DPT,
+        { firstYear: this.firstYear, lastYear: this.lastYear })
     }
   },
   watch: {

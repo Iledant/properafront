@@ -34,7 +34,9 @@
       </v-flex>
       <v-flex xs12 md6>
         <v-card>
-          <v-card-title class="secondary">Événements prévus d'ici un mois</v-card-title>
+          <v-card-title class="secondary">
+            Événements prévus d'ici un mois
+          </v-card-title>
           <v-data-table
             :loading="loading"
             :headers="headers"

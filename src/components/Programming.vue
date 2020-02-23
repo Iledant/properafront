@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="secondary title">
+    <v-card-title class="secondary">
       Programmation de l'année {{ programmingsYear ? programmingsYear : '' }}
     </v-card-title>
     <v-alert :value="!commissions" error>
@@ -154,7 +154,9 @@
                 >
                   <v-tooltip right color="primary">
                     <template #activator="{ on }">
-                      <div v-on="on" class="text-no-wrap">{{ item.value | valueFilter }}</div>
+                      <div v-on="on" class="text-no-wrap">
+                        {{ item.value | valueFilter }}
+                      </div>
                     </template>
                     Total : {{ item.total_value | valueFilter }}<br />
                     Clé État: {{ item.state_ratio | percentage }}<br />
@@ -222,7 +224,12 @@
               {{ planLineTotalValue | valueFilter }}<br />
             </v-flex>
             <v-flex xs6>
-              <v-text-field reverse v-model="fmtPrgVal" label="Programmation" v-currency />
+              <v-text-field
+                reverse
+                v-model="fmtPrgVal"
+                label="Programmation"
+                v-currency
+              />
             </v-flex>
             <v-flex xs6>
               <v-autocomplete
@@ -271,6 +278,7 @@ import { dateFilter } from '../filters/filters'
 import yearRule from './Mixins/yearRule'
 import currencyInput from './Mixins/currencyInput'
 import { excelExport, dateStyle, valStyle, percentStyle } from './Utils/excelExport'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'Programming',
   mixins: [yearRule, currencyInput],
@@ -487,21 +495,13 @@ export default {
     }
   },
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    opList () {
-      return this.$store.state.physops.opsWithPrevisions
-    },
-    programmings () {
-      return this.$store.state.programmings.programmings
-    },
-    commissions () {
-      return this.$store.state.programmings.commissions
-    },
-    previsionTotal () {
-      return this.$store.state.programmings.prevCommitmentTotal
-    },
+    ...mapGetters(['loading']),
+    ...mapState({
+      opList: state => state.physops.opsWithPrevisions,
+      programmings: state => state.programmings.programmings,
+      commissions: state => state.programmings.commissions,
+      previsionTotal: state => state.programmings.prevCommitmentTotal
+    }),
     disabled () {
       return (
         this.programmingsModified ||

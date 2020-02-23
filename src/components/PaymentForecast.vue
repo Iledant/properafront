@@ -22,9 +22,9 @@
             :search="search"
             dense
           >
-            <template v-slot:item="{ item }">
+            <template #item="{ item }">
               <tr>
-                <td class="pr-0 pl-0">
+                <td class="px-0">
                   <v-tooltip right v-if="isAdmin">
                     <template #activator="{ on }">
                       <v-btn
@@ -42,7 +42,7 @@
                     <span>Modifier l'élément</span>
                   </v-tooltip>
                 </td>
-                <td class="pr-0 pl-0">
+                <td class="px-0">
                   <v-tooltip right v-if="isAdmin">
                     <template #activator="{ on }">
                       <v-btn
@@ -65,7 +65,7 @@
                 <td class="text-right">{{ item.Value | valueFilter }}</td>
                 <td>
                   <v-tooltip color="primary" left>
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <div v-on="on">{{ item.Comment | truncate }}</div>
                     </template>
                     <span>{{ item.Comment }}</span>
@@ -132,7 +132,7 @@
                 <td class="text-right">{{ item.Forecast | valueFilter }}</td>
                 <td>
                   <v-tooltip color="primary" left>
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <div v-on="on">{{ item.Comment | truncate }}</div>
                     </template>
                     <span>{{ item.Comment }}</span>
@@ -140,7 +140,7 @@
                 </td>
               </tr>
             </template>
-            <template v-slot:body.append="">
+            <template #body.append="">
               <tr class="font-weight-medium grey lighten-4">
                 <td colspan="2">Total</td>
                 <td class="text-right">{{ totalNeed | valueFilter }}</td>
@@ -242,7 +242,7 @@ export default {
       return this.needsAndForecasts.reduce((a, c) => a + c.Forecast, 0)
     },
     disabled () {
-      return this.needsAndForecasts.length === 0
+      return !this.needsAndForecasts.length
     }
   },
   methods: {

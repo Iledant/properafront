@@ -26,6 +26,7 @@
 
 <script>
 import * as types from '../store/mutation-types'
+import { mapState } from 'vuex'
 export default {
   name: 'DepartmentProg',
   data () {
@@ -34,15 +35,14 @@ export default {
     }
   },
   computed: {
-    programmingsYears () {
-      return this.$store.state.programmings.programmingsYears
-    }
+    ...mapState({
+      programmingsYears: state => state.programmings.programmingsYears
+    })
   },
   methods: {
     onProgYearExcelExport () {
-      this.$store.dispatch(types.GET_DETAILED_PROGRAMMINGS_PER_DPT, {
-        year: this.progYear
-      })
+      this.$store.dispatch(types.GET_DETAILED_PROGRAMMINGS_PER_DPT,
+        { year: this.progYear })
     }
   }
 }

@@ -1,11 +1,19 @@
 <template>
   <v-card>
-    <v-card-title class="secondary title">Catégories et étapes d'opérations</v-card-title>
+    <v-card-title class="secondary">
+      Catégories et étapes d'opérations
+    </v-card-title>
     <v-container grid-list-md fluid>
       <v-layout row wrap>
         <v-flex xs12 class="subtitle-1">Catégories</v-flex>
         <v-flex xs12 sm6 offset-sm3>
-          <v-text-field label="Recherche" single-line hide-details v-model="catSearch" />
+          <v-text-field
+            label="Recherche"
+            single-line
+            hide-details
+            v-model="catSearch"
+            prepend-icon="search"
+          />
         </v-flex>
         <v-flex sm3 />
         <v-flex xs12>
@@ -19,11 +27,11 @@
             no-data-text="Aucune étape trouvée"
             no-results-text="Recherche infructueuse"
           >
-            <template v-slot:item="{item}">
+            <template #item="{item}">
               <tr>
                 <td class="pa-0">
                   <v-tooltip right>
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
                         text
                         icon
@@ -41,7 +49,7 @@
                 </td>
                 <td class="pa-0">
                   <v-tooltip right>
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
                         text
                         icon
@@ -63,11 +71,19 @@
           </v-data-table>
         </v-flex>
         <v-flex xs12 class="text-right">
-          <v-btn text color="primary" @click="onCategoryAdd">Créer une catégorie</v-btn>
+          <v-btn text color="primary" @click="onCategoryAdd">
+            Créer une catégorie
+          </v-btn>
         </v-flex>
         <v-flex xs12 class="subtitle-1 mt-4">Étapes</v-flex>
         <v-flex xs12 sm6 offset-sm3>
-          <v-text-field label="Recherche" single-line hide-details v-model="stepSearch" />
+          <v-text-field
+            label="Recherche"
+            prepend-icon="search"
+            single-line
+            hide-details
+            v-model="stepSearch"
+          />
         </v-flex>
         <v-flex sm3 />
         <v-flex xs12>
@@ -81,11 +97,11 @@
             no-data-text="Aucune étape trouvée"
             no-results-text="Recherche infructueuse"
           >
-            <template v-slot:item="{item}">
+            <template #item="{item}">
               <tr>
                 <td class="pa-0">
                   <v-tooltip right>
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
                         text
                         icon
@@ -103,7 +119,7 @@
                 </td>
                 <td class="pa-0">
                   <v-tooltip right>
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
                         text
                         icon
@@ -170,7 +186,7 @@ export default {
     catHeaders: [
       { text: '', value: '', sortable: false, width: '1%' },
       { text: '', value: '', sortable: false, width: '1%' },
-      { text: 'Nom', value: 'name', sortable: true, align: 'center' }
+      { text: 'Nom', value: 'name' }
     ],
     modifiedCategory: { id: 0, name: '' },
     categoryMentions: {
@@ -184,7 +200,7 @@ export default {
     stepHeaders: [
       { text: '', value: '', sortable: false, width: '1%' },
       { text: '', value: '', sortable: false, width: '1%' },
-      { text: 'Nom', value: 'name', sortable: true, align: 'center' }
+      { text: 'Nom', value: 'name' }
     ],
     modifiedStep: { id: 0, name: '' },
     stepMention: { title: 'Modifier l\'étape', validate: 'Modifier' },
@@ -205,8 +221,7 @@ export default {
         title: 'Modifier la catégorie',
         validate: 'Modifier'
       }
-      const found = this.categories.find(c => c.id === item.id)
-      this.modifiedCategory = { ...found }
+      this.modifiedCategory = { ...item }
       this.showCategoryDlg = true
     },
     onCategoryAdd () {
@@ -224,7 +239,7 @@ export default {
       this.$store.dispatch(action, { Category: this.modifiedCategory })
     },
     onCategoryDelete (item) {
-      this.deletedCategory = this.categories.find(c => c.id === item.id)
+      this.deletedCategory = { ...item }
       this.categoryRemoveDlg = true
     },
     onCategoryConfirmDelete () {
@@ -235,8 +250,7 @@ export default {
     },
     onStepEdit (item) {
       this.mentions = { title: 'Modifier l\'étape', validate: 'Modifier' }
-      const found = this.steps.find(c => c.id === item.id)
-      this.modifiedStep = { ...found }
+      this.modifiedStep = { ...item }
       this.showStepDlg = true
     },
     onStepAdd () {
@@ -251,7 +265,7 @@ export default {
       this.$store.dispatch(action, { Step: this.modifiedStep })
     },
     onStepDelete (item) {
-      this.deletedStep = this.steps.find(c => c.id === item.id)
+      this.deletedStep = { ...item }
       this.stepRemoveDlg = true
     },
     onStepConfirmDelete () {

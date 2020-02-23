@@ -24,11 +24,11 @@
             :search="search"
             dense
           >
-            <template v-slot:item="{ item }">
+            <template #item="{ item }">
               <tr>
                 <td class="mx=0">
                   <v-tooltip right>
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
                         text
                         icon
@@ -64,11 +64,11 @@
             :search="search"
             dense
           >
-            <template v-slot:item="{ item }">
+            <template #item="{ item }">
               <tr>
                 <td class="mx=0">
                   <v-tooltip>
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
                         text
                         icon
@@ -102,6 +102,7 @@
 
 <script>
 import * as types from '../store/mutation-types'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'UnlinkedPayments',
   data () {
@@ -140,21 +141,17 @@ export default {
     }
   },
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    items () {
-      return this.$store.state.consistency.unlinkedPayments.map(i => ({
+    ...mapGetters(['loading']),
+    ...mapState({
+      items: state => state.consistency.unlinkedPayments.map(i => ({
         id: i.id,
         number: i.number,
         date: i.date,
         value: i.value,
         commitment: i.coriolis_year + ' ' + i.coriolis_egt_code + ' ' +
          i.coriolis_egt_num + ' ' + i.coriolis_egt_line
-      }))
-    },
-    cmts () {
-      return this.$store.state.consistency.possibleLinkedCmts.map(i => ({
+      })),
+      cmts: state => state.consistency.possibleLinkedCmts.map(i => ({
         id: i.id,
         chapter: i.chapter,
         action: i.action,
@@ -164,7 +161,7 @@ export default {
         date: i.date,
         value: i.value
       }))
-    }
+    })
   }
 }
 </script>

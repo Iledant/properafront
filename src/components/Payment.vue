@@ -1,13 +1,16 @@
 <template>
   <v-card>
-    <v-card-title class="secondary title">Consommation de crédits de paiement</v-card-title>
+    <v-card-title class="secondary">
+      Consommation de crédits de paiement
+    </v-card-title>
     <v-container fluid class="pa-0">
-      <v-tabs v-model="activeTab" background-color="secondary" slider-color="primary" centered>
+      <v-tabs
+        v-model="activeTab"
+        background-color="secondary"
+        slider-color="primary"
+        centered
+      >
         <v-tab ripple>Consommation totale</v-tab>
-        <v-tab ripple>Situation par bénéficiaire</v-tab>
-        <v-tab ripple>Prévisions des bénéficiaires</v-tab>
-        <v-tab ripple>Chroniques AP CP</v-tab>
-        <v-tab ripple>Enveloppes de CP</v-tab>
         <v-tab-item>
           <v-container>
             <v-layout row wrap>
@@ -20,18 +23,14 @@
             </v-layout>
           </v-container>
         </v-tab-item>
-        <v-tab-item>
-          <payment-per-beneficiary />
-        </v-tab-item>
-        <v-tab-item>
-          <payment-forecast />
-        </v-tab-item>
-        <v-tab-item>
-          <ratios />
-        </v-tab-item>
-        <v-tab-item>
-          <payment-credit />
-        </v-tab-item>
+        <v-tab ripple>Situation par bénéficiaire</v-tab>
+        <v-tab-item><payment-per-beneficiary /></v-tab-item>
+        <v-tab ripple>Prévisions des bénéficiaires</v-tab>
+        <v-tab-item><payment-forecast /></v-tab-item>
+        <v-tab ripple>Chroniques AP CP</v-tab>
+        <v-tab-item><ratios /></v-tab-item>
+        <v-tab ripple>Enveloppes de CP</v-tab>
+        <v-tab-item><payment-credit /></v-tab-item>
       </v-tabs>
     </v-container>
   </v-card>

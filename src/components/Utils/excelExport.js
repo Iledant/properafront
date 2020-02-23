@@ -34,19 +34,18 @@ export const val2F = v => v ? v * 0.01 : 0
 
 export const valStyle = {
   width: 14,
-  style: { numberFormat: '#,##0.00' },
+  style: { numberFormat: '#,##0.00', wrapText: true },
   addTotal: true
 }
 
 export const percentStyle = {
-  width: 8,
-  style: { numberFormat: '0.00 %' },
-  addTotal: true
+  width: 10,
+  style: { numberFormat: '0.00 %' }
 }
 
 export const dateStyle = {
   width: 12,
-  style: { numberFormat: 'dd/mm/yyyy' }
+  style: { numberFormat: 'dd/mm/yyyy', wrapText: true }
 }
 
 export function excelUploadFile (

@@ -28,7 +28,9 @@
         </v-layout>
       </v-container>
       <v-card-actions class="tertiary">
-        <v-btn text color="primary" @click="showSignUp = true" data-cy="signUp">S'inscrire</v-btn>
+        <v-btn text color="primary" @click="showSignUp = true" data-cy="signUp">
+          S'inscrire
+        </v-btn>
         <v-spacer />
         <v-btn
           text
@@ -43,7 +45,9 @@
     <sign-up v-model="showSignUp" @success="showSuccess=true" />
     <v-dialog v-model="showSuccess" max-width="600px" persistent>
       <v-card>
-        <v-card-title class="primary white--text">Votre compte est créé</v-card-title>
+        <v-card-title class="primary white--text">
+          Votre compte est créé
+        </v-card-title>
         <v-card-text>
           <p class="pt-4">
             Votre compte est créé et vous pourrez vous connecter avec l'adresse
@@ -57,7 +61,14 @@
         </v-card-text>
         <v-card-actions class="tertiary">
           <v-spacer />
-          <v-btn color="primary" text @click="showSuccess = false" data-cy="successOk">Ok</v-btn>
+          <v-btn
+            color="primary"
+            text
+            @click="showSuccess = false"
+            data-cy="successOk"
+          >
+            Ok
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -68,6 +79,7 @@
 import * as types from '../store/mutation-types.js'
 import checkIfNotEmpty from './Mixins/CheckIfNotEmpty'
 import SignUp from './SignUp.vue'
+import { mapGetters } from 'vuex'
 export default {
   name: 'SignIn',
   mixins: [checkIfNotEmpty],
@@ -83,6 +95,7 @@ export default {
     showSuccess: false
   }),
   computed: {
+    ...mapGetters(['loading']),
     icon () {
       return this.showPassword ? 'visibility' : 'visibility_off'
     },
@@ -90,10 +103,7 @@ export default {
       return this.showPassword ? 'text' : 'password'
     },
     disabled () {
-      return this.email === '' || this.password === ''
-    },
-    loading () {
-      return this.$store.getters.loading
+      return !this.email || !this.password
     }
   },
   methods: {

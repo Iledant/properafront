@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="secondary title">Gestion des utilisateurs</v-card-title>
+    <v-card-title class="secondary">Gestion des utilisateurs</v-card-title>
     <v-container grid-list-md fluid>
       <v-layout wrap>
         <v-flex class="xs12 sm6 offset-sm3">
@@ -25,13 +25,13 @@
             no-data-text="Aucun utilisateur"
             no-results-text="Recherche infructueuse"
           >
-            <template v-slot:item="{item}">
+            <template #item="{item}">
               <tr>
                 <td class="px-0">
                   <v-tooltip right>
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
-                        @click.stop="onModifyClick(item.id)"
+                        @click.stop="onModifyClick(item)"
                         text
                         icon
                         small
@@ -48,9 +48,9 @@
                 </td>
                 <td class="px-0">
                   <v-tooltip right>
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
-                        @click.stop="onRemoveClick(item.id)"
+                        @click.stop="onRemoveClick(item)"
                         icon
                         text
                         small
@@ -164,15 +164,14 @@ export default {
       this.mentions = { title: 'Nouvel utilisateur', validate: 'Créer' }
       this.showDialog = true
     },
-    onModifyClick (id) {
-      const u = this.users.find(p => p.id === id)
+    onModifyClick (item) {
       this.user = {
-        id: u.id,
-        name: u.name,
-        email: u.email,
+        id: item.id,
+        name: item.name,
+        email: item.email,
         password: '',
-        role: u.role,
-        active: u.active
+        role: item.role,
+        active: item.active
       }
       this.mentions = {
         title: 'Modifier les données de l\'utilisateur',
@@ -186,8 +185,8 @@ export default {
       } else this.$store.dispatch(types.UPDATE_USER, { user: this.user })
       this.showDialog = false
     },
-    onRemoveClick (id) {
-      this.deletingUser = this.users.find(p => p.id === id)
+    onRemoveClick (item) {
+      this.deletingUser = { ...item }
       this.removeDlg = true
     },
     onConfirmRmv () {

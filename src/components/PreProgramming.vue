@@ -1,8 +1,7 @@
 <template>
   <v-card>
-    <v-card-title
-      class="secondary title"
-    >Pré-programmation de l'année {{ programmingsYear ? programmingsYear : '' }}
+    <v-card-title class="secondary">
+      Pré-programmation de l'année {{ programmingsYear ? programmingsYear : '' }}
     </v-card-title>
     <v-alert :value="!commissions" error>
       La pré-programmation nécessite au moins une commission (Menu administration)
@@ -95,7 +94,10 @@
                     <ul>
                       <li>Total : {{ item.pre_prog_total_value | valueFilter }}</li>
                       <li>Clé État: {{ item.pre_prog_state_ratio | percentage }}</li>
-                      <li>Description : {{ item.pre_prog_descript ? item.pre_prog_descript : '-' }}</li>
+                      <li>
+                        Description :
+                        {{ item.pre_prog_descript ? item.pre_prog_descript : '-' }}
+                      </li>
                     </ul>
                   </v-tooltip>
                 </td>
@@ -128,7 +130,9 @@
 
     <v-dialog v-model="programmingDlg" max-width="600px" persistent>
       <v-card>
-        <v-card-title class="secondary title">{{ modifiedItem ? modifiedItem.name : '' }}</v-card-title>
+        <v-card-title class="secondary">
+          {{ modifiedItem ? modifiedItem.name : '' }}
+        </v-card-title>
         <v-container grid-list-md fluid>
           <v-layout wrap align-baseline>
             <v-flex xs12>
@@ -136,13 +140,17 @@
                 <v-list-item>
                   <v-list-item-content>
                     <v-list-item-title>Plan</v-list-item-title>
-                    <v-list-item-subtitle>{{ modifiedItem ? modifiedItem.plan_name : '-' }}</v-list-item-subtitle>
+                    <v-list-item-subtitle>
+                      {{ modifiedItem ? modifiedItem.plan_name : '-' }}
+                    </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item>
                   <v-list-item-content>
                     <v-list-item-title>Ligne de plan</v-list-item-title>
-                    <v-list-item-subtitle>{{ modifiedItem ? modifiedItem.plan_line_name : '-' }}</v-list-item-subtitle>
+                    <v-list-item-subtitle>
+                      {{ modifiedItem ? modifiedItem.plan_line_name : '-' }}
+                    </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item>
@@ -158,13 +166,19 @@
                 <v-list-item>
                   <v-list-item-content>
                     <v-list-item-title>Montant total</v-list-item-title>
-                    <v-list-item-subtitle>{{ planLineTotalValue | valueFilter }}</v-list-item-subtitle>
+                    <v-list-item-subtitle>
+                      {{ planLineTotalValue | valueFilter }}
+                    </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
             </v-flex>
             <v-flex xs4>
-              <v-text-field reverse label="Préprogrammation" v-model="fmtPrgVal" v-currency />
+              <v-text-field
+                reverse label="Préprogrammation"
+                v-model="fmtPrgVal"
+                v-currency
+              />
             </v-flex>
             <v-flex xs8>
               <v-autocomplete
@@ -176,7 +190,12 @@
               />
             </v-flex>
             <v-flex xs4>
-              <v-text-field v-model="fmtTotPrgVal" label="Programmation totale" reverse v-currency />
+              <v-text-field
+                v-model="fmtTotPrgVal"
+                label="Programmation totale"
+                reverse
+                v-currency
+              />
             </v-flex>
             <v-flex xs8>soit {{ regionRatio | percentage }} Région</v-flex>
             <v-flex xs4>
@@ -207,7 +226,9 @@
 
     <v-dialog persistent max-width="600px" v-model="grandMotherDlg">
       <v-card>
-        <v-card-title class="primary white--text">Le conseil de Grand Mère</v-card-title>
+        <v-card-title class="primary white--text">
+          Le conseil de Grand Mère
+        </v-card-title>
         <v-container grid-list-md fluid>
           <v-layout wrap>
             <v-flex xs6>
@@ -234,6 +255,7 @@ import * as types from '../store/mutation-types'
 import { dateFilter } from '../filters/filters'
 import currencyInput from './Mixins/currencyInput'
 import yearRule from './Mixins/yearRule'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'PreProgramming',
   mixins: [yearRule, currencyInput],
@@ -358,15 +380,12 @@ export default {
     }
   },
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    preProgrammings () {
-      return this.$store.state.preProgrammings.preProgrammings
-    },
-    commissions () {
-      return this.$store.state.programmings.commissions
-    },
+    ...mapGetters(['loading']),
+    ...mapState({
+      preProgrammings: state => state.preProgrammings.preProgrammings,
+      commissions: state => state.programmings.commissions,
+      user: state => state.token.user
+    }),
     disabled () {
       return (
         this.programmingsModified ||
@@ -407,9 +426,6 @@ export default {
     },
     modifyDisabled () {
       return !this.programmingsCommissionId || this.fmtPrgVal === ''
-    },
-    user () {
-      return this.$store.state.token.user
     }
   },
   created () {

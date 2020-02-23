@@ -20,7 +20,7 @@
             :loading="loading"
             :search="search"
           >
-            <template v-slot:item="{ item }">
+            <template #item="{ item }">
               <tr>
                 <td>{{ item.chapter }}</td>
                 <td>{{ item.action }}</td>
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'CommitmentsWithoutAction',
   data () {
@@ -56,20 +57,19 @@ export default {
     }
   },
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    items () {
-      return this.$store.state.consistency.commitmentsWithoutAction.map(i => ({
+    ...mapGetters(['loading']),
+    ...mapState({
+      items: state => state.consistency.commitmentsWithoutAction.map(i => ({
         chapter: i.chapter,
         action: i.action,
         iris_code: i.iris_code,
-        commitment: i.coriolis_year + ' ' + i.coriolis_egt_code + ' ' + i.coriolis_egt_num + ' ' + i.coriolis_egt_line,
+        commitment: i.coriolis_year + ' ' + i.coriolis_egt_code + ' ' +
+          i.coriolis_egt_num + ' ' + i.coriolis_egt_line,
         name: i.name,
         date: i.date,
         value: i.value
       }))
-    }
+    })
   }
 }
 </script>

@@ -15,20 +15,39 @@
             class="elevation-1"
             dense
           >
-            <template v-slot:item="{ item }">
+            <template #item="{ item }">
               <tr>
-                <td :class="isObserver ? '': 'table-link primary--text'" @click="edit(item)">
+                <td
+                  :class="isObserver ? '': 'table-link primary--text'"
+                  @click="edit(item)"
+                >
                   <span class="font-weight-bold">[{{ item.number }}]</span>
                   {{ item.name }}
                 </td>
-                <td class="text-right text-no-wrap">{{ item.r75 | percentage }}</td>
-                <td class="text-right text-no-wrap">{{ item.r77 | percentage }}</td>
-                <td class="text-right text-no-wrap">{{ item.r78 | percentage }}</td>
-                <td class="text-right text-no-wrap">{{ item.r91 | percentage }}</td>
-                <td class="text-right text-no-wrap">{{ item.r92 | percentage }}</td>
-                <td class="text-right text-no-wrap">{{ item.r93 | percentage }}</td>
-                <td class="text-right text-no-wrap">{{ item.r94 | percentage }}</td>
-                <td class="text-right text-no-wrap">{{ item.r95 | percentage }}</td>
+                <td class="text-right text-no-wrap">
+                  {{ item.r75 | percentage }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ item.r77 | percentage }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ item.r78 | percentage }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ item.r91 | percentage }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ item.r92 | percentage }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ item.r93 | percentage }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ item.r94 | percentage }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ item.r95 | percentage }}
+                </td>
               </tr>
             </template>
           </v-data-table>
@@ -36,19 +55,32 @@
       </v-layout>
     </v-container>
     <v-card-actions class="tertiary">
-      <v-btn color="primary" text @click="onRatiosExcelExport">Export Excel</v-btn>
+      <v-btn color="primary" text @click="download">Export Excel</v-btn>
       <v-spacer v-if="!isObserver" />
-      <v-btn color="primary" text @click="onCancel" v-if="modified && !isObserver">Annuler</v-btn>
-      <v-btn color="primary" text @click="onSend" v-if="modified && !isObserver">Valider</v-btn>
+      <v-btn
+        color="primary"
+        text @click="onCancel"
+        v-if="modified && !isObserver"
+      >
+        Annuler
+      </v-btn>
+      <v-btn
+        color="primary"
+        text @click="onSend"
+        v-if="modified && !isObserver"
+      >
+        Valider
+      </v-btn>
     </v-card-actions>
-    <department-ratio-dlg v-model="dptRatioDlg" :ratios="ratios" @modify="modify" />
+    <department-ratio-dlg v-model="dialog" :ratios="ratios" @modify="modify" />
   </v-card>
 </template>
 
 <script>
 import DepartmentRatioDlg from './DepartmentRatioDlg.vue'
-import { excelExport } from './Utils/excelExport'
+import { excelExport, percentStyle } from './Utils/excelExport'
 import * as types from '../store/mutation-types'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'DepartmentRatios',
   components: { DepartmentRatioDlg },
@@ -69,19 +101,15 @@ export default {
         { text: '95', value: 'r95' }
       ],
       modified: false,
-      dptRatioDlg: false
+      dialog: false
     }
   },
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    opList () {
-      return this.$store.state.dptRatios.opsWithDptRatios
-    },
-    isObserver () {
-      return this.$store.getters.isObserver
-    }
+    ...mapGetters(['loading']),
+    ...mapState({
+      operations: state => state.dptRatios.opsWithDptRatios,
+      isObserver: state => state.token.isObserver
+    })
   },
   methods: {
     onCancel () {
@@ -91,7 +119,7 @@ export default {
     edit (item) {
       if (!this.isObserver) {
         this.ratios = { ...item }
-        this.dptRatioDlg = true
+        this.dialog = true
       }
     },
     modify () {
@@ -102,7 +130,7 @@ export default {
     onSend () {
       const sent = []
       this.items.forEach(i => {
-        if (i.r75 !== null && i.r75 !== '') {
+        if (!i.r75) {
           sent.push({
             physical_op_id: i.id,
             r75: Number(i.r75),
@@ -121,8 +149,8 @@ export default {
       })
       this.modified = false
     },
-    onRatiosExcelExport () {
-      const lines = this.opList.map(l => ({
+    download () {
+      const lines = this.operations.map(l => ({
         number: l.number,
         name: l.name,
         r75: l.r75 ? Number(l.r75) : null,
@@ -137,65 +165,23 @@ export default {
       const columns = [
         { header: 'Numéro', key: 'number', width: 8 },
         { header: 'Nom de l\'opération', key: 'name', width: 50 },
-        {
-          header: 'Paris',
-          key: 'r75',
-          width: 14,
-          style: { numberFormat: '0.00%' }
-        },
-        {
-          header: 'Seine-et-Marne',
-          key: 'r77',
-          width: 14,
-          style: { numberFormat: '0.00%' }
-        },
-        {
-          header: 'Yvelines',
-          key: 'r78',
-          width: 14,
-          style: { numberFormat: '0.00%' }
-        },
-        {
-          header: 'Essonne',
-          key: 'r91',
-          width: 14,
-          style: { numberFormat: '0.00%' }
-        },
-        {
-          header: 'Hauts-de-Seine',
-          key: 'r92',
-          width: 14,
-          style: { numberFormat: '0.00%' }
-        },
-        {
-          header: 'Seine-Saint-Denis',
-          key: 'r93',
-          width: 14,
-          style: { numberFormat: '0.00%' }
-        },
-        {
-          header: 'Val-de-Marne',
-          key: 'r94',
-          width: 14,
-          style: { numberFormat: '0.00%' }
-        },
-        {
-          header: 'Val d\'Oise',
-          key: 'r95',
-          width: 14,
-          style: { numberFormat: '0.00%' }
-        }
+        { header: 'Paris', key: 'r75', ...percentStyle },
+        { header: 'Seine-et-Marne', key: 'r77', ...percentStyle },
+        { header: 'Yvelines', key: 'r78', ...percentStyle },
+        { header: 'Essonne', key: 'r91', ...percentStyle },
+        { header: 'Hauts-de-Seine', key: 'r92', ...percentStyle },
+        { header: 'Seine-Saint-Denis', key: 'r93', ...percentStyle },
+        { header: 'Val-de-Marne', key: 'r94', ...percentStyle },
+        { header: 'Val d\'Oise', key: 'r95', ...percentStyle }
       ]
       excelExport(lines, columns, 'Ratios opération départements')
     }
   },
   watch: {
-    opList: {
+    operations: {
       handler (newOpList) {
-        this.items = newOpList.map(i => ({
-          fullName: `${i.number} - ${i.name}`,
-          ...i
-        }))
+        this.items = newOpList.map(i =>
+          ({ fullName: `${i.number} - ${i.name}`, ...i }))
       },
       immediate: true
     }

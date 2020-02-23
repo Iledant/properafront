@@ -1,6 +1,8 @@
 <template>
   <v-card>
-    <v-card-title class="secondary title">Prévisions pluriannuelles de CP</v-card-title>
+    <v-card-title class="secondary title">
+      Prévisions pluriannuelles de CP
+    </v-card-title>
     <v-container grid-list-md fluid>
       <v-layout row wrap>
         <v-flex xs12>
@@ -16,9 +18,9 @@
             <template v-slot:item="{item}">
               <tr>
                 <td>{{ item.year }}</td>
-                <td>{{ item.pmtMin | prevFilter }}</td>
-                <td>{{ item.pmtMax | prevFilter }}</td>
-                <td>{{ item.difPmt | prevFilter }}</td>
+                <td class="text-right">{{ item.pmtMin | prevFilter }}</td>
+                <td class="text-right">{{ item.pmtMax | prevFilter }}</td>
+                <td class="text-right">{{ item.difPmt | prevFilter }}</td>
               </tr>
             </template>
           </v-data-table>
@@ -35,7 +37,7 @@
     </v-container>
     <v-card-actions class="tertiary">
       <v-spacer />
-      <v-btn text color="primary" @click="actionExport">Export Excel par action</v-btn>
+      <v-btn text color="primary" @click="download">Export Excel</v-btn>
     </v-card-actions>
     <prev-info-dlg v-model="dlg" />
   </v-card>
@@ -44,7 +46,7 @@
 <script>
 import * as types from '../store/mutation-types'
 import { excelExport, valStyle } from './Utils/excelExport'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import PrevChart from './MultiAnnualPmtPrevChart.js'
 import PrevInfoDlg from './PmtPrevInfoDlg.vue'
 export default {
@@ -54,24 +56,22 @@ export default {
     return {
       headers: [
         { text: 'Année', value: 'year' },
-        { text: 'Prév. directe min', value: 'pmtMin' },
-        { text: 'Prév. directe max', value: 'pmtMax' },
-        { text: 'Prév. RAM', value: 'difPmt' }
+        { text: 'Prév. directe min', value: 'pmtMin', align: 'right' },
+        { text: 'Prév. directe max', value: 'pmtMax', align: 'right' },
+        { text: 'Prév. RAM', value: 'difPmt', align: 'right' }
       ],
       dlg: false
     }
   },
   computed: {
     ...mapGetters(['loading']),
-    items () {
-      return this.$store.state.previsions.paymentPrevisions
-    },
-    actionItems () {
-      return this.$store.state.previsions.actionPaymentPrevisions
-    }
+    ...mapState({
+      items: state => state.previsions.paymentPrevisions,
+      actionItems: state => state.previsions.actionPaymentPrevisions
+    })
   },
   methods: {
-    async actionExport () {
+    async download () {
       await this.$store.dispatch(types.GET_ACTION_PAYMENT_PREVISION)
       if (this.actionItems.length === 0) {
         return

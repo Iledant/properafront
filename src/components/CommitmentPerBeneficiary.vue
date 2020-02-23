@@ -9,7 +9,7 @@
             label="Bénéficiaire"
             item-text="name"
             item-value="id"
-            no-data-text="Aucune bénéficiaire trouvée"
+            no-data-text="Aucune bénéficiaire trouvé"
           />
         </v-flex>
         <v-flex xs12 sm6>
@@ -32,26 +32,32 @@
             :search="search"
             class="elevation-1"
           >
-            <template v-slot:body.prepend="">
+            <template #body.prepend="">
               <tr class="grey lighten-4 font-weight-medium">
                 <td colspan="6" class="text-center">Total</td>
                 <td class="text-right">{{ commitmentTotal | valueFilter }}</td>
                 <td class="text-right">{{ availableTotal | valueFilter }}</td>
               </tr>
             </template>
-            <template v-slot:item="{item}">
+            <template #item="{item}">
               <tr>
                 <td class="text-center text-no-wrap">{{ item.date | dateFilter }}</td>
                 <td class="text-no-wrap">{{ item.irisCode }}</td>
-                <td class="text-center text-no-wrap">{{ item.lapseDate | dateFilter }}</td>
+                <td class="text-center text-no-wrap">
+                  {{ item.lapseDate | dateFilter }}
+                </td>
                 <td>{{ item.app | yesNoFilter }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.operation }}</td>
-                <td class="text-right text-no-wrap">{{ item.value | valueFilter }}</td>
-                <td class="text-right text-no-wrap">{{ item.available | valueFilter }}</td>
+                <td class="text-right text-no-wrap">
+                  {{ item.value | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ item.available | valueFilter }}
+                </td>
               </tr>
             </template>
-            <template v-slot:body.append="">
+            <template #body.append="">
               <tr class="grey lighten-4 font-weight-medium">
                 <td colspan="6" class="text-center">Total</td>
                 <td class="text-right">{{ commitmentTotal | valueFilter }}</td>
@@ -77,6 +83,7 @@
 <script>
 import { excelExport, valStyle, dateStyle } from './Utils/excelExport.js'
 import * as types from '../store/mutation-types'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'CommitmentPerBeneficiary',
   data: () => ({
@@ -94,14 +101,10 @@ export default {
     ]
   }),
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    beneficiariesList () {
-      return this.$store.state.beneficiaries.beneficiaries
-    },
-    commitments () {
-      return this.$store.state.beneficiaries.beneficiaryCmt.map(
+    ...mapGetters(['loading']),
+    ...mapState({
+      beneficiariesList: state => state.beneficiaries.beneficiaries,
+      commitments: state => state.beneficiaries.beneficiaryCmt.map(
         ({ opNumber, opName, ...others }) =>
           ({
             operation: (opNumber || '') + '-' + (opName || ''),
@@ -109,7 +112,7 @@ export default {
             opNumber,
             ...others
           }))
-    },
+    }),
     commitmentTotal () {
       return this.commitments.reduce((a, c) => a + c.value, 0)
     },

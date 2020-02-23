@@ -5,7 +5,9 @@
     </v-flex>
     <v-flex xs12 sm6 offset-sm3>
       <v-card>
-        <v-card-title class="primary white--text title">Changer le mot de passe</v-card-title>
+        <v-card-title class="primary white--text">
+          Changer le mot de passe
+        </v-card-title>
         <v-container grid-list-md fluid>
           <v-layout row wrap>
             <v-flex xs12>
@@ -49,7 +51,9 @@
         <v-card-actions class="tertiary">
           <v-spacer />
           <v-btn text color="primary" @click="onCancel">Annuler</v-btn>
-          <v-btn text color="primary" @click="onConfirm" :disabled="disabled">Confirmer</v-btn>
+          <v-btn text color="primary" @click="onConfirm" :disabled="disabled">
+            Confirmer
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -74,18 +78,14 @@ export default {
   computed: {
     disabled () {
       return (
-        this.password.length === 0 ||
-        this.newPassword.length === 0 ||
-        this.confirmPassword.length === 0 ||
+        !this.password || !this.newPassword || !this.confirmPassword.length ||
         this.newPassword !== this.confirmPassword
       )
     }
   },
   methods: {
     checkSimilar (input) {
-      return input === this.newPassword
-        ? true
-        : 'Le mot de passe doit être le même'
+      return input === this.newPassword || 'Le mot de passe doit être le même'
     },
     onConfirm () {
       this.isLoading = true

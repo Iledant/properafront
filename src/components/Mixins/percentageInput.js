@@ -1,5 +1,5 @@
 const format = c => new Intl.NumberFormat('fr-FR',
-  { style: 'decimal', maximumFractionDigits: 20 }).format(c)
+  { style: 'decimal', maximumFractionDigits: 2 }).format(c)
 
 export default {
   methods: {

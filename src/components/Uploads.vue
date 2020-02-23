@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="secondary title">Imports de fichiers</v-card-title>
+    <v-card-title class="secondary">Imports de fichiers</v-card-title>
     <v-container grid-list-md fluid>
       <v-layout row wrap align-baseline>
         <v-flex xs12>
@@ -15,7 +15,7 @@
               </v-list-item-content>
               <v-list-item-icon>
                 <v-tooltip left color="primary">
-                  <template v-slot:activator="{ on }">
+                  <template #activator="{ on }">
                     <v-icon color="primary" v-on="on">info</v-icon>
                   </template>
                   Import d'un fichier Excel (.xlsx) contenant les engagements
@@ -36,7 +36,7 @@
               </v-list-item-content>
               <v-list-item-icon>
                 <v-tooltip left color="primary">
-                  <template v-slot:activator="{ on }">
+                  <template #activator="{ on }">
                     <v-icon color="primary" v-on="on">info</v-icon>
                   </template>
                   Import d'un fichier Excel (.xlsx) contenant les engagements
@@ -58,7 +58,7 @@
               </v-list-item-content>
               <v-list-item-icon>
                 <v-tooltip left color="primary">
-                  <template v-slot:activator="{ on }">
+                  <template #activator="{ on }">
                     <v-icon color="primary" v-on="on">info</v-icon>
                   </template>
                   Import d'un fichier Excel (.xlsx) contenant les mandatements.
@@ -79,7 +79,7 @@
               </v-list-item-content>
               <v-list-item-icon>
                 <v-tooltip left color="primary">
-                  <template v-slot:activator="{ on }">
+                  <template #activator="{ on }">
                     <v-icon color="primary" v-on="on">info</v-icon>
                   </template>
                   Import d'un fichier Excel (.xlsx) contenant des opérations
@@ -120,7 +120,7 @@
               </v-list-item-content>
               <v-list-item-icon>
                 <v-tooltip left color="primary">
-                  <template v-slot:activator="{ on }">
+                  <template #activator="{ on }">
                     <v-icon color="primary" v-on="on">info</v-icon>
                   </template>
                   Import d'un fichier Excel (.xlsx) contenant les prévisions
@@ -146,7 +146,7 @@
               </v-list-item-content>
               <v-list-item-icon>
                 <v-tooltip left color="primary">
-                  <template v-slot:activator="{ on }">
+                  <template #activator="{ on }">
                     <v-icon color="primary" v-on="on">info</v-icon>
                   </template>
                   Import d'un fichier Excel (.xlsx) contenant la programmation de
@@ -176,7 +176,7 @@
               </v-list-item-content>
               <v-list-item-icon>
                 <v-tooltip left color="primary">
-                  <template v-slot:activator="{ on }">
+                  <template #activator="{ on }">
                     <v-icon color="primary" v-on="on">info</v-icon>
                   </template>
                   Import d'un fichier Excel (.xlsx) permettant de rattacher des
@@ -209,7 +209,7 @@
               </v-list-item-content>
               <v-list-item-icon>
                 <v-tooltip left color="primary">
-                  <template v-slot:activator="{ on }">
+                  <template #activator="{ on }">
                     <v-icon color="primary" v-on="on">info</v-icon>
                   </template>
                   Import d'un fichier Excel (.xlsx) contenant une liste de
@@ -241,7 +241,7 @@
               </v-list-item-content>
               <v-list-item-icon>
                 <v-tooltip left color="primary">
-                  <template v-slot:activator="{ on }">
+                  <template #activator="{ on }">
                     <v-icon color="primary" v-on="on">info</v-icon>
                   </template>
                   Import d'un fichier Excel (.xlsx) contenant une liste de actions
@@ -267,7 +267,7 @@
               </v-list-item-content>
               <v-list-item-icon>
                 <v-tooltip left color="primary">
-                  <template v-slot:activator="{ on }">
+                  <template #activator="{ on }">
                     <v-icon color="primary" v-on="on">info</v-icon>
                   </template>
                   Import d'un fichier Excel (.xlsx) contenant l'export IRIS
@@ -303,7 +303,7 @@
               </v-list-item-content>
               <v-list-item-icon>
                 <v-tooltip left color="primary">
-                  <template v-slot:activator="{ on }">
+                  <template #activator="{ on }">
                     <v-icon color="primary" v-on="on">info</v-icon>
                   </template>
                   Import d'un fichier Excel (.xlsx) contenant les lignes du plan
@@ -331,7 +331,7 @@
               </v-list-item-content>
               <v-list-item-icon>
                 <v-tooltip left color="primary">
-                  <template v-slot:activator="{ on }">
+                  <template #activator="{ on }">
                     <v-icon color="primary" v-on="on">info</v-icon>
                   </template>
                   Import d'un fichier Excel (.xlsx) contenant la situation des
@@ -350,7 +350,7 @@
               </v-list-item-content>
               <v-list-item-icon>
                 <v-tooltip left color="primary">
-                  <template v-slot:activator="{ on }">
+                  <template #activator="{ on }">
                     <v-icon color="primary" v-on="on">info</v-icon>
                   </template>
                   Import d'un fichier Excel (.xlsx) contenant la liste des
@@ -369,6 +369,7 @@
 <script>
 import * as types from '../store/mutation-types'
 import { excelUploadFile } from './Utils/excelExport'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'uploads',
@@ -756,12 +757,10 @@ export default {
     }
   },
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    plans () {
-      return this.$store.state.plans.plans
-    }
+    ...mapGetters(['loading']),
+    ...mapState({
+      plans: state => state.plans.plans
+    })
   },
   created () {
     this.$store.dispatch(types.GET_PLANS)

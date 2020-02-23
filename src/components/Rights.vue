@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="secondary title">
+    <v-card-title class="secondary">
       <v-icon class="mr-2">check_circle</v-icon>
       Droits de {{ userName }}
     </v-card-title>
@@ -75,19 +75,20 @@
 
 <script>
 import * as types from '../store/mutation-types'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'rights',
   data: () => ({
     opSearch: '',
     opHeaders: [
-      { text: 'Numéro', value: 'number', align: 'left', sortable: true },
-      { text: 'Nom', value: 'name', align: 'left', sortable: true }
+      { text: 'Numéro', value: 'number' },
+      { text: 'Nom', value: 'name' }
     ],
     opSelected: [],
     userSearch: '',
     usersSelected: [],
     userHeaders: [
-      { text: 'Utilisateur', value: 'name', align: 'left', sortable: true }
+      { text: 'Utilisateur', value: 'name' }
     ]
   }),
   methods: {
@@ -118,18 +119,12 @@ export default {
     }
   },
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    users () {
-      return this.$store.state.users.userList
-    },
-    rights () {
-      return this.$store.state.physops.rights
-    },
-    ops () {
-      return this.$store.state.physops.ops
-    },
+    ...mapGetters(['loading']),
+    ...mapState({
+      users: state => state.users.userList,
+      rights: state => state.physops.rights,
+      ops: state => state.physops.ops
+    }),
     user_id () {
       return this.$route.params.user_id
     },

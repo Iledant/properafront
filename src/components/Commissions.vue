@@ -4,7 +4,12 @@
     <v-container grid-list-md fluid>
       <v-layout row wrap>
         <v-flex xs12 sm6 offset-sm3>
-          <v-text-field label="Recherche" single-line hide-details v-model="search" />
+          <v-text-field
+            label="Recherche"
+           single-line
+           hide-details
+           prepend-icon="search"
+           v-model="search" />
         </v-flex>
         <v-flex xs12>
           <v-data-table
@@ -17,11 +22,11 @@
             no-data-text="Aucune commission trouvée"
             no-results-text="Recherche infructueuse"
           >
-            <template v-slot:item="{item}">
+            <template #item="{item}">
               <tr>
                 <td class="pr-0 pl-0">
                   <v-tooltip right>
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
                         text
                         icon
@@ -39,7 +44,7 @@
                 </td>
                 <td class="pr-0 pl-0">
                   <v-tooltip right>
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-btn
                         text
                         icon
@@ -86,6 +91,8 @@
 import * as types from '../store/mutation-types.js'
 import CommissionDlg from './Settings/CommissionDlg.vue'
 import DeleteDlg from './DeleteDlg.vue'
+import { mapGetters, mapState } from 'vuex'
+const nullCommission = { id: 0, name: '', date: null }
 export default {
   name: 'Commissions',
   components: { CommissionDlg, DeleteDlg },
@@ -94,33 +101,30 @@ export default {
     headers: [
       { text: '', value: '', sortable: false, width: '1%' },
       { text: '', value: '', sortable: false, width: '1%' },
-      { text: 'Date', value: 'date', sortable: true },
-      { text: 'Nom', value: 'name', sortable: true }
+      { text: 'Date', value: 'date' },
+      { text: 'Nom', value: 'name' }
     ],
-    modifiedCommission: { id: 0, name: '', date: null },
+    modifiedCommission: { ...nullCommission },
     mentions: { title: 'Modifier la commission', validate: 'Modifier' },
     showCommissionDlg: false,
     removeDlg: false,
-    deletedCommission: { id: 0, name: '', date: null }
+    deletedCommission: { ...nullCommission }
   }),
   computed: {
-    loading () {
-      return this.$store.getters.loading
-    },
-    commissions () {
-      return this.$store.state.programmings.commissions
-    }
+    ...mapGetters(['loading']),
+    ...mapState({
+      commissions: state => state.programmings.commissions
+    })
   },
   methods: {
     edit (item) {
-      const found = this.commissions.find(c => c.id === item.id)
-      this.modifiedCommission = { ...found }
+      this.modifiedCommission = { ...item }
       this.mentions = { title: 'Modifier la commission', validate: 'Modifier' }
       this.showCommissionDlg = true
     },
     add () {
       this.mentions = { title: 'Créer une commission', validate: 'Créer' }
-      this.modifiedCommission = { id: 0, name: '', date: null }
+      this.modifiedCommission = { ...nullCommission }
       this.showCommissionDlg = true
     },
     save () {
@@ -134,7 +138,7 @@ export default {
       } else this.$store.dispatch(types.UPDATE_COMMISSION, { Commission })
     },
     remove (item) {
-      this.deletedCommission = this.commissions.find(c => c.id === item.id)
+      this.deletedCommission = { ...item }
       this.removeDlg = true
     },
     confirmDelete () {

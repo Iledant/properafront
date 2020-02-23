@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="secondary title">Plans</v-card-title>
+    <v-card-title class="secondary">Plans</v-card-title>
     <v-container grid-list-md fluid>
       <v-layout row wrap>
         <v-flex xs12 sm6 offset-sm3>
@@ -27,7 +27,7 @@
                         text
                         icon
                         small
-                        @click="onModify(item.id)"
+                        @click="onModify(item)"
                         class="ma-0"
                         color="secondary"
                         v-on="on"
@@ -45,7 +45,7 @@
                         text
                         icon
                         small
-                        @click="onDelete(item.id)"
+                        @click="onDelete(item)"
                         class="ma-0"
                         color="error"
                         v-on="on"
@@ -125,15 +125,10 @@ export default {
     removeDlg: false,
     mentions: { title: 'Nouveau plan', validate: 'Créer' },
     headers: [
-      { text: '', value: '', sortable: false, align: 'center', width: '1%' },
-      { text: '', value: '', sortable: false, align: 'center', width: '1%' },
-      { text: 'Nom', value: 'name', sortable: true, align: 'center' },
-      {
-        text: 'Description',
-        value: 'descript',
-        sortable: true,
-        align: 'center'
-      }
+      { text: '', value: '', sortable: false, width: '1%' },
+      { text: '', value: '', sortable: false, width: '1%' },
+      { text: 'Nom', value: 'name' },
+      { text: 'Description', value: 'descript' }
     ],
     modifiedPlan: {
       name: '',
@@ -159,9 +154,8 @@ export default {
       this.mentions = { title: 'Nouveau plan', validate: 'Créer' }
       this.showDlg = true
     },
-    onModify (id) {
-      const p = this.plans.find(p => p.id === id)
-      this.modifiedPlan = { ...p }
+    onModify (item) {
+      this.modifiedPlan = { ...item }
       this.mentions = { title: 'Modifier le plan', validate: 'Modifier' }
       this.showDlg = true
     },
@@ -171,8 +165,8 @@ export default {
         : types.UPDATE_PLAN
       this.$store.dispatch(action, { plan: this.modifiedPlan })
     },
-    onDelete (id) {
-      this.deletedPlan = this.plans.find(p => p.id === id)
+    onDelete (item) {
+      this.deletedPlan = { ...item }
       this.removeDlg = true
     },
     onConfirmRmv () {

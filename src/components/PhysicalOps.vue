@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="secondary title">Opérations physiques</v-card-title>
+    <v-card-title class="secondary">Opérations physiques</v-card-title>
     <v-container grid-list-md fluid>
       <v-layout row wrap>
         <v-flex xs12 sm6 offset-sm3>
@@ -18,16 +18,16 @@
             no-data-text="Aucune opération"
             no-results-text="Aucune opération trouvée"
           >
-            <template #item="{ item: { id, name, number, value } }">
+            <template #item="{ item }">
               <tr>
-                <td class="pl-0 pr-0">
+                <td class="px-0">
                   <v-tooltip right v-if="!isObserver">
                     <template #activator="{ on }">
                       <v-btn
                         text
                         icon
                         small
-                        @click.stop="onModify(id)"
+                        @click.stop="onModify(item)"
                         class="pa-0"
                         v-on="on"
                       >
@@ -44,7 +44,7 @@
                         text
                         icon
                         small
-                        @click="onDelete(id)"
+                        @click="onDelete(item)"
                         class="pa-0"
                         v-on="on"
                       >
@@ -54,21 +54,21 @@
                     <span>Supprimer</span>
                   </v-tooltip>
                 </td>
-                <td>{{ number }}</td>
+                <td>{{ item.number }}</td>
                 <td>
                   <router-link
                     :to="{
                     name: 'OpDetails',
                     params: {
-                      op_id: id,
-                      op_name: name,
-                      op_number: number
+                      op_id: item.id,
+                      op_name: item.name,
+                      op_number: item.number
                     }
                   }"
                     class="table-link"
-                  >{{ name }}</router-link>
+                  >{{ item.name }}</router-link>
                 </td>
-                <td class="text-right">{{ value | valueFilter }}</td>
+                <td class="text-right">{{ item.value | valueFilter }}</td>
               </tr>
             </template>
           </v-data-table>
@@ -78,9 +78,14 @@
     <v-card-actions class="tertiary">
       <v-btn text color="primary" @click="onAdd" v-if="isAdmin">Ajouter</v-btn>
       <v-spacer />
-      <v-btn text color="primary" @click="onExcelExport">Export Excel</v-btn>
+      <v-btn text color="primary" @click="download">Export Excel</v-btn>
     </v-card-actions>
-    <op-edit-dlg v-model="showDlg" :op="op" :mentions="mentions" @save="onSave($event)" />
+    <op-edit-dlg
+      v-model="showDlg"
+      :op="op"
+      :mentions="mentions"
+      @save="onSave($event)"
+    />
     <delete-dlg
       v-model="removeDlg"
       cat="l'opération"
@@ -113,9 +118,9 @@ export default {
     headers: [
       { text: '', value: '', sortable: false, width: '1%' },
       { text: '', value: '', sortable: false, width: '1%' },
-      { text: 'Numéro', value: 'number', sortable: true },
-      { text: 'Nom', value: 'name', sortable: true },
-      { text: 'Valeur', value: 'value', sortable: true, align: 'right' }
+      { text: 'Numéro', value: 'number' },
+      { text: 'Nom', value: 'name' },
+      { text: 'Valeur', value: 'value', align: 'right' }
     ],
     items: []
   }),
@@ -133,8 +138,8 @@ export default {
     }
   },
   methods: {
-    onDelete (id) {
-      this.deletedOp = this.opList.find(p => p.id === id)
+    onDelete (item) {
+      this.deletedOp = { ...item }
       this.removeDlg = true
     },
     onConfirmRmv () {
@@ -163,9 +168,8 @@ export default {
       this.mentions = { title: 'Nouvelle opération', validate: 'Créer' }
       this.showDlg = true
     },
-    onModify (id) {
-      const op = this.opList.find(p => p.id === id)
-      this.op = { ...op }
+    onModify (item) {
+      this.op = { ...item }
       this.mentions = { title: 'Modifier l\'opération', validate: 'Modifier' }
       this.showDlg = true
     },
@@ -183,7 +187,7 @@ export default {
           { op: { valuedate: date, ...others } })
       }
     },
-    onExcelExport () {
+    download () {
       const ops = this.opList.map(({ value, van, tri, ...other }) => ({
         ...other,
         value: value ? value * 0.01 : null,
