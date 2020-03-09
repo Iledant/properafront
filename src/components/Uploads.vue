@@ -478,7 +478,8 @@ export default {
           coriolis_year: String(o.coriolis_year),
           date: o.date,
           number: String(o.number),
-          value: o.value
+          value: o.value,
+          receipt_date: o.receipt_date
         }))
       const saveFunction = object => {
         this.$store.dispatch(types.ADD_PAYMENTS, { Payment: object })
