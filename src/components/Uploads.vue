@@ -21,8 +21,8 @@
                   Import d'un fichier Excel (.xlsx) contenant les engagements
                   financiers (AP).
                   <br />Met à jour ou complète les engagements (AP) de Propera.
-                  <br />Utiliser uniquement le tableau de bord &laquo;Propera import
-                  AP&raquo; d'IRIS qui a le bon format.
+                  <br />Utiliser uniquement le tableau de bord « Propera import
+                  AP » d'IRIS qui a le bon format.
                 </v-tooltip>
               </v-list-item-icon>
             </v-list-item>
@@ -43,8 +43,8 @@
                   d'une prochaine commission.
                   <br />Remplace les engagements en cours de Propera à partir des
                   données IRIS.
-                  <br />Utiliser uniquement le tableau de bord &laquo;Propera import AP
-                  en cours&raquo; d'IRIS qui a le bon format.
+                  <br />Utiliser uniquement le tableau de bord «Propera import AP
+                  en cours» d'IRIS qui a le bon format.
                 </v-tooltip>
               </v-list-item-icon>
             </v-list-item>
@@ -64,8 +64,8 @@
                   Import d'un fichier Excel (.xlsx) contenant les mandatements.
                   <br />Met à jour et complète les mandatements de Propera à partir des
                   données IRIS.
-                  <br />Utiliser uniquement le tableau de bord &laquo;Propera import
-                  mandats&raquo; d'IRIS qui a le bon format.
+                  <br />Utiliser uniquement le tableau de bord «Propera import
+                  mandats» d'IRIS qui a le bon format.
                 </v-tooltip>
               </v-list-item-icon>
             </v-list-item>
@@ -271,7 +271,7 @@
                     <v-icon color="primary" v-on="on">info</v-icon>
                   </template>
                   Import d'un fichier Excel (.xlsx) contenant l'export IRIS
-                  &laquo; PROPERA - budget &raquo;.
+                  « PROPERA - budget ».
                   <br />Le fichier Excel doit contenir les colonnes avec les intitulés :
                   <ul>
                     <li>« commission_date » date de calcul des disponibilités</li>
@@ -336,7 +336,7 @@
                   </template>
                   Import d'un fichier Excel (.xlsx) contenant la situation des
                   enveloppes de CP importés depuis CORIOLIS.
-                  <br />Utiliser uniquement l'export issu de SQLdevelopper.
+                  <br />Utiliser uniquement l'export issu de SQL developer.
                 </v-tooltip>
               </v-list-item-icon>
             </v-list-item>
@@ -355,7 +355,7 @@
                   </template>
                   Import d'un fichier Excel (.xlsx) contenant la liste des
                   mouvements d'enveloppes de CP importés depuis CORIOLIS.
-                  <br />Utiliser uniquement l'export issu de SQLdevelopper.
+                  <br />Utiliser uniquement l'export issu de SQL developer.
                 </v-tooltip>
               </v-list-item-icon>
             </v-list-item>

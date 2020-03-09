@@ -23,7 +23,7 @@
             dense
             class="elevation-1"
           >
-            <template #body.prepend="">
+            <template #body.prepend>
               <tr class="grey lighten-4">
                 <td colspan="3" class="text-center">
                   <strong>Total de la recherche</strong>
@@ -36,12 +36,13 @@
             <template #item="{item}">
               <tr>
                 <td class="text-right">{{ item.date | dateFilter }}</td>
+                <td class="text-right">{{ item.receipt_date | dateFilter }}</td>
                 <td>{{ item.iris_code }}</td>
                 <td>{{ item.beneficiary }}</td>
                 <td class="text-right">{{ item.value | valueFilter }}</td>
               </tr>
             </template>
-            <template #body.append="">
+            <template #body.append>
               <tr class="grey lighten-4">
                 <td colspan="3" class="text-center">
                   <strong>Total de la recherche</strong>
@@ -69,7 +70,8 @@ export default {
   name: 'OpPayments',
   data: () => ({
     pHeaders: [
-      { text: 'Date', value: 'date', align: 'right' },
+      { text: 'Date mandat', value: 'date', align: 'right' },
+      { text: 'Date réception', value: 'receipt_date', align: 'right' },
       { text: 'Code IRIS', value: 'iris_code' },
       { text: 'Bénéficiaire', value: 'beneficiary' },
       { text: 'Montant', value: 'payment', align: 'right' }
@@ -95,12 +97,14 @@ export default {
     download () {
       const lines = this.payments.map(p => ({
         date: new Date(p.date),
+        receipt_date: p.receipt_date ? new Date(p.receipt_date) : null,
         iris_code: p.iris_code,
         beneficiary: p.beneficiary,
         value: p.value ? 0.01 * p.value : 0
       }))
       const columns = [
-        { header: 'Date', key: 'date', ...dateStyle },
+        { header: 'Date mandat', key: 'date', ...dateStyle },
+        { header: 'Date réception', key: 'receipt_date', ...dateStyle },
         { header: 'Code IRIS', key: 'iris_code', width: 10 },
         { header: 'Bénéficiaire', key: 'beneficiary', width: 50 },
         { header: 'Montant', key: 'value', ...valStyle }
