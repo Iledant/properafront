@@ -1,8 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="secondary title">
-      Prévisions pluriannuelles de CP
-    </v-card-title>
+    <v-card-title class="secondary title">Prévisions pluriannuelles de CP</v-card-title>
     <v-container grid-list-md fluid>
       <v-layout row wrap>
         <v-flex xs12>
@@ -37,6 +35,7 @@
     </v-container>
     <v-card-actions class="tertiary">
       <v-spacer />
+      <v-btn text color="primary" @click="opDownload">Export Excel opération</v-btn>
       <v-btn text color="primary" @click="download">Export Excel</v-btn>
     </v-card-actions>
     <prev-info-dlg v-model="dlg" />
@@ -67,7 +66,8 @@ export default {
     ...mapGetters(['loading']),
     ...mapState({
       items: state => state.previsions.paymentPrevisions,
-      actionItems: state => state.previsions.actionPaymentPrevisions
+      actionItems: state => state.previsions.actionPaymentPrevisions,
+      opItems: state => state.previsions.opPaymentPrevisions
     })
   },
   methods: {
@@ -88,6 +88,24 @@ export default {
         { header: String(y + 4), key: 'y4', ...valStyle }
       ]
       excelExport(this.actionItems, columns, 'Prévision CP par actions')
+    },
+    async opDownload () {
+      await this.$store.dispatch(types.GET_OP_PAYMENT_PREVISION)
+      if (this.opItems.length === 0) {
+        return
+      }
+      const y = new Date().getFullYear()
+      const columns = [
+        { header: 'Chap.', key: 'op_chapter', width: 10 },
+        { header: 'Num op.', key: 'op_number', width: 16 },
+        { header: 'Nom opération', key: 'op_name', width: 60 },
+        { header: String(y), key: 'y0', ...valStyle },
+        { header: String(y + 1), key: 'y1', ...valStyle },
+        { header: String(y + 2), key: 'y2', ...valStyle },
+        { header: String(y + 3), key: 'y3', ...valStyle },
+        { header: String(y + 4), key: 'y4', ...valStyle }
+      ]
+      excelExport(this.opItems, columns, 'Prévision CP par opération')
     }
   },
   created () {

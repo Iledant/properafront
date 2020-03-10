@@ -37,6 +37,7 @@ const state = {
   needsAndForecasts: [],
   paymentPrevisions: [],
   actionPaymentPrevisions: [],
+  opPaymentPrevisions: [],
   multiannualDifPmtPrev: [],
   curYearActionPmtPrevisions: []
 }
@@ -305,6 +306,13 @@ const actions = {
       body => commit(types.GET_ACTION_PAYMENT_PREVISION, body.DifActionPmtPrevision)
     )
   },
+  async [types.GET_OP_PAYMENT_PREVISION] ({ commit }) {
+    return handleRequest(
+      commit,
+      _ => Vue.http.get('payment_previsions/ops'),
+      body => commit(types.GET_OP_PAYMENT_PREVISION, body.DifOpPmtPrevision)
+    )
+  },
   async [types.GET_CUR_YEAR_ACTION_PMT_PREV] ({ commit }) {
     return handleRequest(
       commit,
@@ -444,6 +452,9 @@ const mutations = {
   },
   [types.GET_ACTION_PAYMENT_PREVISION] (state, list) {
     state.actionPaymentPrevisions = [...list]
+  },
+  [types.GET_OP_PAYMENT_PREVISION] (state, list) {
+    state.opPaymentPrevisions = [...list]
   },
   [types.GET_CUR_YEAR_ACTION_PMT_PREV] (state, list) {
     state.curYearActionPmtPrevisions = [...list]
