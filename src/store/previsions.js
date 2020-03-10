@@ -39,7 +39,8 @@ const state = {
   actionPaymentPrevisions: [],
   opPaymentPrevisions: [],
   multiannualDifPmtPrev: [],
-  curYearActionPmtPrevisions: []
+  curYearActionPmtPrevisions: [],
+  averagePaymentTime: []
 }
 
 const actions = {
@@ -458,6 +459,9 @@ const mutations = {
   },
   [types.GET_CUR_YEAR_ACTION_PMT_PREV] (state, list) {
     state.curYearActionPmtPrevisions = [...list]
+  },
+  [types.GET_AVERAGE_PAYMENT_TIME] (state, list) {
+    state.averagePaymentTime = [...list]
   }
 }
 

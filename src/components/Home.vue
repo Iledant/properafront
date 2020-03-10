@@ -29,14 +29,12 @@
               v-html="todayMessage ? todayMessage.html : ''"
             />
           </v-container>
-          <today-message-dlg v-model="dlg" :TodayMessage="msg" @save="save"/>
+          <today-message-dlg v-model="dlg" :TodayMessage="msg" @save="save" />
         </v-card>
       </v-flex>
       <v-flex xs12 md6>
         <v-card>
-          <v-card-title class="secondary">
-            Événements prévus d'ici un mois
-          </v-card-title>
+          <v-card-title class="secondary">Événements prévus d'ici un mois</v-card-title>
           <v-data-table
             :loading="loading"
             :headers="headers"
@@ -56,15 +54,14 @@
       </v-flex>
       <v-flex xs12 md6>
         <v-card>
-          <v-card-title class="secondary">
-            Consommation de crédits de paiement
-          </v-card-title>
+          <v-card-title class="secondary">Consommation de crédits de paiement</v-card-title>
           <v-flex xs12>
             <payment-chart :height="400" class="mt-2" />
           </v-flex>
-          <v-flex xs12 class="text-right caption" >
-            Date d'import : {{ paymentImportDate | dateFilter }}
-          </v-flex>
+          <v-flex
+            xs12
+            class="text-right caption"
+          >Date d'import : {{ paymentImportDate | dateFilter }}</v-flex>
         </v-card>
       </v-flex>
       <v-flex xs12 md6>
@@ -73,8 +70,22 @@
           <v-flex xs12>
             <commitment-chart :height="400" class="mt-2" />
           </v-flex>
-          <v-flex xs12 class="text-right caption">
-            Date d'import : {{ commitmentImportDate | dateFilter }}
+          <v-flex
+            xs12
+            class="text-right caption"
+          >Date d'import : {{ commitmentImportDate | dateFilter }}</v-flex>
+        </v-card>
+      </v-flex>
+      <v-flex xs12 md6>
+        <v-card>
+          <v-card-title class="secondary">Délai moyen de mandatement</v-card-title>
+          <v-flex xs12>
+            <avg-pmt-time-chart :height="400" class="mt-2" />
+          </v-flex>
+          <v-flex xs12 class="caption">
+            Ce graphique représente la moyenne mobile sur les 12 derniers mois
+            du délai entre les dates inscrites dans CORIOLIS de réception des
+            factures et de proposition de mandatement.
           </v-flex>
         </v-card>
       </v-flex>
@@ -89,12 +100,13 @@ import * as types from '../store/mutation-types'
 import TodayMessageDlg from './Home/TodayMessageDlg.vue'
 import PaymentChart from './Home/PaymentChart.js'
 import CommitmentChart from './Home/CommitmentChart.js'
+import AvgPmtTimeChart from './Home/AvgPmtTimeChart.js'
 import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'home',
   mixins: [isAdmin, isObserver],
-  components: { TodayMessageDlg, PaymentChart, CommitmentChart },
+  components: { TodayMessageDlg, PaymentChart, CommitmentChart, AvgPmtTimeChart },
   data: () => ({
     headers: [
       { text: 'Date', value: 'date', align: 'right' },
