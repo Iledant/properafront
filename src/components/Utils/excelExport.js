@@ -67,7 +67,7 @@ export function excelUploadFile (
         parsed = parseCallback(parsed)
       }
       if (typeof successCallback === 'function') {
-        successCallback(parsed)
+        return successCallback(parsed)
       }
     })
   } catch (e) {

@@ -363,6 +363,7 @@
         </v-flex>
       </v-layout>
     </v-container>
+    <op-cmt-proposal-dlg v-model="dlg" @confirm="setOpCmtLinks" />
   </v-card>
 </template>
 
@@ -370,10 +371,14 @@
 import * as types from '../store/mutation-types'
 import { excelUploadFile } from './Utils/excelExport'
 import { mapGetters, mapState } from 'vuex'
-
+import OpCmtProposalDlg from './OpCmtProposalDlg.vue'
 export default {
   name: 'uploads',
-  data: () => ({ planId: null }),
+  components: { OpCmtProposalDlg },
+  data: () => ({
+    planId: null,
+    dlg: false
+  }),
   methods: {
     fileError () {
       this.$store.commit(
@@ -441,6 +446,7 @@ export default {
           coriolis_egt_num: String(o.coriolis_egt_num),
           coriolis_egt_line: String(o.coriolis_egt_line),
           name: String(o.name),
+          op_name: String(o.op_name),
           beneficiary: String(o.beneficiary),
           beneficiary_code: o.beneficiary_code,
           date: o.date,
@@ -755,16 +761,27 @@ export default {
         this.fileError,
         parseFunction
       )
+    },
+    setOpCmtLinks (list) {
+      this.$store.dispatch(types.SET_OP_CMT_LINKS, list)
     }
   },
   computed: {
     ...mapGetters(['loading']),
     ...mapState({
-      plans: state => state.plans.plans
+      plans: state => state.plans.plans,
+      cmtOpProposals: state => state.uploads.cmtOpProposals
     })
   },
   created () {
     this.$store.dispatch(types.GET_PLANS)
+  },
+  watch: {
+    cmtOpProposals (list) {
+      if (list.length > 0) {
+        this.dlg = true
+      }
+    }
   }
 }
 </script>

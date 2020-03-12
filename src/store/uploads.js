@@ -2,12 +2,16 @@ import * as types from './mutation-types'
 import Vue from 'vue'
 import { handleRequest } from './loading.js'
 
+const state = {
+  cmtOpProposals: []
+}
+
 const actions = {
   async [types.ADD_FINANCIAL_COMMITMENTS] ({ commit }, payload) {
     return handleRequest(
       commit,
       _ => Vue.http.post('financial_commitments', payload),
-      _ => {}
+      body => commit(types.ADD_CMT_OPS_PROPOSAL, body.CmtOpProposal)
     )
   },
   async [types.ADD_PAYMENTS] ({ commit }, payload) {
@@ -68,7 +72,20 @@ const actions = {
       _ => Vue.http.post(`plans/${id}/planlines/array`, { PlanLine }),
       _ => {}
     )
+  },
+  async [types.SET_OP_CMT_LINKS] ({ commit }, list) {
+    return handleRequest(
+      commit,
+      _ => Vue.http.post('cmt_op_link', { CmtOpLink: list }),
+      _ => commit(types.ADD_CMT_OPS_PROPOSAL, [])
+    )
   }
 }
 
-export default { actions }
+const mutations = {
+  [types.ADD_CMT_OPS_PROPOSAL] (state, list) {
+    state.cmtOpProposals = [...list]
+  }
+}
+
+export default { state, actions, mutations }
