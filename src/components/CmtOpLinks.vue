@@ -21,7 +21,7 @@
             single-line
             hide-details
             v-debounce:500ms="handleFcMinYear"
-            prepend-icon="search"
+            prepend-icon="calendar_today"
             :rules="[yearRule]"
           />
         </v-flex>
@@ -102,7 +102,7 @@
             single-line
             hide-details
             v-debounce:500ms="handleFcOpMinYear"
-            prepend-icon="search"
+            prepend-icon="calendar_today"
             :rules="[yearRule]"
           />
         </v-flex>

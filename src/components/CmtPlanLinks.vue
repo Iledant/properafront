@@ -19,7 +19,7 @@
             single-line
             hide-details
             v-debounce:500ms="handleFcMinYear"
-            prepend-icon="search"
+            prepend-icon="calendar_today"
             :rules="[yearRule]"
           />
         </v-flex>
@@ -74,6 +74,7 @@
             item-text="name"
             item-value="id"
             no-data-text="Aucun plan trouvé"
+            prepend-icon="description"
           />
         </v-flex>
         <v-flex sm3 />
@@ -122,7 +123,7 @@
             single-line
             hide-details
             v-debounce:500ms="handleFcPlMinYear"
-            prepend-icon="search"
+            prepend-icon="calendar_today"
             :rules="[yearRule]"
           />
         </v-flex>

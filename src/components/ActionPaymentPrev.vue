@@ -6,7 +6,13 @@
     <v-container grid-list-md fluid>
       <v-layout row wrap>
         <v-flex xs12 sm6 offset-sm3>
-          <v-text-field label="Recherche" single-line hide-details v-model="search" />
+          <v-text-field
+          label="Recherche"
+          single-line
+          hide-details
+          v-model="search"
+          prepend-icon="search"
+        />
         </v-flex>
         <v-flex sm3 />
         <v-flex xs12>

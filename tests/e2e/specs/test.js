@@ -65,6 +65,7 @@ describe('Opérations administrateur', () => {
     cy.get('[data-cy=userDlgEmail]').clear().type(Cypress.env('newUserEmail2'))
     cy.get('[data-cy=userDlgPassword]').type(Cypress.env('newUserPassword2'))
     cy.get('[data-cy=userDlgActive]').click({ force: true })
+    cy.get('[data-cy=userDlgRole]').type('Utilisateur{enter}', { force: true })
     cy.get('[data-cy=userDlgSave]').click()
     cy.contains(Cypress.env('newUserName2'))
     cy.contains(Cypress.env('newUserEmail2'))

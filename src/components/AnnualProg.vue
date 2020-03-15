@@ -12,6 +12,7 @@
             label="Année de programmation"
             item-value="year"
             item-text="year"
+            prepend-icon="calendar_today"
           />
         </v-flex>
         <v-flex sm3 />

@@ -106,7 +106,7 @@ export default {
   computed: {
     ...mapGetters(['loading']),
     ...mapState({
-      chapter: state => state.budgetTables.chapterList,
+      chapters: state => state.budgetTables.chapterList,
       sectors: state => state.budgetTables.sectorList,
       programs: state => state.budgetTables.programList,
       actions: state => state.budgetTables.actionList

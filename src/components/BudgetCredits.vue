@@ -11,6 +11,7 @@
             single-line
             hide-details
             v-model="search"
+            prepend-icon="search"
           />
         </v-flex>
         <v-flex sm3 />
