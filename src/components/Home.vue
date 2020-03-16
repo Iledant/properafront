@@ -34,7 +34,9 @@
       </v-flex>
       <v-flex xs12 md6>
         <v-card>
-          <v-card-title class="secondary">Événements prévus d'ici un mois</v-card-title>
+          <v-card-title class="secondary">
+            Événements prévus d'ici un mois
+          </v-card-title>
           <v-data-table
             :loading="loading"
             :headers="headers"
@@ -42,11 +44,11 @@
             dense
             no-data-text="Aucun événement trouvé d'ici un mois"
           >
-            <template #item="{ item: { date, operation, event } }">
+            <template #item="{ item }">
               <tr>
-                <td class="text-no-wrap">{{ date | shortDateFilter }}</td>
-                <td>{{ operation }}</td>
-                <td>{{ event }}</td>
+                <td class="text-no-wrap">{{ item.date | shortDateFilter }}</td>
+                <td>{{ item.operation }}</td>
+                <td>{{ item.event }}</td>
               </tr>
             </template>
           </v-data-table>
@@ -54,22 +56,21 @@
       </v-flex>
       <v-flex xs12 md6>
         <v-card>
-          <v-card-title class="secondary">Consommation de crédits de paiement</v-card-title>
+          <v-card-title class="secondary">
+            Consommation de crédits de paiement
+          </v-card-title>
           <v-flex xs12>
             <payment-chart :height="400" class="mt-2" />
           </v-flex>
-          <v-flex
-            xs12
-            class="text-right caption"
-          >Date d'import : {{ paymentImportDate | dateFilter }}</v-flex>
+          <v-flex xs12 class="text-right caption">
+            Date d'import : {{ paymentImportDate | dateFilter }}
+          </v-flex>
         </v-card>
       </v-flex>
       <v-flex xs12 md6>
         <v-card>
           <v-card-title class="secondary">Engagement des AP</v-card-title>
-          <v-flex xs12>
-            <commitment-chart :height="400" class="mt-2" />
-          </v-flex>
+          <v-flex xs12><commitment-chart :height="400" class="mt-2" /></v-flex>
           <v-flex
             xs12
             class="text-right caption"
