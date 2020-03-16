@@ -121,8 +121,7 @@ export default {
       { text: 'Numéro', value: 'number' },
       { text: 'Nom', value: 'name' },
       { text: 'Valeur', value: 'value', align: 'right' }
-    ],
-    items: []
+    ]
   }),
   computed: {
     ...mapGetters(['loading']),
@@ -216,11 +215,7 @@ export default {
           key: 'budget_action_id',
           width: 10
         },
-        {
-          header: 'Nom d\'action budgétaire',
-          key: 'budget_action_name',
-          width: 50
-        },
+        { header: 'Action budgétaire', key: 'budget_action_name', width: 50 },
         {
           header: 'Référence de ligne de plan',
           key: 'plan_line_id',
