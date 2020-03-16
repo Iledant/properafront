@@ -19,8 +19,8 @@
 
 <script>
 import * as types from '../store/mutation-types.js'
-import BeneficiaryChronicles from './Payment/BeneficiaryChronicles.vue'
-import CommitmentPerBeneficiary from './CommitmentPerBeneficiary.vue'
+import BeneficiaryChronicles from './Beneficiary/BeneficiaryChronicles.vue'
+import CommitmentPerBeneficiary from './Beneficiary/CommitmentPerBeneficiary.vue'
 
 export default {
   name: 'Beneficiary',
