@@ -83,7 +83,7 @@
     </v-container>
     <v-card-actions class="tertiary">
       <v-spacer />
-      <v-btn color="primary" text @click.stop="onAddClick" v-if="isAdmin">
+      <v-btn color="primary" text @click="onAddClick" v-if="isAdmin">
         Ajouter
       </v-btn>
     </v-card-actions>
@@ -109,18 +109,15 @@ import DeleteDlg from './DeleteDlg'
 import isAdmin from './Mixins/isAdmin'
 import { mapGetters, mapState } from 'vuex'
 
+const nullPlan = { name: '', descript: null, first_year: null, last_year: null }
+
 export default {
   name: 'Plans',
   mixins: [isAdmin],
   components: { PlanEditDlg, DeleteDlg },
   data: () => ({
     searchText: '',
-    deletedPlan: {
-      name: '',
-      descript: null,
-      first_year: null,
-      last_year: null
-    },
+    deletedPlan: { ...nullPlan },
     showDlg: false,
     removeDlg: false,
     mentions: { title: 'Nouveau plan', validate: 'Créer' },
@@ -130,12 +127,7 @@ export default {
       { text: 'Nom', value: 'name' },
       { text: 'Description', value: 'descript' }
     ],
-    modifiedPlan: {
-      name: '',
-      descript: null,
-      first_year: null,
-      last_year: null
-    }
+    modifiedPlan: { ...nullPlan }
   }),
   computed: {
     ...mapGetters(['loading']),
@@ -145,12 +137,7 @@ export default {
   },
   methods: {
     onAddClick () {
-      this.modifiedPlan = {
-        name: '',
-        descript: null,
-        first_year: null,
-        last_year: null
-      }
+      this.modifiedPlan = { ...nullPlan }
       this.mentions = { title: 'Nouveau plan', validate: 'Créer' }
       this.showDlg = true
     },
