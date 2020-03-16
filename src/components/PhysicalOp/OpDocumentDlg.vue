@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import checkIfNotEmpty from '../Mixins/CheckIfNotEmpty'
+import checkIfNotEmpty from '@/components/Mixins/CheckIfNotEmpty'
 export default {
   name: 'OpDocumentDlg',
   mixins: [checkIfNotEmpty],

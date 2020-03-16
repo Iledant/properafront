@@ -103,10 +103,10 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types.js'
+import * as types from '@/store/mutation-types.js'
 import PlanEditDlg from './Plans/PlanEditDlg'
 import DeleteDlg from './DeleteDlg'
-import isAdmin from './Mixins/isAdmin'
+import isAdmin from '@/components/Mixins/isAdmin'
 import { mapGetters, mapState } from 'vuex'
 
 const nullPlan = { name: '', descript: null, first_year: null, last_year: null }

@@ -96,11 +96,11 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types.js'
+import * as types from '@/store/mutation-types.js'
 import OpEditDlg from './PhysicalOps/OpEditDlg.vue'
 import DeleteDlg from './DeleteDlg.vue'
-import isAdmin from './Mixins/isAdmin'
-import isObserver from './Mixins/isObserver'
+import isAdmin from '@/components/Mixins/isAdmin'
+import isObserver from '@/components/Mixins/isObserver'
 import { excelExport, dateStyle, valStyle, percentStyle } from './Utils/excelExport'
 import { mapGetters, mapState } from 'vuex'
 

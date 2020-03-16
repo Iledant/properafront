@@ -212,9 +212,9 @@
 </template>
 
 <script>
-import * as types from '../../store/mutation-types.js'
-import isObserver from '../Mixins/isObserver'
-import currencyInput from '../Mixins/currencyInput'
+import * as types from '@/store/mutation-types.js'
+import isObserver from '@/components/Mixins/isObserver'
+import currencyInput from '@/components/Mixins/currencyInput'
 import { percentageInput, percentageInputParse } from '../../filters/filters'
 import { mapGetters, mapState } from 'vuex'
 

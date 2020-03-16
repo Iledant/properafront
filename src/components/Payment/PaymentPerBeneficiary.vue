@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import * as types from '../../store/mutation-types.js'
+import * as types from '@/store/mutation-types.js'
 import { excelExport, valStyle } from '../Utils/excelExport.js'
 import { mapGetters, mapState } from 'vuex'
 

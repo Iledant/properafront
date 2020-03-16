@@ -92,9 +92,9 @@
 </template>
 
 <script>
-import * as types from '../../store/mutation-types'
+import * as types from '@/store/mutation-types'
 import OpDocumentDlg from './OpDocumentDlg.vue'
-import isObserver from '../Mixins/isObserver'
+import isObserver from '@/components/Mixins/isObserver'
 import DeleteDlg from '../DeleteDlg.vue'
 import { mapGetters, mapState } from 'vuex'
 export default {

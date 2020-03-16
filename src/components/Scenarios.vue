@@ -88,7 +88,7 @@
 <script>
 import ScenarioEditDlg from './Scenarios/ScenarioEditDlg.vue'
 import DeleteDlg from './DeleteDlg.vue'
-import * as types from '../store/mutation-types'
+import * as types from '@/store/mutation-types'
 export default {
   name: 'scenarios',
   computed: {

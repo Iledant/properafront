@@ -249,10 +249,10 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types'
+import * as types from '@/store/mutation-types'
 import { dateFilter } from '../filters/filters'
-import currencyInput from './Mixins/currencyInput'
-import yearRule from './Mixins/yearRule'
+import currencyInput from '@/components/Mixins/currencyInput'
+import yearRule from '@/components/Mixins/yearRule'
 import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'PreProgramming',

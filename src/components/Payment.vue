@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types.js'
+import * as types from '@/store/mutation-types.js'
 import PaymentChart from './Home/PaymentChart.js'
 import PaymentPerMonthChart from './Payment/PaymentPerMonthChart.js'
 import PaymentPerBeneficiary from './Payment/PaymentPerBeneficiary.vue'

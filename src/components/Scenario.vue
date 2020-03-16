@@ -197,7 +197,7 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types'
+import * as types from '@/store/mutation-types'
 import { excelExport } from './Utils/excelExport'
 
 export default {

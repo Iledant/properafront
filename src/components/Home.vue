@@ -95,9 +95,9 @@
 </template>
 
 <script>
-import isAdmin from './Mixins/isAdmin'
-import isObserver from './Mixins/isObserver'
-import * as types from '../store/mutation-types'
+import isAdmin from '@/components/Mixins/isAdmin'
+import isObserver from '@/components/Mixins/isObserver'
+import * as types from '@/store/mutation-types'
 import TodayMessageDlg from './Home/TodayMessageDlg.vue'
 import PaymentChart from './Home/PaymentChart.js'
 import CommitmentChart from './Home/CommitmentChart.js'

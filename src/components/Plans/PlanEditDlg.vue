@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import checkIfNotEmpty from '../Mixins/CheckIfNotEmpty'
+import checkIfNotEmpty from '@/components/Mixins/CheckIfNotEmpty'
 const yearTest = y => /^20\d{2}$/.test(y)
 export default {
   name: 'PlanEditDlg',

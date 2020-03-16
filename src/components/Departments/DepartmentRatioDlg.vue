@@ -94,7 +94,7 @@
 </template>
 
 <script>
-import percentageInput from '../Mixins/percentageInput'
+import percentageInput from '@/components/Mixins/percentageInput'
 export default {
   name: 'DepartmentRatioDlg',
   mixins: [percentageInput],

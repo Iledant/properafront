@@ -76,8 +76,8 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types.js'
-import checkIfNotEmpty from './Mixins/CheckIfNotEmpty'
+import * as types from '@/store/mutation-types.js'
+import checkIfNotEmpty from '@/components/Mixins/CheckIfNotEmpty'
 import SignUp from './SignUp.vue'
 import { mapGetters } from 'vuex'
 export default {

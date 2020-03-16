@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import checkIfNotEmpty from '../Mixins/CheckIfNotEmpty'
+import checkIfNotEmpty from '@/components/Mixins/CheckIfNotEmpty'
 export default {
   mixins: [checkIfNotEmpty],
   name: 'ScenarioEditDlg',

@@ -273,8 +273,8 @@
 </template>
 
 <script>
-import * as types from '../../store/mutation-types.js'
-import yearRule from '../Mixins/yearRule'
+import * as types from '@/store/mutation-types.js'
+import yearRule from '@/components/Mixins/yearRule'
 import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'Ratios',

@@ -56,7 +56,7 @@
 
 <script>
 import { dateFilter } from '../../filters/filters.js'
-import checkIfNotEmpty from '../Mixins/CheckIfNotEmpty'
+import checkIfNotEmpty from '@/components/Mixins/CheckIfNotEmpty'
 export default {
   name: 'OpEventDlg',
   mixins: [checkIfNotEmpty],

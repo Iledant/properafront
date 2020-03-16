@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types.js'
+import * as types from '@/store/mutation-types.js'
 import BeneficiaryChronicles from './Beneficiary/BeneficiaryChronicles.vue'
 import CommitmentPerBeneficiary from './Beneficiary/CommitmentPerBeneficiary.vue'
 

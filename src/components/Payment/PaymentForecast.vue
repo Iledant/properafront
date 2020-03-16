@@ -177,10 +177,10 @@
 
 <script>
 import * as types from '@/store/mutation-types.js'
-import isAdmin from '../Mixins/isAdmin'
+import isAdmin from '@/components/Mixins/isAdmin'
 import DeleteDlg from '../DeleteDlg.vue'
 import PaymentNeedDlg from './PaymentNeedDlg.vue'
-import yearRule from '../Mixins/yearRule'
+import yearRule from '@/components/Mixins/yearRule'
 import { excelExport, valStyle, dateStyle } from '../Utils/excelExport.js'
 import { mapGetters, mapState } from 'vuex'
 

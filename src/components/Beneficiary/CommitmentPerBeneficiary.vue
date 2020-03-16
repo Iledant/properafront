@@ -82,7 +82,7 @@
 
 <script>
 import { excelExport, valStyle, dateStyle } from '../Utils/excelExport.js'
-import * as types from '../../store/mutation-types'
+import * as types from '@/store/mutation-types'
 import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'CommitmentPerBeneficiary',

@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types.js'
+import * as types from '@/store/mutation-types.js'
 import OpFields from './PhysicalOp/OpFields.vue'
 import OpEvents from './PhysicalOp/OpEvents.vue'
 import OpPrevisions from './PhysicalOp/OpPrevisions.vue'

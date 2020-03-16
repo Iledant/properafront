@@ -36,8 +36,8 @@
 </template>
 
 <script>
-import checkIfNotEmpty from '../Mixins/CheckIfNotEmpty'
-import currencyInput from '../Mixins/currencyInput'
+import checkIfNotEmpty from '@/components/Mixins/CheckIfNotEmpty'
+import currencyInput from '@/components/Mixins/currencyInput'
 export default {
   mixins: [checkIfNotEmpty, currencyInput],
   name: 'PlanLineEditDlg',

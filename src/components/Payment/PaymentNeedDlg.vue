@@ -74,8 +74,8 @@
 </template>
 
 <script>
-import checkIfNotEmpty from '../Mixins/CheckIfNotEmpty'
-import currencyInput from '../Mixins/currencyInput'
+import checkIfNotEmpty from '@/components/Mixins/CheckIfNotEmpty'
+import currencyInput from '@/components/Mixins/currencyInput'
 import { dateFilter } from '../../filters/filters'
 export default {
   name: 'PaymentNeedDlg',

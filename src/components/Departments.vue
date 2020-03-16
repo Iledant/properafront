@@ -19,7 +19,7 @@
   </v-card>
 </template>
 <script>
-import * as types from '../store/mutation-types.js'
+import * as types from '@/store/mutation-types.js'
 import DepartmentRatios from './Departments/DepartmentRatios.vue'
 import DepartmentCommitments from './Departments/DepartmentCommitments.vue'
 import DepartmentProg from './Departments/DepartmentProg.vue'

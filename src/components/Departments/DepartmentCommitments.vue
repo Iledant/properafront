@@ -51,8 +51,8 @@
 
 <script>
 import FcPerDptChart from './FcPerDptChart.js'
-import * as types from '../../store/mutation-types'
-import yearRule from '../Mixins/yearRule'
+import * as types from '@/store/mutation-types'
+import yearRule from '@/components/Mixins/yearRule'
 import { mapGetters, mapState } from 'vuex'
 
 export default {

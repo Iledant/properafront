@@ -148,10 +148,10 @@
 
 <script>
 import { dateValueFilter, intFormat, triFormat } from '../../filters/filters'
-import checkIfNotEmpty from '../Mixins/CheckIfNotEmpty'
-import * as types from '../../store/mutation-types'
-import isAdmin from '../Mixins/isAdmin'
-import currencyInput from '../Mixins/currencyInput'
+import checkIfNotEmpty from '@/components/Mixins/CheckIfNotEmpty'
+import * as types from '@/store/mutation-types'
+import isAdmin from '@/components/Mixins/isAdmin'
+import currencyInput from '@/components/Mixins/currencyInput'
 import { mapState } from 'vuex'
 
 export default {

@@ -158,8 +158,8 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types.js'
-import isAdmin from './Mixins/isAdmin'
+import * as types from '@/store/mutation-types.js'
+import isAdmin from '@/components/Mixins/isAdmin'
 import PlanLineEditDlg from './PlanLines/PlanLineEditDlg'
 import DeleteDlg from './DeleteDlg.vue'
 import { excelExport, valStyle, percentStyle, dateStyle } from './Utils/excelExport'
