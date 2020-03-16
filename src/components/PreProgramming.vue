@@ -231,9 +231,7 @@
         </v-card-title>
         <v-container grid-list-md fluid>
           <v-layout wrap>
-            <v-flex xs6>
-              <v-img src="grandmother.svg" />
-            </v-flex>
+            <v-flex xs6><v-img src="grandmother.svg" /></v-flex>
             <v-flex xs6>
               <P>Jérôme</P>
               <p>As-tu bien vérifié tes chiffres cette-fois-ci ?</p>
@@ -275,7 +273,7 @@ export default {
     headers: [
       { text: 'Opération', value: 'name' },
       { text: 'Besoin', align: 'right', value: 'prev_value' },
-      { text: '', align: 'center', value: '', sortable: false, width: '1%' },
+      { text: '', value: '', sortable: false, width: '1%' },
       { text: 'Préprogrammation', align: 'right', value: 'pre_prog_value' },
       { text: 'Commission', align: 'right', value: 'commission_date' }
     ],
