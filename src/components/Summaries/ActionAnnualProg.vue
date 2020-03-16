@@ -75,8 +75,8 @@
   </v-card>
 </template>
 <script>
-import { excelExport, valStyle } from './Utils/excelExport'
-import * as types from '../store/mutation-types'
+import { excelExport, valStyle } from '@/components/Utils/excelExport'
+import * as types from '@/store/mutation-types'
 import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'ActionAnnualProg',

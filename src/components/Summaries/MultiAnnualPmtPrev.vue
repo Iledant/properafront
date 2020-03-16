@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types'
-import { excelExport, valStyle } from './Utils/excelExport'
+import * as types from '@/store/mutation-types'
+import { excelExport, valStyle } from '@/components/Utils/excelExport'
 import { mapGetters, mapState } from 'vuex'
 import PrevChart from './MultiAnnualPmtPrevChart.js'
 import PrevInfoDlg from './PmtPrevInfoDlg.vue'

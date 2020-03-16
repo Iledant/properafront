@@ -112,8 +112,8 @@
 </template>
 
 <script>
-import { excelExport, dateStyle, valStyle } from './Utils/excelExport'
-import * as types from '../store/mutation-types'
+import { excelExport, dateStyle, valStyle } from '@/components/Utils/excelExport'
+import * as types from '@/store/mutation-types'
 import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'AnnualProg',

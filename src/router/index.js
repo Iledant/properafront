@@ -67,32 +67,32 @@ export default new Router({
     {
       path: '/annual_prog',
       name: 'AnnualProg',
-      component: () => import('@/components/AnnualProg.vue')
+      component: () => import('@/components/Summaries/AnnualProg.vue')
     },
     {
       path: '/prev_pre_prog',
       name: 'PrevPreProg',
-      component: () => import('@/components/PrevPreProg.vue')
+      component: () => import('@/components/Summaries/PrevPreProg.vue')
     },
     {
       path: '/action_annual_prog',
       name: 'ActionAnnualProg',
-      component: () => import('@/components/ActionAnnualProg.vue')
+      component: () => import('@/components/Summaries/ActionAnnualProg.vue')
     },
     {
       path: '/action_payment_prev',
       name: 'ActionPaymentPrev',
-      component: () => import('@/components/ActionPaymentPrev.vue')
+      component: () => import('@/components/Summaries/ActionPaymentPrev.vue')
     },
     {
       path: '/multi_annual_prev',
       name: 'MultiAnnualPrev',
-      component: () => import('@/components/MultiAnnualPrev.vue')
+      component: () => import('@/components/Summaries/MultiAnnualPrev.vue')
     },
     {
       path: '/action_multi_annual_prev',
       name: 'ActionMultiAnnualPrev',
-      component: () => import('@/components/ActionMultiAnnualPrev.vue')
+      component: () => import('@/components/Summaries/ActionMultiAnnualPrev.vue')
     },
     {
       path: '/steps_categories',
@@ -210,7 +210,7 @@ export default new Router({
     {
       path: '/multiannual_pmt_prev',
       name: 'MultiAnnualPmtPrev',
-      component: () => import('@/components/MultiAnnualPmtPrev.vue')
+      component: () => import('@/components/Summaries/MultiAnnualPmtPrev.vue')
     },
     {
       path: '/consistency',
