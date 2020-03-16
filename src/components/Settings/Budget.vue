@@ -24,11 +24,11 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types'
-import Chapters from './Settings/Chapters'
-import Sectors from './Settings/Sectors'
-import Programs from './Settings/Programs'
-import Actions from './Settings/Actions'
+import * as types from '@/store/mutation-types'
+import Chapters from './Budget/Chapters'
+import Sectors from './Budget/Sectors'
+import Programs from './Budget/Programs'
+import Actions from './Budget/Actions'
 export default {
   name: 'Budget',
   components: { Chapters, Sectors, Programs, Actions },

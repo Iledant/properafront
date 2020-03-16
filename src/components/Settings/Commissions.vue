@@ -88,9 +88,9 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types.js'
-import CommissionDlg from './Settings/CommissionDlg.vue'
-import DeleteDlg from './DeleteDlg.vue'
+import * as types from '@/store/mutation-types.js'
+import CommissionDlg from './Commissions/CommissionDlg.vue'
+import DeleteDlg from '@/components/DeleteDlg.vue'
 import { mapGetters, mapState } from 'vuex'
 const nullCommission = { id: 0, name: '', date: null }
 export default {

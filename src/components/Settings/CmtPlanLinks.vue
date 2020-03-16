@@ -167,8 +167,8 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types'
-import yearRule from './Mixins/yearRule'
+import * as types from '@/store/mutation-types'
+import yearRule from '@/components/Mixins/yearRule'
 import { mapGetters, mapState } from 'vuex'
 const yearTest = y => /^20\d{2}$/.test(y)
 export default {

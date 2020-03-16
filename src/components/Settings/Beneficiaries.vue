@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types.js'
+import * as types from '@/store/mutation-types.js'
 import BeneficiaryEditDlg from './Beneficiaries/BeneficiaryEditDlg.vue'
 import { mapGetters, mapState } from 'vuex'
 export default {

@@ -173,10 +173,10 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types.js'
-import CategoryDlg from './Settings/CategoryDlg.vue'
-import StepDlg from './Settings/StepDlg.vue'
-import DeleteDlg from './DeleteDlg.vue'
+import * as types from '@/store/mutation-types.js'
+import CategoryDlg from './StepsCategories/CategoryDlg.vue'
+import StepDlg from './StepsCategories/StepDlg.vue'
+import DeleteDlg from '@/components/DeleteDlg.vue'
 import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'StepsCategories',

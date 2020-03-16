@@ -55,8 +55,8 @@
 </template>
 
 <script>
-import checkIfNotEmpty from '../Mixins/CheckIfNotEmpty'
-import { dateFilter } from '../../filters/filters'
+import checkIfNotEmpty from '@/components/Mixins/CheckIfNotEmpty'
+import { dateFilter } from '@/filters/filters'
 export default {
   name: 'CommissionDlg',
   mixins: [checkIfNotEmpty],

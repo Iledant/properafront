@@ -77,9 +77,9 @@
 </template>
 
 <script>
-import * as types from '../../store/mutation-types.js'
-import ChapterEditDlg from '../BudgetTables/ChapterEditDlg.vue'
-import DeleteDlg from '../DeleteDlg.vue'
+import * as types from '@/store/mutation-types.js'
+import ChapterEditDlg from './ChapterEditDlg.vue'
+import DeleteDlg from '@/components/DeleteDlg.vue'
 import { mapGetters, mapState } from 'vuex'
 const nullChapter = { id: 0, name: '', code: '' }
 

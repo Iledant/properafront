@@ -18,9 +18,9 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types.js'
-import CommitmentsWithoutAction from './CommitmentsWithoutAction.vue'
-import UnlinkedPayments from './UnlinkedPayments.vue'
+import * as types from '@/store/mutation-types.js'
+import CommitmentsWithoutAction from './Consistency/CommitmentsWithoutAction.vue'
+import UnlinkedPayments from './Consistency/UnlinkedPayments.vue'
 export default {
   name: 'Consistency',
   data () {

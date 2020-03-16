@@ -63,9 +63,9 @@
 </template>
 
 <script>
-import * as types from '../../store/mutation-types.js'
-import SectorEditDlg from '../BudgetTables/SectorEditDlg.vue'
-import DeleteDlg from '../DeleteDlg.vue'
+import * as types from '@/store/mutation-types.js'
+import SectorEditDlg from './SectorEditDlg.vue'
+import DeleteDlg from '@/components/DeleteDlg.vue'
 import { mapGetters, mapState } from 'vuex'
 const nullSector = { id: 0, name: '', code: '' }
 export default {

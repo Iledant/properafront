@@ -79,9 +79,9 @@
 </template>
 
 <script>
-import * as types from '../../store/mutation-types.js'
-import ActionEditDlg from '../BudgetTables/ActionEditDlg.vue'
-import DeleteDlg from '../DeleteDlg.vue'
+import * as types from '@/store/mutation-types.js'
+import ActionEditDlg from './ActionEditDlg.vue'
+import DeleteDlg from '@/components/DeleteDlg.vue'
 import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'Actions',

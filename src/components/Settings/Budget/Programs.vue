@@ -79,9 +79,9 @@
 </template>
 
 <script>
-import * as types from '../../store/mutation-types.js'
-import ProgramEditDlg from '../BudgetTables/ProgramEditDlg.vue'
-import DeleteDlg from '../DeleteDlg.vue'
+import * as types from '@/store/mutation-types.js'
+import ProgramEditDlg from './ProgramEditDlg.vue'
+import DeleteDlg from '@/components/DeleteDlg.vue'
 import { mapGetters, mapState } from 'vuex'
 const nullProgram = {
   id: 0,

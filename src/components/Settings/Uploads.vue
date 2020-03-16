@@ -368,10 +368,10 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types'
-import { excelUploadFile } from './Utils/excelExport'
+import * as types from '@/store/mutation-types'
+import { excelUploadFile } from '@/components/Utils/excelExport'
 import { mapGetters, mapState } from 'vuex'
-import OpCmtProposalDlg from './OpCmtProposalDlg.vue'
+import OpCmtProposalDlg from './Uploads/OpCmtProposalDlg.vue'
 export default {
   name: 'uploads',
   components: { OpCmtProposalDlg },

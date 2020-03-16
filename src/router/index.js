@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import SignUp from '@/components/SignUp.vue'
-// import SignIn from '@/components/SignIn.vue'
 import home from '@/components/Home.vue'
 import changePassword from '@/components/Password.vue'
 
@@ -34,20 +32,10 @@ export default new Router({
       component: () => import('@/components/PlanLines.vue'),
       props: true
     },
-    // {
-    //   path: '/sign_up',
-    //   component: SignUp,
-    //   name: 'SignUp'
-    // },
-    // {
-    //   path: '/sign_in',
-    //   component: SignIn,
-    //   name: 'SignIn'
-    // },
     {
       path: '/users',
       name: 'Users',
-      component: () => import('@/components/Users.vue')
+      component: () => import('@/components/Settings/Users.vue')
     },
     {
       path: '/password',
@@ -62,7 +50,7 @@ export default new Router({
     {
       path: '/uploads',
       name: 'Uploads',
-      component: () => import('@/components/Uploads.vue')
+      component: () => import('@/components/Settings/Uploads.vue')
     },
     {
       path: '/annual_prog',
@@ -97,91 +85,43 @@ export default new Router({
     {
       path: '/steps_categories',
       name: 'StepsCategories',
-      component: () => import('@/components/StepsCategories.vue')
+      component: () => import('@/components/Settings/StepsCategories.vue')
     },
     {
       path: '/cmt_op_links',
       name: 'CmtOpLinks',
-      component: () => import('@/components/CmtOpLinks.vue')
+      component: () => import('@/components/Settings/CmtOpLinks.vue')
     },
     {
       path: '/cmt_plan_links',
       name: 'CmtPlanLinks',
-      component: () => import('@/components/CmtPlanLinks.vue')
+      component: () => import('@/components/Settings/CmtPlanLinks.vue')
     },
     {
       path: '/pendings_op_links',
       name: 'PendingsOpLinks',
-      component: () => import('@/components/PendingsOpLinks.vue')
+      component: () => import('@/components/Settings/PendingsOpLinks.vue')
     },
     {
       path: '/beneficiaries',
       name: 'Beneficiaries',
-      component: () => import('@/components/Beneficiaries.vue')
+      component: () => import('@/components/Settings/Beneficiaries.vue')
     },
     {
       path: '/commissions',
       name: 'Commissions',
-      component: () => import('@/components/Commissions.vue')
+      component: () => import('@/components/Settings/Commissions.vue')
     },
     {
       path: '/budget',
       name: 'Budget',
-      component: () => import('@/components/Budget.vue')
+      component: () => import('@/components/Settings/Budget.vue')
     },
     {
       path: '/budget_credits',
       name: 'BudgetCredits',
-      component: () => import('@/components/BudgetCredits.vue')
+      component: () => import('@/components/Settings/BudgetCredits.vue')
     },
-    // {
-    //   path: '/multi_annual_prog',
-    //   name: 'MultiAnnualProg',
-    //   component: () => import('@/components/MultiAnnualProg.vue'),
-    //   beforeEnter: (to, from, next) => {
-    //     if (isLoggedIn()) {
-    //       next()
-    //     } else {
-    //       next('/')
-    //     }
-    //   }
-    // },
-    // {
-    //   path: '/scenarios',
-    //   name: 'Scenarios',
-    //   component: () => import('@/components/Scenarios.vue'),
-    //   beforeEnter: (to, from, next) => {
-    //     if (isAdmin()) {
-    //       next()
-    //     } else {
-    //       next('/')
-    //     }
-    //   }
-    // },
-    // {
-    //   path: '/scenarios/build',
-    //   name: 'Scenario',
-    //   component: () => import('@/components/Scenario.vue'),
-    //   beforeEnter: (to, from, next) => {
-    //     if (isAdmin()) {
-    //       next()
-    //     } else {
-    //       next('/')
-    //     }
-    //   }
-    // },
-    // {
-    //   path: '/settings',
-    //   name: 'Settings',
-    //   component: () => import('@/components/Settings.vue'),
-    //   beforeEnter: (to, from, next) => {
-    //     if (isAdmin()) {
-    //       next()
-    //     } else {
-    //       next('/')
-    //     }
-    //   }
-    // },
     {
       path: '/programmings',
       name: 'Programmings',
@@ -215,7 +155,31 @@ export default new Router({
     {
       path: '/consistency',
       name: 'Consistency',
-      component: () => import('@/components/Consistency.vue')
+      component: () => import('@/components/Settings/Consistency.vue')
     }
+    // {
+    //   path: '/scenarios',
+    //   name: 'Scenarios',
+    //   component: () => import('@/components/Scenarios.vue'),
+    //   beforeEnter: (to, from, next) => {
+    //     if (isAdmin()) {
+    //       next()
+    //     } else {
+    //       next('/')
+    //     }
+    //   }
+    // },
+    // {
+    //   path: '/scenarios/build',
+    //   name: 'Scenario',
+    //   component: () => import('@/components/Scenario.vue'),
+    //   beforeEnter: (to, from, next) => {
+    //     if (isAdmin()) {
+    //       next()
+    //     } else {
+    //       next('/')
+    //     }
+    //   }
+    // },
   ]
 })

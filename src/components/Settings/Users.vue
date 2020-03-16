@@ -97,9 +97,9 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types.js'
+import * as types from '@/store/mutation-types.js'
 import UserEditDlg from './Users/UserEditDlg.vue'
-import DeletedDlg from './DeleteDlg.vue'
+import DeletedDlg from '@/components/DeleteDlg.vue'
 export default {
   name: 'users',
   components: { UserEditDlg, DeletedDlg },

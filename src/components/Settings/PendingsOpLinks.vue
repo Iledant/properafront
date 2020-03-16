@@ -129,7 +129,7 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types'
+import * as types from '@/store/mutation-types'
 import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'PendingsOpLinks',

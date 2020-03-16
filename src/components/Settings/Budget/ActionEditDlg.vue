@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import checkIfNotEmpty from '../Mixins/CheckIfNotEmpty'
+import checkIfNotEmpty from '@/components/Mixins/CheckIfNotEmpty'
 import { mapState } from 'vuex'
 export default {
   name: 'ActionEditDlg',

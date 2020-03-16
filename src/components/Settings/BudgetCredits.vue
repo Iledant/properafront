@@ -59,8 +59,8 @@
 </template>
 
 <script>
-import * as types from '../store/mutation-types.js'
-import BudgetCreditsDlg from './Settings/BudgetCreditsDlg.vue'
+import * as types from '@/store/mutation-types.js'
+import BudgetCreditsDlg from './BudgetCredits/BudgetCreditsDlg.vue'
 import { mapGetters, mapState } from 'vuex'
 
 export default {
