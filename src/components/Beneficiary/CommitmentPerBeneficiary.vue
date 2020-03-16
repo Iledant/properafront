@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import { excelExport, valStyle, dateStyle } from '../Utils/excelExport.js'
+import { excelExport, valStyle, dateStyle } from '@/components/Utils/excelExport.js'
 import * as types from '@/store/mutation-types'
 import { mapGetters, mapState } from 'vuex'
 export default {

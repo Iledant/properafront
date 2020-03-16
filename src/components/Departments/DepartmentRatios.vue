@@ -78,7 +78,7 @@
 
 <script>
 import DepartmentRatioDlg from './DepartmentRatioDlg.vue'
-import { excelExport, percentStyle } from '../Utils/excelExport'
+import { excelExport, percentStyle } from '@/components/Utils/excelExport'
 import * as types from '@/store/mutation-types'
 import { mapGetters, mapState } from 'vuex'
 export default {

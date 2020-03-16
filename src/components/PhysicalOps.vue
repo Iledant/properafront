@@ -101,7 +101,7 @@ import OpEditDlg from './PhysicalOps/OpEditDlg.vue'
 import DeleteDlg from './DeleteDlg.vue'
 import isAdmin from '@/components/Mixins/isAdmin'
 import isObserver from '@/components/Mixins/isObserver'
-import { excelExport, dateStyle, valStyle, percentStyle } from './Utils/excelExport'
+import { excelExport, dateStyle, valStyle, percentStyle } from '@/components/Utils/excelExport'
 import { mapGetters, mapState } from 'vuex'
 
 export default {

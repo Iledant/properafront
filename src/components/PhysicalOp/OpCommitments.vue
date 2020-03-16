@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { excelExport, valStyle, dateStyle } from '../Utils/excelExport'
+import { excelExport, valStyle, dateStyle } from '@/components/Utils/excelExport'
 import { mapGetters, mapState } from 'vuex'
 
 export default {

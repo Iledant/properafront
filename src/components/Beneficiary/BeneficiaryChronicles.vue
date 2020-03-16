@@ -35,7 +35,7 @@
 
 <script>
 import BeneficiaryChroniclesChart from './BeneficiaryChroniclesChart.js'
-import { excelExport, valStyle } from '../Utils/excelExport.js'
+import { excelExport, valStyle } from '@/components/Utils/excelExport.js'
 import { mapState } from 'vuex'
 export default {
   name: 'BeneficiaryChronicles',

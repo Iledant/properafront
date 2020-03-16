@@ -198,7 +198,7 @@
 
 <script>
 import * as types from '@/store/mutation-types'
-import { excelExport } from './Utils/excelExport'
+import { excelExport } from '@/components/Utils/excelExport'
 
 export default {
   name: 'scenario',

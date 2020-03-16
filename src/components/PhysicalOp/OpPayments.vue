@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { excelExport, dateStyle, valStyle } from '../Utils/excelExport'
+import { excelExport, dateStyle, valStyle } from '@/components/Utils/excelExport'
 import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'OpPayments',

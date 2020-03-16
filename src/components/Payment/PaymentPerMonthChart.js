@@ -1,5 +1,5 @@
 import { Line } from 'vue-chartjs'
-import convertQueryChroniclesToChartDataset from '../Utils/convertQueryChroniclesToChartDataset.js'
+import convertQueryChroniclesToChartDataset from '@/components/Utils/convertQueryChroniclesToChartDataset.js'
 
 export default {
   extends: Line,

@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import { excelExport, dateStyle, valStyle } from '../Utils/excelExport.js'
+import { excelExport, dateStyle, valStyle } from '@/components/Utils/excelExport.js'
 import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'PaymentCredit',

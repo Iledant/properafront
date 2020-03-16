@@ -79,7 +79,7 @@
 
 <script>
 import * as types from '@/store/mutation-types.js'
-import { excelExport, valStyle } from '../Utils/excelExport.js'
+import { excelExport, valStyle } from '@/components/Utils/excelExport.js'
 import { mapGetters, mapState } from 'vuex'
 
 export default {

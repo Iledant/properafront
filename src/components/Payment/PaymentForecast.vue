@@ -181,7 +181,7 @@ import isAdmin from '@/components/Mixins/isAdmin'
 import DeleteDlg from '../DeleteDlg.vue'
 import PaymentNeedDlg from './PaymentNeedDlg.vue'
 import yearRule from '@/components/Mixins/yearRule'
-import { excelExport, valStyle, dateStyle } from '../Utils/excelExport.js'
+import { excelExport, valStyle, dateStyle } from '@/components/Utils/excelExport.js'
 import { mapGetters, mapState } from 'vuex'
 
 const nullItem = {
