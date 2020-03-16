@@ -53,12 +53,12 @@
                     </span>
                   </v-tooltip>
                 </td>
-                <td></td>
+                <td />
                 <td class="text-right">{{ preProgTotal | valueFilter }}</td>
-                <td></td>
-                <td></td>
+                <td />
+                <td />
                 <td class="text-right">{{ progTotal | valueFilter }}</td>
-                <td></td>
+                <td />
               </tr>
             </template>
             <template #item="{ item }">
