@@ -12,7 +12,7 @@
         </v-list-item>
         <v-divider />
         <v-list-item
-          v-for="item in parseItems"
+          v-for="item in parsedMenuItems"
           :key="item.id"
           :to="item.routerLink"
           link
@@ -25,8 +25,12 @@
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-group v-model="summariesExp" prepend-icon="dashboard" data-cy="summariesMenuItem">
-          <template v-slot:activator>
+        <v-list-group
+          v-model="summariesExp"
+          prepend-icon="dashboard"
+          data-cy="summariesMenuItem"
+        >
+          <template #activator>
             <v-list-item-title>Synthèses</v-list-item-title>
           </template>
           <v-list-item
@@ -44,7 +48,7 @@
           v-if="isAdmin"
           data-cy="settingsMenuItem"
         >
-          <template v-slot:activator>
+          <template #activator>
             <v-list-item-title>Administration</v-list-item-title>
           </template>
           <v-list-item
@@ -63,13 +67,13 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" data-cy="appMenu" />
       <v-toolbar-title>
         Propera
-        <span
-          class="caption"
-        >{{ appVersion }}, {{ user ? user.name : '' }} {{ isAdmin ? '[adm]' : '' }}</span>
+        <span class="caption">
+          {{ appVersion }}, {{ user ? user.name : '' }} {{ isAdmin ? '[adm]' : '' }}
+        </span>
       </v-toolbar-title>
       <v-spacer />
       <v-menu bottom left>
-        <template v-slot:activator="{ on }">
+        <template #activator="{ on }">
           <v-btn dark icon v-on="on">
             <v-icon>more_vert</v-icon>
           </v-btn>
@@ -87,9 +91,7 @@
     <v-content v-if="user">
       <v-container fluid>
         <v-layout align-center wrap>
-          <v-flex xs12>
-            <router-view />
-          </v-flex>
+          <v-flex xs12><router-view /></v-flex>
         </v-layout>
       </v-container>
     </v-content>
@@ -101,6 +103,8 @@
 import * as types from './store/mutation-types.js'
 import SignIn from './components/SignIn.vue'
 import isAdmin from './components/Mixins/isAdmin'
+import { mapState, mapGetters } from 'vuex'
+
 export default {
   name: 'App',
   components: { SignIn },
@@ -114,24 +118,13 @@ export default {
     appVersion: process.env.VUE_APP_VERSION
   }),
   computed: {
-    user () {
-      return this.$store.state.token.user
-    },
-    loading () {
-      return this.$store.getters.loading
-    },
-    parseItems () {
-      return this.$store.getters.parsedMenuItems
-    },
-    errorMsg () {
-      return this.$store.state.loading.errorMsg
-    },
-    summariesItems () {
-      return this.$store.state.token.summariesMenuItems
-    },
-    settingsItems () {
-      return this.$store.state.token.settingsMenuItems
-    }
+    ...mapGetters(['loading', 'parsedMenuItems']),
+    ...mapState({
+      user: state => state.token.user,
+      errorMsg: state => state.loading.errorMsg,
+      summariesMenuItems: state => state.token.summariesMenuItems,
+      settingsItems: state => state.token.settingsMenuItems
+    })
   },
   methods: {
     async handleLogout () {
