@@ -20,9 +20,9 @@
 </template>
 <script>
 import * as types from '../store/mutation-types.js'
-import DepartmentRatios from './DepartmentRatios.vue'
-import DepartmentCommitments from './DepartmentCommitments.vue'
-import DepartmentProg from './DepartmentProg.vue'
+import DepartmentRatios from './Departments/DepartmentRatios.vue'
+import DepartmentCommitments from './Departments/DepartmentCommitments.vue'
+import DepartmentProg from './Departments/DepartmentProg.vue'
 
 export default {
   name: 'Departments',
