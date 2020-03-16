@@ -42,7 +42,7 @@ import PaymentChart from './Home/PaymentChart.js'
 import PaymentPerMonthChart from './Payment/PaymentPerMonthChart.js'
 import PaymentPerBeneficiary from './Payment/PaymentPerBeneficiary.vue'
 import PaymentCredit from './Payment/PaymentCredit.vue'
-import PaymentForecast from './PaymentForecast.vue'
+import PaymentForecast from './Payment/PaymentForecast.vue'
 import Ratios from './Payment/Ratios.vue'
 
 export default {
