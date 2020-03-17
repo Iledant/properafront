@@ -34,7 +34,7 @@
             <v-list-item-title>Synthèses</v-list-item-title>
           </template>
           <v-list-item
-            v-for="item in summariesItems"
+            v-for="item in summariesMenuItems"
             :key="item.id"
             :to="item.routerLink"
             :data-cy="item.dataCy"
