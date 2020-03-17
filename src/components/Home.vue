@@ -79,14 +79,21 @@
       </v-flex>
       <v-flex xs12 md6>
         <v-card>
-          <v-card-title class="secondary">Délai moyen de mandatement</v-card-title>
+          <v-card-title class="secondary align-start">Délai moyen de mandatement
+            <v-tooltip bottom color="primary">
+              <template #activator="{ on }">
+                <v-icon small v-on="on" class="pl-1">info</v-icon>
+              </template>
+            <span>
+              Ce graphique représente la moyenne mobile sur les 12 derniers mois
+              du délai entre<ul><li> les dates inscrites dans CORIOLIS de réception des
+              factures </li> <li> les dates inscrites dans CORIOLIS de proposition de mandatement</li>
+                </ul>
+            </span>
+            </v-tooltip>
+          </v-card-title>
           <v-flex xs12>
             <avg-pmt-time-chart :height="400" class="mt-2" />
-          </v-flex>
-          <v-flex xs12 class="caption">
-            Ce graphique représente la moyenne mobile sur les 12 derniers mois
-            du délai entre les dates inscrites dans CORIOLIS de réception des
-            factures et de proposition de mandatement.
           </v-flex>
         </v-card>
       </v-flex>
