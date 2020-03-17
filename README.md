@@ -61,7 +61,7 @@ La structure générale de ProperaFront est issue de Vue CLI :
 Sa structure reprendre celle issue de Vue CLI 4. Il comprend :
 * le fichier *main.js* d'initialisation de l'application
 * le composant principal *App.vue* qui contient le cadre de l'application. Il utilise le cadre habituel de Vuetify pour une application avec une barre de titre et un menu latéral
-* le répertoire *assets* qui est vide
+* le répertoire *assets* qui contient les icônes du programme
 * le répertoire *components* qui contient l'ensemble des composants Vue du front end
 * le répertoire *router* qui contient tous les fichiers pour Vue router, le fichier principal étant index.js
 * le répertoire *store* qui contient tous les fichiers pour Vuex. Le fichier principal est store.js. Tous les autres fichiers sont gérés comme des modules
@@ -74,11 +74,13 @@ Trois directives de personnalisation de *v-text-field* sont également placés �
 
 Il contient la totalité des composants Vue de l'application à l'exception de App.vue.
 
-Historiquement, ProperaFront utilisait des composants "maître" dans le répertoire *components* et les sous-composants étaient placés dans un sous-répertoires.
+Afin de se conformer aux règles de nommage recommandées dans Vue, le répertoire utilise des sous-dossiers pour regrouper les sous-composants d'un composant.
 
-Une partie des composants "historique" est encore organisée de cette manière. Les composants les plus récents sont tous classés "à plat" dans le répertoire *components*.
+La structure des fichiers est calquée sur celle du menu de l'application. Toutes les composants représentant les entrées de premier niveau sont directement stockés dans *src/components*. S'ils incluent des sous-composants, ces derniers sont stockés dans un répertoire portant le nom du composant père.
 
-Ils utilisent toute la structure habituelle des fichiers Vue. Les styles ne sont quasiment pas utilisés. 
+Les composants utilisés dans les sous-menus de *Synthèses* sont regroupés dans le répertoire *Summaries*. Ceux utilisé dans les sous-menus de *Administration* sont regroupés dans le répertoire *Settings*
+
+Les règles d'import utilise l'alias @ de webpack pour définir des chemins d'accès les plus homogènes possibles. Seuls les sous-composants sont importés par un chemin relatif.
 
 Un style transverse *table-link* est défini dans *App.vue* et utilisé dans certains *v-data-table* pour donner l'impression visuelle à l'utilisateur de liens.
 
