@@ -41,7 +41,7 @@
 
 <script>
 import checkIfNotEmpty from '@/components/Mixins/CheckIfNotEmpty'
-const yearTest = y => /^20\d{2}$/.test(y)
+const yearTest = y => !y || /^20\d{2}$/.test(y)
 export default {
   name: 'PlanEditDlg',
   mixins: [checkIfNotEmpty],
@@ -62,8 +62,8 @@ export default {
     disabled () {
       return (
         !this.plan.name.length ||
-        !(!this.plan.first_year || yearTest(this.plan.first_year)) ||
-        !(!this.plan.last_year || yearTest(this.plan.last_year)) ||
+        !yearTest(this.plan.first_year) ||
+        !yearTest(this.plan.last_year) ||
         (this.plan.last_year && this.plan.last_year < this.plan.first_year)
       )
     }
@@ -71,14 +71,14 @@ export default {
   methods: {
     onSave () {
       if (this.disabled) return
-      this.plan.descript = this.plan.descript === '' ? null : this.plan.descript
+      this.plan.descript = this.plan.descript || null
       this.plan.first_year = parseInt(this.plan.first_year) || null
       this.plan.last_year = parseInt(this.plan.last_year) || null
       this.$emit('save')
       this.$emit('input', false)
     },
     nullYearRule (y) {
-      return !y || yearTest(y) || 'Année attendue'
+      return yearTest(y) || 'Année attendue'
     },
     isLastGreater () {
       return this.plan.last_year &&
