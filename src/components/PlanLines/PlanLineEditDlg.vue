@@ -43,7 +43,7 @@ export default {
   name: 'PlanLineEditDlg',
   props: {
     value: { type: Boolean, default: false },
-    planline: Object,
+    planline: { type: Object, default: v => ({}) },
     dialog: { type: Boolean, default: false },
     mentions: {
       title: { type: String, default: 'Nouvelle ligne de plan' },
