@@ -1,10 +1,5 @@
 <template>
-  <v-dialog
-    :value="value"
-    max-width="600px"
-    v-if="document"
-    persistent
-  >
+  <v-dialog :value="value" max-width="600px" v-if="document" persistent>
     <v-card>
       <v-card-title class="secondary">{{ mentions.title }}</v-card-title>
       <v-container grid-list-md fluid>
