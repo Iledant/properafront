@@ -13,6 +13,7 @@
                 item-value="id"
                 item-text="name"
                 no-data-text="Liste des bénéficiaires vide"
+                :rules="[v => !!v || 'Bénéficiaire obligatoire']"
               />
             </v-flex>
             <v-flex xs12>
@@ -32,6 +33,8 @@
                     v-model="formattedDate"
                     prepend-icon="event"
                     readonly
+                    :rules="[v => !!v || 'Date obligatoire']"
+
                   />
                 </template>
                 <v-date-picker
@@ -81,7 +84,7 @@ export default {
   name: 'PaymentNeedDlg',
   mixins: [checkIfNotEmpty, currencyInput],
   props: {
-    PaymentNeed: Object,
+    PaymentNeed: { type: Object, default: v => ({}) },
     value: { type: Boolean, default: false },
     action: {
       type: String,
