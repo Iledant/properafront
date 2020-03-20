@@ -62,7 +62,7 @@ export default {
   mixins: [checkIfNotEmpty],
   props: {
     value: { type: Boolean, default: false },
-    event: Object,
+    event: { type: Object, default: v => ({}) },
     mentions: {
       title: { type: String, default: 'Nouvel événement' },
       validate: { type: String, default: 'Créer' }
@@ -74,7 +74,7 @@ export default {
       return dateFilter(this.event.date)
     },
     disabled () {
-      return !this.event.name.length
+      return !this.event.name
     }
   },
   methods: {

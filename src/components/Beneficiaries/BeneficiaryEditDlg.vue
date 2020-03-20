@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :value="value" @input="$emit('input', false)" max-width="600px" persistent>
+  <v-dialog :value="value" max-width="600px" persistent>
     <v-card>
       <v-card-title class="secondary title">Modifier le nom du bénéficiaire</v-card-title>
       <v-container grid-list-md fluid>
@@ -11,7 +11,6 @@
             <v-text-field
               label="Nom"
               v-model="beneficiary.name"
-              required
               :rules="[checkIfNotEmpty]"
             />
           </v-flex>
@@ -37,7 +36,7 @@ export default {
   },
   computed: {
     disabled () {
-      return this.beneficiary.name.length === 0
+      return !this.beneficiary.name
     }
   },
   methods: {
