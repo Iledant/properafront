@@ -147,7 +147,7 @@
 </template>
 
 <script>
-import { dateValueFilter, intFormat, triFormat } from '../../filters/filters'
+import { dateValueFilter, intFormat, triFormat } from '@/filters/filters'
 import checkIfNotEmpty from '@/components/Mixins/CheckIfNotEmpty'
 import * as types from '@/store/mutation-types'
 import isAdmin from '@/components/Mixins/isAdmin'
@@ -158,8 +158,8 @@ export default {
   name: 'OpEditDlg',
   mixins: [checkIfNotEmpty, isAdmin, currencyInput],
   props: {
-    value: { Type: Boolean, default: false },
-    op: Object,
+    value: { type: Boolean, default: false },
+    op: { type: Object, default: v => ({}) },
     mentions: {
       title: { type: String, default: 'Nouvelle opération' },
       validate: { type: String, default: 'Créer' }
@@ -205,7 +205,7 @@ export default {
       return dateValueFilter(this.op.valuedate)
     },
     disabled () {
-      return !this.op.name.length || !this.testNumberFormat(this.op.number)
+      return !this.op.name || !this.testNumberFormat(this.op.number)
     }
   },
   methods: {
