@@ -177,11 +177,12 @@ export default {
     ...mapState({
       actionItems: state => [
         { id: null, name: '<aucune action>' },
-        ...state.budgetTables.actionList
+        ...state.budgetTables.actionList.map(a =>
+          ({ id: a.id, name: a.full_code + ' - ' + a.name }))
       ],
       plans: state => [
         { id: null, name: '<aucun ligne de plan>' },
-        ...state.planLines.planLines
+        ...state.plans.plans
       ],
       paymentTypesItem: state => [
         { id: null, name: '<aucune chronique>' },
