@@ -13,6 +13,7 @@
               v-percentage-input
               reverse
               prefix="%"
+              :rules="[checkIfNotEmpty]"
             />
           </v-flex>
           <v-flex xs6>
@@ -22,6 +23,7 @@
               v-percentage-input
               reverse
               prefix="%"
+              :rules="[checkIfNotEmpty]"
             />
           </v-flex>
           <v-flex xs6>
@@ -31,6 +33,7 @@
               v-percentage-input
               reverse
               prefix="%"
+              :rules="[checkIfNotEmpty]"
             />
           </v-flex>
           <v-flex xs6>
@@ -40,6 +43,7 @@
               v-percentage-input
               reverse
               prefix="%"
+              :rules="[checkIfNotEmpty]"
             />
           </v-flex>
           <v-flex xs6>
@@ -49,6 +53,7 @@
               v-percentage-input
               reverse
               prefix="%"
+              :rules="[checkIfNotEmpty]"
             />
           </v-flex>
           <v-flex xs6>
@@ -58,6 +63,7 @@
               v-percentage-input
               reverse
               prefix="%"
+              :rules="[checkIfNotEmpty]"
             />
           </v-flex>
           <v-flex xs6>
@@ -67,6 +73,7 @@
               v-percentage-input
               reverse
               prefix="%"
+              :rules="[checkIfNotEmpty]"
             />
           </v-flex>
           <v-flex xs6>
@@ -76,6 +83,7 @@
               v-percentage-input
               reverse
               prefix="%"
+              :rules="[checkIfNotEmpty]"
             />
           </v-flex>
           <v-flex xs12>Total : {{ fmtTotal }}</v-flex>
@@ -95,12 +103,13 @@
 
 <script>
 import percentageInput from '@/components/Mixins/percentageInput'
+import checkIfNotEmpty from '@/components/Mixins/checkIfNotEmpty'
 export default {
   name: 'DepartmentRatioDlg',
-  mixins: [percentageInput],
+  mixins: [percentageInput, checkIfNotEmpty],
   props: {
     value: { type: Boolean, default: false },
-    ratios: { type: Object, default: v => {} }
+    ratios: { type: Object, default: v => ({}) }
   },
   data () {
     return {
