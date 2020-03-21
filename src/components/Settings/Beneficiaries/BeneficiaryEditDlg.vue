@@ -1,7 +1,7 @@
 <template>
   <v-dialog :value="value" max-width="600px" persistent>
     <v-card>
-      <v-card-title class="secondary title">
+      <v-card-title class="secondary">
         Modifier le nom du bénéficiaire
       </v-card-title>
       <v-container grid-list-md fluid>

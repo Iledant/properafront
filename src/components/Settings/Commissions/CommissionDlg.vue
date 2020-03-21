@@ -22,6 +22,7 @@
                     v-model="formattedDate"
                     prepend-icon="event"
                     readonly
+                    :rules="[d => d || 'Date obligatoire']"
                   />
                 </template>
                 <v-date-picker
@@ -74,7 +75,7 @@ export default {
   data: () => ({ menu: false }),
   computed: {
     disabled () {
-      return !this.Commission.name || this.Commission.date === null
+      return !this.Commission.name || !this.Commission.date
     },
     formattedDate () {
       return dateFilter(this.Commission.date)

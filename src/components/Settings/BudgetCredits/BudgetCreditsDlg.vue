@@ -22,6 +22,7 @@
                   v-model="budgetCredit.commission_date"
                   prepend-icon="event"
                   readonly
+                  :rules="[c => c || 'Date obligatoire']"
                 />
               </template>
               <v-date-picker
@@ -40,6 +41,7 @@
               single-line
               item-text="code"
               item-value="code"
+              :rules="[c => c || 'Chapitre obligatoire']"
             />
           </v-flex>
           <v-flex xs6>
@@ -98,7 +100,7 @@ export default {
       chapters: state => state.budgetTables.chapterList
     }),
     disabled () {
-      return this.primary === '' ||
+      return !this.primary ||
         !this.budgetCredit.commission_date ||
         !this.budgetCredit.chapter
     },

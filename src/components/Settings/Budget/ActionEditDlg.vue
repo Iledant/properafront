@@ -17,6 +17,7 @@
               item-text="code"
               item-value="id"
               no-data-text="Aucune action trouvée"
+              :rules="[v => v || 'Programme obligatoire']"
             />
           </v-flex>
           <v-flex xs12>
@@ -27,6 +28,7 @@
               item-text="code"
               item-value="id"
               no-data-text="Aucun secteur trouvé"
+              :rules="[v => v || 'Secteur obligatoire']"
             />
           </v-flex>
           <v-flex xs12>
@@ -77,11 +79,11 @@ export default {
   computed: {
     disabled () {
       return (
-        this.BudgetAction.name.length === 0 ||
+        !this.BudgetAction.name ||
         this.BudgetAction.code.length < 2 ||
         this.BudgetAction.code.length > 4 ||
-        this.BudgetAction.program_id === null ||
-        this.BudgetAction.sector_id === null
+        !this.BudgetAction.program_id ||
+        !this.BudgetAction.sector_id
       )
     },
     ...mapState({

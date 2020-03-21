@@ -12,6 +12,7 @@
               item-text="code"
               item-value="id"
               no-data-text="Aucun programme trouvé"
+              :rules="[v => v || 'Programme obligatoire']"
             />
           </v-flex>
           <v-flex xs12>

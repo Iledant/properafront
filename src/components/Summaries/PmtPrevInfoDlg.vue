@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :value="value" @input="$emit('input', false)">
+  <v-dialog :value="value">
     <v-card>
       <v-carousel height="600px">
         <v-carousel-item>

@@ -46,7 +46,7 @@ export default {
   },
   computed: {
     disabled () {
-      return this.BudgetChapter.name === '' || this.BudgetChapter.code === ''
+      return !this.BudgetChapter.name || !this.BudgetChapter.code
     }
   },
   methods: {
