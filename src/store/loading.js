@@ -26,6 +26,7 @@ export async function handleRequest (commit, fetchFunc, handleResp) {
       handleResp(body)
     }
   } catch (err) {
+    console.log(err)
     setErrorMessage(commit, err)
   } finally {
     commit(types.END_LOADING)

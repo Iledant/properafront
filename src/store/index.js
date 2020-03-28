@@ -23,6 +23,7 @@ import settings from './settings'
 import stepsAndCategories from './stepsAndCategories'
 import dptRatios from './dptRatios'
 import consistency from './consistency'
+import paymentDemands from './paymentDemands'
 
 Vue.use(Vuex)
 
@@ -50,6 +51,7 @@ export default new Vuex.Store({
     settings,
     stepsAndCategories,
     dptRatios,
-    consistency
+    consistency,
+    paymentDemands
   }
 })

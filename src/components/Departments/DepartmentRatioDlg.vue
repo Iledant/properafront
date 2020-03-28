@@ -103,7 +103,7 @@
 
 <script>
 import percentageInput from '@/components/Mixins/percentageInput'
-import checkIfNotEmpty from '@/components/Mixins/checkIfNotEmpty'
+import checkIfNotEmpty from '@/components/Mixins/CheckIfNotEmpty'
 export default {
   name: 'DepartmentRatioDlg',
   mixins: [percentageInput, checkIfNotEmpty],
