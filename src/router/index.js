@@ -156,6 +156,11 @@ export default new Router({
       path: '/consistency',
       name: 'Consistency',
       component: () => import('@/components/Settings/Consistency.vue')
+    },
+    {
+      path: '/payment_demands',
+      name: 'PaymentDemands',
+      component: () => import('@/components/Settings/PaymentDemands.vue')
     }
     // {
     //   path: '/scenarios',

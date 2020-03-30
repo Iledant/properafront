@@ -140,54 +140,60 @@ const state = {
     },
     {
       id: 3,
+      title: 'Demandes de paiement',
+      routerLink: { name: 'PaymentDemands' },
+      dataCy: 'pmtDemandsMenuItem'
+    },
+    {
+      id: 4,
       title: 'Étapes et catégories d\'opérations',
       routerLink: { name: 'StepsCategories' },
       dataCy: 'stepsCategoriesMenuItem'
     },
     {
-      id: 4,
+      id: 5,
       title: 'Liens engagements / opérations',
       routerLink: { name: 'CmtOpLinks' },
       dataCy: 'cmtOpLinksMenuItem'
     },
     {
-      id: 5,
+      id: 6,
       title: 'Liens dossiers en cours / opérations',
       routerLink: { name: 'PendingsOpLinks' },
       dataCy: 'pendingsOpLinksMenuItem'
     },
     {
-      id: 6,
+      id: 7,
       title: 'Liens engagements / plans',
       routerLink: { name: 'CmtPlanLinks' },
       dataCy: 'cmtPlanLinksMenuItem'
     },
     {
-      id: 7,
+      id: 8,
       title: 'Gestion des bénéficiaires',
       routerLink: { name: 'Beneficiaries' },
       dataCy: 'beneficiariesMenuItem'
     },
     {
-      id: 8,
+      id: 9,
       title: 'Gestion des commissions',
       routerLink: { name: 'Commissions' },
       dataCy: 'commissionsMenuItem'
     },
     {
-      id: 9,
+      id: 10,
       title: 'Gestion de la structure budgétaire',
       routerLink: { name: 'Budget' },
       dataCy: 'budgetMenuItem'
     },
     {
-      id: 10,
+      id: 11,
       title: 'AP votées, gelées, mises en réserve',
       routerLink: { name: 'BudgetCredits' },
       dataCy: 'budgetCreditsMenuItem'
     },
     {
-      id: 11,
+      id: 12,
       title: 'Contrôles de cohérence',
       routerLink: { name: 'Consistency' },
       dataCy: 'consistencyMenuItem'
