@@ -28,6 +28,7 @@ const actions = {
         commit(types.GET_NEXT_MONTH_EVENTS, body.Event)
         commit(types.GET_IMPORT_LOG, body.ImportLog)
         commit(types.GET_AVERAGE_PAYMENT_TIME, body.AveragePaymentTime)
+        commit(types.GET_PAYMENT_DEMAND_COUNTS, body.PaymentDemandCount)
       }
     )
   },

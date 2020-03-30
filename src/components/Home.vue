@@ -97,6 +97,30 @@
           </v-flex>
         </v-card>
       </v-flex>
+      <v-flex xs12 md6>
+        <v-card>
+          <v-card-title class="secondary align-start">Évolution du stock de DVS
+            <v-tooltip bottom color="primary">
+              <template #activator="{ on }">
+                <v-icon small v-on="on" class="pl-1">info</v-icon>
+              </template>
+            <span>
+              Ce graphique représente l'évolution quotidienne du stock de DVS
+              arrivés à la région.<br />
+              Il diminue lorsqu'il y a plus de CSF (ou de proposition de
+              mandatement ou de rejets) que de nouvelles arrivées.<br />
+              La requête utilise les tableaux de bord d'IRIS importés.<br />
+              Le calcul n'est donc fiable que si l'import de ces
+              tableaux de bord est effectué tous les jours pendant plus de 30
+              jours.
+            </span>
+            </v-tooltip>
+          </v-card-title>
+          <v-flex xs12>
+            <payment-demand-count-chart :height="400" class="mt-2" />
+          </v-flex>
+        </v-card>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
@@ -109,12 +133,13 @@ import TodayMessageDlg from './Home/TodayMessageDlg.vue'
 import PaymentChart from './Home/PaymentChart.js'
 import CommitmentChart from './Home/CommitmentChart.js'
 import AvgPmtTimeChart from './Home/AvgPmtTimeChart.js'
+import PaymentDemandCountChart from './Home/PaymentDemandCountChart.js'
 import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'home',
   mixins: [isAdmin, isObserver],
-  components: { TodayMessageDlg, PaymentChart, CommitmentChart, AvgPmtTimeChart },
+  components: { TodayMessageDlg, PaymentChart, CommitmentChart, AvgPmtTimeChart, PaymentDemandCountChart },
   data: () => ({
     headers: [
       { text: 'Date', value: 'date', align: 'right' },

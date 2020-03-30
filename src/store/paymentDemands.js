@@ -3,7 +3,8 @@ import Vue from 'vue'
 import { handleRequest } from './loading.js'
 
 const state = {
-  paymentDemands: []
+  paymentDemands: [],
+  paymentDemandCount: []
 }
 
 const actions = {
@@ -38,6 +39,17 @@ const mutations = {
     const index = state.paymentDemands.findIndex(p => p.id === paymentDemand.id)
     if (index !== -1) {
       state.paymentDemands.splice(index, 1, paymentDemand)
+    }
+  },
+  [types.GET_PAYMENT_DEMAND_COUNTS] (state, list) {
+    state.paymentDemandCount.splice(0)
+    for (let i = 1; i < list.length; i++) {
+      state.paymentDemandCount.push(
+        {
+          date: list[i].date,
+          uncontrolled: list[i].uncontrolled - list[i - 1].uncontrolled,
+          unprocessed: list[i].unprocessed - list[i - 1].unprocessed
+        })
     }
   }
 }
