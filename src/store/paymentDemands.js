@@ -7,10 +7,10 @@ const state = {
 }
 
 const actions = {
-  async [types.UPLOAD_PAYMENT_DEMANDS] ({ commit }, { PaymentDemand }) {
+  async [types.UPLOAD_PAYMENT_DEMANDS] ({ commit }, payload) {
     return handleRequest(
       commit,
-      _ => Vue.http.post('payment_demands', { PaymentDemand }),
+      _ => Vue.http.post('payment_demands', payload),
       _ => {}
     )
   },

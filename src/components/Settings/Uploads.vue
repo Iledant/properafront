@@ -814,7 +814,8 @@ export default {
           status_comment: o.status_comment || null
         }))
       const saveFunction = o => {
-        this.$store.dispatch(types.UPLOAD_PAYMENT_DEMANDS, { PaymentDemand: o })
+        this.$store.dispatch(types.UPLOAD_PAYMENT_DEMANDS,
+          { PaymentDemand: o, ImportDate: new Date(file.lastModified) })
       }
       excelUploadFile(
         file,
