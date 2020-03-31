@@ -71,10 +71,30 @@
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
+                <v-menu
+                  v-model="menu"
+                  :close-on-content-click="false"
+                  transition="scale-transition"
+                  offset-y
+                  max-width="290px"
+                  min-width="290px"
+                >
+                <template v-slot:activator="{ on }">
+                  <v-text-field
+                    v-model="formattedDate"
+                    label="Date d'import"
+                    prepend-icon="event"
+                    readonly
+                    v-on="on"
+                  />
+                </template>
+                <v-date-picker v-model="date" no-title @input="menu = false" />
+              </v-menu>
                 <v-file-input
                   :loading="loading"
                   label="Télécharger les demandes de paiement"
                   @change="checkFile($event, pmtDemandsUpload)"
+                  :disabled="!date"
                 />
               </v-list-item-content>
               <v-list-item-icon>
@@ -83,9 +103,11 @@
                     <v-icon color="primary" v-on="on">info</v-icon>
                   </template>
                   Import d'un fichier Excel (.xlsx) contenant la liste des DVS
-                  en cours de validation.
-                  <br />Met à jour et complète la base de données des DVS.
-                  <br />Utiliser uniquement le tableau de bord «Propera liste
+                  en cours de validation.<br />
+                  Une date d'import est obligatoire : celle de génération du
+                  tableau de bord <br />
+                  Met à jour et complète la base de données des DVS.<br />
+                  Utiliser uniquement le tableau de bord «Propera liste
                   des DVS» d'IRIS qui a le bon format.
                 </v-tooltip>
               </v-list-item-icon>
@@ -398,7 +420,9 @@ export default {
   components: { OpCmtProposalDlg },
   data: () => ({
     planId: null,
-    dlg: false
+    dlg: false,
+    date: null,
+    menu: false
   }),
   methods: {
     fileError () {
@@ -815,7 +839,7 @@ export default {
         }))
       const saveFunction = o => {
         this.$store.dispatch(types.UPLOAD_PAYMENT_DEMANDS,
-          { PaymentDemand: o, ImportDate: new Date(file.lastModified) })
+          { PaymentDemand: o, ImportDate: new Date(this.date) })
       }
       excelUploadFile(
         file,
@@ -834,7 +858,14 @@ export default {
     ...mapState({
       plans: state => state.plans.plans,
       cmtOpProposals: state => state.uploads.cmtOpProposals
-    })
+    }),
+    formattedDate () {
+      if (!this.date) {
+        return '-'
+      }
+      return new Date(this.date).toLocaleDateString('fr-FR',
+        { day: '2-digit', month: '2-digit', year: 'numeric' })
+    }
   },
   created () {
     this.$store.dispatch(types.GET_PLANS)
