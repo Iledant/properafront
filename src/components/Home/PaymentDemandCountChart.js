@@ -1,21 +1,26 @@
-import { Bar } from 'vue-chartjs'
+import { Line } from 'vue-chartjs'
 
 export default {
-  extends: Bar,
+  extends: Line,
   data: () => ({
     datas: {
       datasets: [
         {
-          backgroundColor: '#1B5E20',
+          borderColor: '#1B5E20',
           pointBackgroundColor: '#1B5E20',
+          fill: false,
+          borderWidth: 2,
+          cubicInterpolationMode: 'monotone',
           label: ' Évolution des CSF',
           data: []
         },
         {
-          backgroundColor: '#0D47A1',
+          borderColor: '#0D47A1',
           pointBackgroundColor: '#0D47A1',
-          label: ' Évolution des traitements',
           fill: false,
+          borderWidth: 2,
+          cubicInterpolationMode: 'monotone',
+          label: ' Évolution des traitements DC',
           data: []
         }
       ]
@@ -46,8 +51,8 @@ export default {
   },
   watch: {
     paymentDemandCount (list) {
-      this.datas.datasets[0].data = list.map(a => a.uncontrolled)
-      this.datas.datasets[1].data = list.map(a => a.unprocessed)
+      this.datas.datasets[0].data = list.map(a => -a.uncontrolled)
+      this.datas.datasets[1].data = list.map(a => -a.unprocessed)
       this.datas.labels = list.map(a =>
         new Date(a.date).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' }))
       this.renderChart(this.datas, this.options)

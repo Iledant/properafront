@@ -99,15 +99,15 @@
       </v-flex>
       <v-flex xs12 md6>
         <v-card>
-          <v-card-title class="secondary align-start">Évolution du stock de DVS
+          <v-card-title class="secondary align-start">Traitement à 30 jours des DVS
             <v-tooltip bottom color="primary">
               <template #activator="{ on }">
                 <v-icon small v-on="on" class="pl-1">info</v-icon>
               </template>
             <span>
-              Ce graphique représente l'évolution quotidienne du stock de DVS
-              arrivés à la région.<br />
-              Il diminue lorsqu'il y a plus de CSF (ou de proposition de
+              Ce graphique représente l'évolution quotidienne sur les 30
+              derniers jours du stock de DVS arrivés à la région.<br />
+              Il diminue lorsqu'il y a moins de CSF (ou de proposition de
               mandatement ou de rejets) que de nouvelles arrivées.<br />
               La requête utilise les tableaux de bord d'IRIS importés.<br />
               Le calcul n'est donc fiable que si l'import de ces

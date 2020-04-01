@@ -42,15 +42,7 @@ const mutations = {
     }
   },
   [types.GET_PAYMENT_DEMAND_COUNTS] (state, list) {
-    state.paymentDemandCount.splice(0)
-    for (let i = 1; i < list.length; i++) {
-      state.paymentDemandCount.push(
-        {
-          date: list[i].date,
-          uncontrolled: list[i].uncontrolled - list[i - 1].uncontrolled,
-          unprocessed: list[i].unprocessed - list[i - 1].unprocessed
-        })
-    }
+    state.paymentDemandCount = [...list]
   }
 }
 
