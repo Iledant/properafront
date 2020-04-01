@@ -60,7 +60,7 @@ export default {
   },
   computed: {
     disabled () {
-      return !this.name || !this.planline.val
+      return !this.name || !this.val
     }
   },
   methods: {
