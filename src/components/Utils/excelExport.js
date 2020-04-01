@@ -48,7 +48,7 @@ export const dateStyle = {
   style: { numberFormat: 'dd/mm/yyyy', wrapText: true }
 }
 
-export function excelUploadFile (
+export async function excelUploadFile (
   file,
   expectedHeaders,
   successCallback,
@@ -56,24 +56,21 @@ export function excelUploadFile (
   parseCallback = null
 ) {
   try {
-    XlsxPopulate.fromDataAsync(file).then(workbook => {
-      const datas = workbook
-        .sheet(0)
-        .usedRange()
-        .cells()
-      const keys = fetchKeys(datas, expectedHeaders)
-      let parsed = parseData(datas, keys)
-      if (typeof parseCallback === 'function') {
-        parsed = parseCallback(parsed)
-      }
-      if (typeof successCallback === 'function') {
-        return successCallback(parsed)
-      }
-    })
+    const workbook = await XlsxPopulate.fromDataAsync(file)
+    const datas = workbook.sheet(0).usedRange().cells()
+    const keys = fetchKeys(datas, expectedHeaders)
+    let parsed = parseData(datas, keys)
+    if (typeof parseCallback === 'function') {
+      parsed = parseCallback(parsed)
+    }
+    if (typeof successCallback === 'function') {
+      return successCallback(parsed)
+    }
   } catch (e) {
     if (typeof errorCallback === 'function') {
-      errorCallback(
-        e instanceof Error ? e.message : 'Impossible de lire le fichier'
+      errorCallback(e instanceof Error
+        ? e.message
+        : 'Impossible de lire le fichier'
       )
     }
   }
