@@ -123,6 +123,12 @@ const state = {
       title: 'Prévisions pluriannuelles CP',
       routerLink: { name: 'MultiAnnualPmtPrev' },
       dataCy: 'multiAnnualPmtPrevMenuItem'
+    },
+    {
+      id: 8,
+      title: 'Délais de paiement',
+      routerLink: { name: 'PaymentDelays' },
+      dataCy: 'paymentDelayMenuItem'
     }
   ],
   settingsMenuItems: [

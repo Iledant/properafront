@@ -161,6 +161,11 @@ export default new Router({
       path: '/payment_demands',
       name: 'PaymentDemands',
       component: () => import('@/components/Settings/PaymentDemands.vue')
+    },
+    {
+      path: '/payment_delays',
+      name: 'PaymentDelays',
+      component: () => import('@/components/Summaries/PaymentDelays.vue')
     }
     // {
     //   path: '/scenarios',
