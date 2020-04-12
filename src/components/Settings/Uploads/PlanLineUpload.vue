@@ -62,6 +62,9 @@ export default {
     ...mapState({
       plans: state => state.plans.plans
     })
+  },
+  created () {
+    this.$store.dispatch(types.GET_PLANS)
   }
 }
 </script>

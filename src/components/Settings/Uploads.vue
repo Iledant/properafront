@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import * as types from '@/store/mutation-types'
 import CmtUpload from './Uploads/CmtUpload.vue'
 import PmtUpload from './Uploads/PmtUpload.vue'
 import PendingCmtUpload from './Uploads/PendingCmtUpload.vue'
@@ -38,10 +37,6 @@ export default {
   name: 'Uploads',
   data () {
     return {
-      planId: null,
-      dlg: false,
-      date: null,
-      menu: false,
       selected: null,
       items: [
         { text: 'Paiements', value: PmtUpload },
@@ -60,9 +55,6 @@ export default {
         { text: 'Actions budgétaires', value: ActionUpload }
       ]
     }
-  },
-  created () {
-    this.$store.dispatch(types.GET_PLANS)
   }
 }
 </script>
