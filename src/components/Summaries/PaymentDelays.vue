@@ -5,7 +5,7 @@
     </v-card-title>
     <v-container grid-list-md fluid>
       <v-layout row wrap>
-        <v-flex xs12 sm6 offset-sm3>
+        <v-flex xs12 sm6>
           <v-menu
             :close-on-content-click="false"
             v-model="menu"
@@ -32,9 +32,11 @@
             />
           </v-menu>
         </v-flex>
-        <v-flex sm3 />
+        <v-flex xs12 sm6 class="d-flex justify-center">
+          <v-switch :label="switchLabel" v-model="cumulated" />
+        </v-flex>
         <v-flex xs12>
-          <payment-delay-chart />
+          <payment-delay-chart :cumulated="cumulated" />
         </v-flex>
       </v-layout>
     </v-container>
@@ -58,6 +60,7 @@ export default {
     return {
       date: null,
       menu: false,
+      cumulated: true,
       headers: [
         { text: 'Moins de', value: 'delay' },
         { text: 'Nombre', value: 'number' }
@@ -71,14 +74,17 @@ export default {
     }),
     formattedDate () {
       return dateFilter(this.date)
+    },
+    switchLabel () {
+      return this.cumulated ? 'Cumulé' : 'Par tranche'
     }
   },
   methods: {
     download () {
       if (this.paymentDelays.length === 0) return
       const columns = [
-        { header: 'Moins de (jours)', key: 'delay', width: 10 },
-        { header: 'Nombre de paiements', key: 'number', width: 14 }
+        { header: 'Moins de (j)', key: 'delay', width: 10 },
+        { header: 'Nombre cumulé de paiements', key: 'number', width: 14 }
       ]
       excelExport(this.paymentDelays, columns, 'Délais de paiement')
     }
