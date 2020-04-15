@@ -299,44 +299,45 @@ export default {
       }
       excelExport(planLines, columns, 'Lignes de plan')
     },
-    detailedDownload () {
-      let planLines = null
-      const years = []
-      if (this.detailedPlanLines.length > 0) {
-        const keys = Object.keys(this.detailedPlanLines[0])
-        keys.forEach(p => {
-          if (/20\d\d/.test(p)) years.push(p)
-        })
-        planLines = this.detailedPlanLines.map(pl => {
-          const formattedPlanLine = {
-            name: pl.name,
-            value: pl.value * 0.01,
-            total_value: pl.total_value * 0.01,
-            op_name: pl.op_name,
-            op_number: pl.op_number,
-            category: pl.category,
-            step: pl.step,
-            commitment_code: pl.commitment_code,
-            commitment_name: pl.commitment_name,
-            commitment_date: pl.commitment_date
-              ? new Date(pl.commitment_date)
-              : null,
-            commitment_value: pl.commitment_value
-              ? pl.commitment_value * 0.01
-              : null,
-            programmings_date: pl.programmings_date
-              ? new Date(pl.programmings_date)
-              : null,
-            programmings_value: pl.programmings_value
-              ? pl.programmings_value * 0.01
-              : null
-          }
-          for (const y of years) {
-            formattedPlanLine['zz' + y] = pl[y] ? pl[y] * 0.01 : 0
-          }
-          return formattedPlanLine
-        })
+    async detailedDownload () {
+      await this.$store.dispatch(types.GET_DETAILED_PLAN_LINES,
+        { id: this.plan_id })
+      if (this.detailedPlanLines.length === 0) {
+        return
       }
+      let planLines = null
+      const keys = Object.keys(this.detailedPlanLines[0])
+      const years = keys.filter(p => /20\d\d/.test(p))
+      planLines = this.detailedPlanLines.map(pl => {
+        const formattedPlanLine = {
+          name: pl.name,
+          value: pl.value * 0.01,
+          total_value: pl.total_value * 0.01,
+          op_name: pl.op_name,
+          op_number: pl.op_number,
+          category: pl.category,
+          step: pl.step,
+          beneficiary_name: pl.beneficiary_name,
+          commitment_code: pl.commitment_code,
+          commitment_name: pl.commitment_name,
+          commitment_date: pl.commitment_date
+            ? new Date(pl.commitment_date)
+            : null,
+          commitment_value: pl.commitment_value
+            ? pl.commitment_value * 0.01
+            : null,
+          programmings_date: pl.programmings_date
+            ? new Date(pl.programmings_date)
+            : null,
+          programmings_value: pl.programmings_value
+            ? pl.programmings_value * 0.01
+            : null
+        }
+        for (const y of years) {
+          formattedPlanLine['zz' + y] = pl[y] ? pl[y] * 0.01 : 0
+        }
+        return formattedPlanLine
+      })
       const columns = [
         { header: 'Ligne de plan', key: 'name', width: 20 },
         { header: 'Montant total', key: 'total_value', ...valStyle },
@@ -358,6 +359,7 @@ export default {
           style: { wrapText: true }
         },
         { header: 'Nom IRIS', key: 'commitment_name', width: 30 },
+        { header: 'Bénéficiaire', key: 'beneficiary_name', width: 30 },
         { header: 'Montant de l\'engagement', key: 'commitment_value', ...valStyle },
         { header: 'Date programmation', key: 'programmings_date', ...dateStyle },
         { header: 'Montant programmé', key: 'programmings_value', ...valStyle }
@@ -370,7 +372,6 @@ export default {
   },
   created () {
     this.$store.dispatch(types.GET_PLAN_LINES, { id: this.plan_id })
-    this.$store.dispatch(types.GET_DETAILED_PLAN_LINES, { id: this.plan_id })
   },
   watch: {
     $route () {
