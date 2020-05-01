@@ -99,7 +99,7 @@
       </v-flex>
       <v-flex xs12 md6>
         <v-card>
-          <v-card-title class="secondary align-start">Traitement à 30 jours des DVS
+          <v-card-title class="secondary align-start">Traitement des DVS
             <v-tooltip bottom color="primary">
               <template #activator="{ on }">
                 <v-icon small v-on="on" class="pl-1">info</v-icon>
@@ -107,17 +107,15 @@
             <span>
               Ce graphique représente l'évolution quotidienne sur les 30
               derniers jours du stock de DVS arrivés à la région.<br />
-              Il diminue lorsqu'il y a moins de CSF (ou de proposition de
-              mandatement ou de rejets) que de nouvelles arrivées.<br />
-              La requête utilise les tableaux de bord d'IRIS importés.<br />
-              Le calcul n'est donc fiable que si l'import de ces
-              tableaux de bord est effectué tous les jours pendant plus de 30
-              jours.
+              Il mesure le nombre de DVS qui n'ont pas reçu de CSF de la direction
+              et le nombre de DVS non encore mandatés ou rejetés par la direction
+              de la comptabilité. <br />
+              Seules les DVS non exclues sont prises en compte.
             </span>
             </v-tooltip>
           </v-card-title>
           <v-flex xs12>
-            <payment-demand-count-chart :height="400" class="mt-2" />
+            <payment-demands-stock-chart :height="400" class="mt-2" />
           </v-flex>
         </v-card>
       </v-flex>
@@ -133,13 +131,13 @@ import TodayMessageDlg from './Home/TodayMessageDlg.vue'
 import PaymentChart from './Home/PaymentChart.js'
 import CommitmentChart from './Home/CommitmentChart.js'
 import AvgPmtTimeChart from './Home/AvgPmtTimeChart.js'
-import PaymentDemandCountChart from './Home/PaymentDemandCountChart.js'
+import PaymentDemandsStockChart from './Home/PaymentDemandsStockChart.js'
 import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'home',
   mixins: [isAdmin, isObserver],
-  components: { TodayMessageDlg, PaymentChart, CommitmentChart, AvgPmtTimeChart, PaymentDemandCountChart },
+  components: { TodayMessageDlg, PaymentChart, CommitmentChart, AvgPmtTimeChart, PaymentDemandsStockChart },
   data: () => ({
     headers: [
       { text: 'Date', value: 'date', align: 'right' },

@@ -4,7 +4,8 @@ import { handleRequest } from './loading.js'
 
 const state = {
   paymentDemands: [],
-  paymentDemandCount: []
+  paymentDemandCount: [],
+  paymentDemandsStock: []
 }
 
 const actions = {
@@ -43,6 +44,9 @@ const mutations = {
   },
   [types.GET_PAYMENT_DEMAND_COUNTS] (state, list) {
     state.paymentDemandCount = [...list]
+  },
+  [types.GET_PAYMENT_DEMANDS_STOCK] (state, list) {
+    state.paymentDemandsStock = [...list]
   }
 }
 
