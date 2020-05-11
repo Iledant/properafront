@@ -1,6 +1,6 @@
 {
   "name": "properafront",
-  "version": "1.15.1",
+  "version": "1.15.2",
   "description": "Vue 2.6 frontend of the Propera web application",
   "private": true,
   "scripts": {
