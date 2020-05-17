@@ -53,7 +53,6 @@ export default {
     paymentDemandsStock (list) {
       this.datas.datasets[0].data = list.map(a => a.csf)
       this.datas.datasets[1].data = list.map(a => a.dc)
-      this.options.scales.yAxes[0].ticks.min = 0
       this.datas.labels = list.map(a =>
         new Date(a.day).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' }))
       this.renderChart(this.datas, this.options)
