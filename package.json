@@ -1,11 +1,12 @@
 {
   "name": "properafront",
   "version": "1.15.1",
-  "description": "Vue 2.6 frontend of the Propera web application",
   "private": true,
+  "description": "Vue 2.6 frontend of the Propera web application",
   "scripts": {
     "serve": "vue-cli-service serve --port 8082 --open",
     "build": "vue-cli-service build",
+    "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e --mode staging",
     "lint": "vue-cli-service lint"
   },
@@ -24,12 +25,13 @@
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.2.0",
-    "@vue/cli-plugin-e2e-cypress": "~4.2.0",
     "@vue/cli-plugin-eslint": "~4.2.0",
     "@vue/cli-plugin-router": "~4.2.0",
+    "@vue/cli-plugin-unit-jest": "~4.3.0",
     "@vue/cli-plugin-vuex": "~4.2.0",
     "@vue/cli-service": "~4.2.0",
     "@vue/eslint-config-standard": "^5.1.0",
+    "@vue/test-utils": "1.0.0-beta.31",
     "babel-eslint": "^10.0.3",
     "compression-webpack-plugin": "^3.1.0",
     "eslint": "^6.7.2",
