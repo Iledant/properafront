@@ -52,7 +52,7 @@
         <v-btn
           text
           color="primary"
-          @click="onCreate"
+          @click="submit($event)"
           :disabled="disabled"
           :loading="loading"
           data-cy="signUpOk"
@@ -66,6 +66,9 @@
 import checkIfNotEmpty from '@/components/Mixins/CheckIfNotEmpty'
 import * as types from '@/store/mutation-types.js'
 import { mapGetters } from 'vuex'
+/* eslint-disable no-useless-escape */
+const emailTest = e => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(e)
+/* eslint-enable no-useless-escape */
 export default {
   name: 'SignUp',
   mixins: [checkIfNotEmpty],
@@ -80,17 +83,14 @@ export default {
   computed: {
     ...mapGetters(['loading']),
     disabled () {
-      return !this.name || !this.password || !this.email
+      return !this.name || !this.password || !emailTest(this.email)
     }
   },
   methods: {
     emailCheck (input) {
-      /* eslint-disable no-useless-escape */
-      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      /* eslint-enable no-useless-escape */
-      return re.test(input) ? true : 'Adresse email attendue'
+      return emailTest(input) || 'Adresse email attendue'
     },
-    async onCreate () {
+    async submit () {
       if (!this.disabled) {
         try {
           await this.$http.post('user/signup', {
@@ -103,7 +103,7 @@ export default {
         } catch (response) {
           if (response.status === 422) {
             this.$store.commit(types.SET_ERROR_MESSAGE,
-              'L\'adresse email est déjà utilisée')
+              'Adresse email est déjà utilisée')
           }
         }
       }
