@@ -38,7 +38,7 @@ Vue.filter('truncate', truncate)
 Vue.filter('prevFilter', prevFilter)
 
 Vue.use(VueResource)
-Vue.http.options.root = process.env.VUE_APP_API_PATH
+Vue.http.options.root = '/api'
 Vue.http.interceptors.push((request, next) => {
   next(response => {
     const error = response.body.error
