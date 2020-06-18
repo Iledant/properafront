@@ -30,7 +30,8 @@ const state = {
   annualProg: [],
   multiannualProg: [],
   previsionAndRealizedList: [],
-  budgetProg: []
+  budgetProg: [],
+  PlanForecasts: []
 }
 
 const actions = {
@@ -61,6 +62,13 @@ const actions = {
       commit,
       _ => Vue.http.get('summaries/multiannual_programmation', { params: { firstYear } }),
       body => commit(types.GET_MULTIANNUAL_PROGRAMMATION, body.MultiannualProgrammation)
+    )
+  },
+  async [types.GET_PLAN_FORECASTS] ({ commit }, { firstYear, lastYear }) {
+    return handleRequest(
+      commit,
+      _ => Vue.http.get('plan_forecasts', { params: { firstYear, lastYear } }),
+      body => commit(types.GET_PLAN_FORECASTS, body.PlanForecast)
     )
   },
   async [types.GET_PAYMENT_PREVISION_AND_REALIZED] (
@@ -368,6 +376,9 @@ const mutations = {
         return parsedLine
       })
     } else state.multiannualProg = payload
+  },
+  [types.GET_PLAN_FORECASTS] (state, list) {
+    state.PlanForecasts = [...list]
   },
   [types.GET_BUDGET_ACTION_PROGRAMMATION] (state, payload) {
     state.budgetProg = [...payload]
