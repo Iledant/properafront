@@ -31,7 +31,7 @@ const state = {
   multiannualProg: [],
   previsionAndRealizedList: [],
   budgetProg: [],
-  PlanForecasts: []
+  planForecasts: []
 }
 
 const actions = {
@@ -378,7 +378,7 @@ const mutations = {
     } else state.multiannualProg = payload
   },
   [types.GET_PLAN_FORECASTS] (state, list) {
-    state.PlanForecasts = [...list]
+    state.planForecasts = [...list]
   },
   [types.GET_BUDGET_ACTION_PROGRAMMATION] (state, payload) {
     state.budgetProg = [...payload]

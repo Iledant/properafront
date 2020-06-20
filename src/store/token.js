@@ -115,8 +115,8 @@ const state = {
     {
       id: 6,
       title: 'Préparation de plan',
-      routerLink: { name: 'PlanForecast' },
-      dataCy: 'actionPlanForecast'
+      routerLink: { name: 'PlanForecasts' },
+      dataCy: 'actionPlanForecasts'
     },
     {
       id: 7,

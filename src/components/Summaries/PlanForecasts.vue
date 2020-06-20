@@ -57,10 +57,10 @@
                 <td>{{ item.name }}</td>
                 <td
                   class="text-right text-no-wrap"
-                >{{ item.total_value[0] ? item.total_value[0] : null | valueFilter }}</td>
+                >{{ item.total_prev[0] ? item.total_prev[0] : null | valueFilter }}</td>
                 <td
                   class="text-right text-no-wrap"
-                >{{ item.value[0] ? item.value[0] : null | valueFilter }}</td>
+                >{{ item.prev[0] ? item.prev[0] : null | valueFilter }}</td>
               </tr>
             </template>
             <template #body.append="">
@@ -146,20 +146,30 @@ export default {
     },
     download () {
       if (!this.items.length) return
-      const colNum = this.items.total_value.length
+      const colNum = this.items[0].total_prev.length
       const lines = this.items.map(l => {
         const formattedLine = {
           number: l.number,
           name: l.name,
           step_name: l.step_name,
           category_name: l.category_name,
-          state_value: ''
+          tri: l.tri,
+          van: l.van,
+          valuedate: l.valuedate,
+          r75: l.r75,
+          r77: l.r77,
+          r78: l.r78,
+          r91: l.r91,
+          r92: l.r92,
+          r93: l.r93,
+          r94: l.r94,
+          r95: l.r95
         }
         for (let i = 0; i < colNum; i++) {
-          formattedLine['ty' + i] = l.total_value[i]
+          formattedLine['ty' + i] = l.total_prev[i] * 0.01
         }
         for (let i = 0; i < colNum; i++) {
-          formattedLine['y' + i] = l.value[i]
+          formattedLine['y' + i] = l.prev[i] * 0.01
         }
         return formattedLine
       })
@@ -181,18 +191,12 @@ export default {
         { header: 'Coef 95', key: 'r95', ...percentStyle }
       ]
       for (let i = 0; i < colNum; i++) {
-        columns.push({
-          headers: 'Total ' + String(this.firstYear + i),
-          key: 'ty' + i,
-          ...valStyle
-        })
+        const year = parseInt(this.firstYear) + i
+        columns.push({ header: 'Total ' + year, key: 'ty' + i, ...valStyle })
       }
       for (let i = 0; i < colNum; i++) {
-        columns.push({
-          headers: 'Région ' + String(this.firstYear + i),
-          key: 'y' + i,
-          ...valStyle
-        })
+        const year = parseInt(this.firstYear) + i
+        columns.push({ header: 'Région ' + year, key: 'y' + i, ...valStyle })
       }
       excelExport(lines, columns, 'Préparation plan')
     }
@@ -200,8 +204,8 @@ export default {
   watch: {
     items (list) {
       list.forEach(p => {
-        this.totalValue += p.total_value[0] ? Number(p.total_value[0]) : 0
-        this.Value += p.value[0] ? Number(p.value[0]) : 0
+        this.totalValue += p.total_prev[0] ? Number(p.total_prev[0]) : 0
+        this.Value += p.prev[0] ? Number(p.prev[0]) : 0
       })
     }
   }
