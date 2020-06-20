@@ -55,12 +55,12 @@
               <tr>
                 <td>{{ item.number }}</td>
                 <td>{{ item.name }}</td>
-                <td
-                  class="text-right text-no-wrap"
-                >{{ item.total_prev[0] ? item.total_prev[0] : null | valueFilter }}</td>
-                <td
-                  class="text-right text-no-wrap"
-                >{{ item.prev[0] ? item.prev[0] : null | valueFilter }}</td>
+                <td class="text-right text-no-wrap">
+                  {{ item.total_prev[0] | valueFilter }}
+                </td>
+                <td class="text-right text-no-wrap">
+                  {{ item.prev[0] | valueFilter }}
+                </td>
               </tr>
             </template>
             <template #body.append="">
@@ -98,12 +98,6 @@ export default {
       firstYear: null,
       lastYear: null,
       search: '',
-      headers: [
-        { text: 'Numéro', value: 'number' },
-        { text: 'Nom', value: 'name' },
-        { value: 'total_value', align: 'right' },
-        { value: 'value', align: 'right' }
-      ],
       totalValue: 0,
       value: 0
     }
@@ -119,6 +113,15 @@ export default {
         !this.checkYear(this.lastYear) ||
         this.lastYear < this.firstYear
       )
+    },
+    headers () {
+      const firstYear = this.firstYear || ''
+      return [
+        { text: 'Numéro', value: 'number' },
+        { text: 'Nom', value: 'name' },
+        { text: 'Total ' + firstYear, value: 'total_value', align: 'right', sortable: false },
+        { text: 'Région ' + firstYear, value: 'value', align: 'right', sortable: false }
+      ]
     }
   },
   methods: {
@@ -147,37 +150,24 @@ export default {
     download () {
       if (!this.items.length) return
       const colNum = this.items[0].total_prev.length
-      const lines = this.items.map(l => {
+      // eslint-disable-next-line camelcase
+      const lines = this.items.map((van, valuedate, total_prev, prev, ...others) => {
         const formattedLine = {
-          number: l.number,
-          name: l.name,
-          step_name: l.step_name,
-          category_name: l.category_name,
-          tri: l.tri,
-          van: l.van,
-          valuedate: l.valuedate,
-          r75: l.r75,
-          r77: l.r77,
-          r78: l.r78,
-          r91: l.r91,
-          r92: l.r92,
-          r93: l.r93,
-          r94: l.r94,
-          r95: l.r95
+          ...others,
+          van: van ? van * 0.01 : null,
+          valuedate: valuedate ? new Date(valuedate) : null
         }
         for (let i = 0; i < colNum; i++) {
-          formattedLine['ty' + i] = l.total_prev[i] * 0.01
-        }
-        for (let i = 0; i < colNum; i++) {
-          formattedLine['y' + i] = l.prev[i] * 0.01
+          formattedLine['ty' + i] = total_prev[i] * 0.01
+          formattedLine['y' + i] = prev[i] * 0.01
         }
         return formattedLine
       })
       const columns = [
-        { header: 'Numéro', key: 'number', width: 10 },
+        { header: 'Numéro', key: 'number', width: 15 },
         { header: 'Nom', key: 'name', width: 50 },
-        { header: 'Étape', key: 'step_name', width: 12 },
-        { header: 'Cat', key: 'category_name', width: 12 },
+        { header: 'Étape', key: 'step_name', width: 20 },
+        { header: 'Cat', key: 'category_name', width: 20 },
         { header: 'TRI', key: 'tri', width: 8, ...percentStyle },
         { header: 'VAN', key: 'van', ...valStyle },
         { header: 'Date val', key: 'valuedate', ...dateStyle },
@@ -204,8 +194,8 @@ export default {
   watch: {
     items (list) {
       list.forEach(p => {
-        this.totalValue += p.total_prev[0] ? Number(p.total_prev[0]) : 0
-        this.Value += p.prev[0] ? Number(p.prev[0]) : 0
+        this.totalValue += p.total_prev[0]
+        this.Value += p.prev[0]
       })
     }
   }
