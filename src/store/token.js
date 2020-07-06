@@ -114,18 +114,24 @@ const state = {
     },
     {
       id: 6,
+      title: 'Préparation de plan',
+      routerLink: { name: 'PlanForecasts' },
+      dataCy: 'actionPlanForecasts'
+    },
+    {
+      id: 7,
       title: 'Prévisions annuelles CP par actions',
       routerLink: { name: 'ActionPaymentPrev' },
       dataCy: 'actionPaymentPrevMenuItem'
     },
     {
-      id: 7,
+      id: 8,
       title: 'Prévisions pluriannuelles CP',
       routerLink: { name: 'MultiAnnualPmtPrev' },
       dataCy: 'multiAnnualPmtPrevMenuItem'
     },
     {
-      id: 8,
+      id: 9,
       title: 'Délais de paiement',
       routerLink: { name: 'PaymentDelays' },
       dataCy: 'paymentDelayMenuItem'

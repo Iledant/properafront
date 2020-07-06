@@ -83,6 +83,11 @@ export default new Router({
       component: () => import('@/components/Summaries/ActionMultiAnnualPrev.vue')
     },
     {
+      path: '/plan_forecasts',
+      name: 'PlanForecasts',
+      component: () => import('@/components/Summaries/PlanForecasts.vue')
+    },
+    {
       path: '/steps_categories',
       name: 'StepsCategories',
       component: () => import('@/components/Settings/StepsCategories.vue')
