@@ -1,13 +1,9 @@
 <template>
   <v-layout row wrap>
     <v-flex xs12 sm6>
-      <v-file-input
-        label="Télécharger"
-        @change="checkFile($event,upload)"
-        :loading="loading"
-      />
+      <v-file-input label="Télécharger" @change="checkFile($event,upload)" :loading="loading" />
     </v-flex>
-    <v-flex xs12 sm6 class="body-2">
+    <v-flex xs12 sm6 class="text-body-2">
       Import d'un fichier Excel (.xlsx) permettant de rattacher des engagements
       aux opérations physiques.
       <br />Le fichier Excel doit contenir les colonnes avec les intitulés :
@@ -17,8 +13,7 @@
         <li>« coriolis_egt_code »</li>
         <li>« coriolis_egt_num »</li>
         <li>« coriolis_egt_line »</li>
-      </ul>
-      Ces 4 derniers champs décrivent de manière unique l’engagement dans
+      </ul>Ces 4 derniers champs décrivent de manière unique l’engagement dans
       coriolis. Ils apparaissent dans l’export Excel du tableau de bord d’IRIS.
       Les données sont directement intégrées par requête dans Propera. Si une
       erreur est faite dans un des champs, la ligne n’est pas prise en compte.

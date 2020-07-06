@@ -6,7 +6,7 @@
     </v-card-title>
     <v-container fluid grid-list-md>
       <v-layout row wrap>
-        <v-flex xs12 class="subtitle-1">
+        <v-flex xs12 class="text-subtitle-1">
           <v-icon class="mr-2">work</v-icon>Droit sur les opérations
         </v-flex>
         <v-flex xs12 sm6 offset-sm3>
@@ -37,7 +37,7 @@
           <v-btn text color="primary" @click="onOpCancel">Annuler</v-btn>
           <v-btn text color="primary" @click="onOpSave">Sauver</v-btn>
         </v-flex>
-        <v-flex xs12 class="subtitle-1">
+        <v-flex xs12 class="text-subtitle-1">
           <v-icon class="mr-2">person</v-icon>Copier les droits d'utilisateurs
         </v-flex>
         <v-flex xs12 sm6 offset-sm3>

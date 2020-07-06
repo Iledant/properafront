@@ -1,13 +1,9 @@
 <template>
   <v-layout row wrap>
     <v-flex xs12 sm6>
-      <v-file-input
-        label="Télécharger"
-        @change="checkFile($event,upload)"
-        :loading="loading"
-      />
+      <v-file-input label="Télécharger" @change="checkFile($event,upload)" :loading="loading" />
     </v-flex>
-    <v-flex xs12 sm6 class="body-2">
+    <v-flex xs12 sm6 class="text-body-2">
       Import d'un fichier Excel (.xlsx) contenant des opérations nouvelles ou à
       mettre à jour.
       <br />La première ligne doit contenir les noms anglais des champs.

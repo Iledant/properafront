@@ -1,13 +1,9 @@
 <template>
   <v-layout row wrap>
     <v-flex xs12 sm6>
-      <v-file-input
-        label="Télécharger"
-        @change="checkFile($event,upload)"
-        :loading="loading"
-      />
+      <v-file-input label="Télécharger" @change="checkFile($event,upload)" :loading="loading" />
     </v-flex>
-    <v-flex xs12 sm6 class="body-2">
+    <v-flex xs12 sm6 class="text-body-2">
       Import d'un fichier Excel (.xlsx) contenant les engagements
       financiers (AP). Met à jour ou complète les engagements (AP) de Propera.
       Utiliser uniquement le tableau de bord « Propera import AP » d'IRIS qui

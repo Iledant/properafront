@@ -6,10 +6,10 @@
     </v-card-title>
     <v-card-text>
       <v-layout row wrap class="mb-3" align-center>
-        <v-flex xs6
-          ><v-icon class="mr-2">work</v-icon
-          ><span class="subtitle-1">Liste des opérations</span></v-flex
-        >
+        <v-flex xs6>
+          <v-icon class="mr-2">work</v-icon>
+          <span class="text-subtitle-1">Liste des opérations</span>
+        </v-flex>
         <v-flex xs6>
           <v-text-field
             label="Recherche"
@@ -31,13 +31,7 @@
       >
         <template #item="{ item }">
           <td>
-            <v-btn
-              icon
-              text
-              small
-              class="ma-0"
-              @click.stop="onOpAdd(item)"
-            >
+            <v-btn icon text small class="ma-0" @click.stop="onOpAdd(item)">
               <v-icon color="secondary">add</v-icon>
             </v-btn>
             {{ item.name }}
@@ -50,10 +44,10 @@
         </template>
       </v-data-table>
       <v-layout row wrap class="mb-3 mt-2" align-center>
-        <v-flex xs6
-          ><v-icon class="mr-2">playlist_add</v-icon
-          ><span class="subtitle-1">Scénario</span></v-flex
-        >
+        <v-flex xs6>
+          <v-icon class="mr-2">playlist_add</v-icon>
+          <span class="text-subtitle-1">Scénario</span>
+        </v-flex>
         <v-flex xs6>
           <v-text-field
             prepend-icon="search"
@@ -75,14 +69,7 @@
       >
         <template #item="{ item }">
           <td>
-            <v-btn
-              icon
-              text
-              small
-              class="ma-0"
-              @click="onScenarioDel(item)"
-              color="error"
-            >
+            <v-btn icon text small class="ma-0" @click="onScenarioDel(item)" color="error">
               <v-icon>delete</v-icon>
             </v-btn>
             {{ item.name }}
@@ -105,7 +92,7 @@
           <td class="text-right">{{ item.y3 | valueFilter }}</td>
           <td class="text-right">{{ item.y4 | valueFilter }}</td>
         </template>
-        <template #body.append="">
+        <template #body.append>
           <tr class="lime lighten-4">
             <td>Total</td>
             <td></td>
@@ -120,31 +107,22 @@
     </v-card-text>
     <v-divider />
     <v-card-actions>
-      <v-btn color="primary" text @click="onDownload" :disabled="modified"
-        >Export Excel</v-btn
-      >
+      <v-btn color="primary" text @click="onDownload" :disabled="modified">Export Excel</v-btn>
       <v-btn
         color="primary"
         text
         @click="onPerBudgetActionDownload"
         :disabled="modified"
-        >Export Excel par action</v-btn
-      >
+      >Export Excel par action</v-btn>
       <v-spacer />
-      <v-btn color="primary" text @click="onCancel" :disabled="!modified"
-        >Annuler</v-btn
-      >
-      <v-btn color="primary" text @click="onSave" :disabled="!modified"
-        >Sauver</v-btn
-      >
+      <v-btn color="primary" text @click="onCancel" :disabled="!modified">Annuler</v-btn>
+      <v-btn color="primary" text @click="onSave" :disabled="!modified">Sauver</v-btn>
     </v-card-actions>
     <v-divider />
     <v-layout row wrap xs12>
-      <v-flex xs12 class="ml-3 mt-3"
-        ><span class="subtitle-1"
-          >Simulation de chronique de CP avec prévisions manuelles</span
-        ></v-flex
-      >
+      <v-flex xs12 class="ml-3 mt-3">
+        <span class="text-subtitle-1">Simulation de chronique de CP avec prévisions manuelles</span>
+      </v-flex>
       <v-flex xs6>
         <v-select
           class="xs12 md6 ml-4 pr-2"
@@ -163,14 +141,11 @@
           text
           @click="onScenarioCPDownload"
           :disabled="modified || paymentPrevTypeId === null"
-          >Export Excel</v-btn
-        >
+        >Export Excel</v-btn>
       </v-flex>
-      <v-flex xs12 class="ml-3 mt-4"
-        ><span class="subtitle-1"
-          >Simulation de chronique de CP purement statistique</span
-        ></v-flex
-      >
+      <v-flex xs12 class="ml-3 mt-4">
+        <span class="text-subtitle-1">Simulation de chronique de CP purement statistique</span>
+      </v-flex>
       <v-flex xs6>
         <v-select
           class="xs12 md6 ml-4 pr-2"
@@ -189,8 +164,7 @@
           text
           @click="onScenarioStatisticalCPDownload"
           :disabled="modified || paymentPrevTypeId === null"
-          >Export Excel</v-btn
-        >
+        >Export Excel</v-btn>
       </v-flex>
     </v-layout>
   </v-card>

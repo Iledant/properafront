@@ -7,7 +7,7 @@
             <v-layout>
               <v-flex xs4>
                 <p class="subtitle font-weight-medium">Prévisions directes, ratios</p>
-                <div class="body-2">
+                <div class="text-body-2">
                   <p>
                     Les prévisions directes reposent sur les clés de transformation
                     des AP en CP.
@@ -37,7 +37,7 @@
             <v-layout>
               <v-flex xs4>
                 <p class="subtitle font-weight-medium">Prévisions directes, calcul</p>
-                <div class="body-2">
+                <div class="text-body-2">
                   <p>
                     On applique alors ces ratios pour évaluer la production de
                     CP liés à la programmation et aux engagements passés.
@@ -73,7 +73,7 @@
             <v-layout>
               <v-flex xs4>
                 <p class="subtitle font-weight-medium">Prévisions par RAM, ratios</p>
-                <div class="body-2">
+                <div class="text-body-2">
                   <p>
                     Cette méthode s'inspire de la méthode directe mais en calculant
                     les ratios non pas directement sur les engagements d'une
@@ -102,7 +102,7 @@
             <v-layout>
               <v-flex xs4>
                 <p class="subtitle font-weight-medium">Prévisions par RAM, calculs</p>
-                <div class="body-2">
+                <div class="text-body-2">
                   <p>
                     On applique alors ces ratios sur les séries des reste-à-mandater
                     liés à la programmation de l'année en cours et des engagements

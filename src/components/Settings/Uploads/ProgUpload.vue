@@ -1,13 +1,9 @@
 <template>
   <v-layout row wrap>
     <v-flex xs12 sm6>
-      <v-file-input
-        label="Télécharger"
-        @change="checkFile($event,upload)"
-        :loading="loading"
-      />
+      <v-file-input label="Télécharger" @change="checkFile($event,upload)" :loading="loading" />
     </v-flex>
-    <v-flex xs12 sm6 class="body-2">
+    <v-flex xs12 sm6 class="text-body-2">
       Import d'un fichier Excel (.xlsx) contenant la programmation de l'année.
       Remplace la programmation de la base de données.
       <br />Le tableau doit contenir
@@ -19,8 +15,7 @@
           commission permanente ou du conseil régional où sera affecté
           le montant
         </li>
-      </ul>
-      Une colonne « year » peut être ajoutée pour préciser l’année de la
+      </ul>Une colonne « year » peut être ajoutée pour préciser l’année de la
       programmation à modifier.
     </v-flex>
   </v-layout>

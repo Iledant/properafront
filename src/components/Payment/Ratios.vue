@@ -3,7 +3,7 @@
     <v-card-text>
       <v-container grid-list-md class="pa-0">
         <v-layout row wrap align-center>
-          <v-flex class="xs12 subtitle-1">Chroniques enregistrées</v-flex>
+          <v-flex class="xs12 text-subtitle-1">Chroniques enregistrées</v-flex>
           <v-flex xs12 sm6 offset-sm3 class="mb-2">
             <v-text-field
               prepend-icon="search"
@@ -72,7 +72,7 @@
             <v-btn color="primary" text @click="onTypeAdd">Ajouter</v-btn>
           </v-flex>
 
-          <v-flex xs12 class="mr-2 subtitle-1">Calcul de chroniques</v-flex>
+          <v-flex xs12 class="mr-2 text-subtitle-1">Calcul de chroniques</v-flex>
           <v-flex xs12 sm6 offset-sm3>
             <v-text-field
               label="Année"
@@ -99,12 +99,10 @@
                   <td class="text-right">{{ item.ratio | percentage }}</td>
                 </tr>
               </template>
-              <template #body.append="">
+              <template #body.append>
                 <tr class="grey lighten-4 font-weight-medium">
                   <td class="text-center">Total</td>
-                  <td class="text-right">
-                    {{ yearPaymentRatioListTotal | percentage }}
-                  </td>
+                  <td class="text-right">{{ yearPaymentRatioListTotal | percentage }}</td>
                 </tr>
               </template>
             </v-data-table>
@@ -113,7 +111,7 @@
             <v-btn color="primary" text @click="onYearRatiosAdd">Enregistrer</v-btn>
           </v-flex>
 
-          <v-flex xs12 class="mr-2 subtitle-1">Détail de la chronique</v-flex>
+          <v-flex xs12 class="mr-2 text-subtitle-1">Détail de la chronique</v-flex>
           <v-flex xs12 sm6 offset-sm3>
             <v-select
               :items="paymentTypes"
@@ -159,12 +157,10 @@
                   <td class="text-right">{{ item.ratio | percentage }}</td>
                 </tr>
               </template>
-              <template #body.append="">
-                <tr class=" grey lighten-4 font-weight-medium">
+              <template #body.append>
+                <tr class="grey lighten-4 font-weight-medium">
                   <td colspan="2" class="text-center">Total</td>
-                  <td class="text-right">
-                    {{ paymentRatioListTotal | percentage }}
-                  </td>
+                  <td class="text-right">{{ paymentRatioListTotal | percentage }}</td>
                 </tr>
               </template>
             </v-data-table>
@@ -207,34 +203,26 @@
             text
             @click="onDlgModify"
             :disabled="modifyDlgDisabled"
-          >
-            {{ modifyDlgConfirm }}
-          </v-btn>
+          >{{ modifyDlgConfirm }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
     <v-dialog v-model="showCreateYearRatiosDlg" max-width="600px">
       <v-card>
-        <v-card-title class="secondary">
-          Nouvelle chronique tirées des ratios
-        </v-card-title>
+        <v-card-title class="secondary">Nouvelle chronique tirées des ratios</v-card-title>
         <v-container grid-list-md fluid>
           <v-text-field label="Nom" v-model="yearRatiosName" />
         </v-container>
         <v-card-actions class="tertiary">
           <v-spacer />
-          <v-btn color="primary" text @click="showCreateYearRatiosDlg = false">
-            Annuler
-          </v-btn>
+          <v-btn color="primary" text @click="showCreateYearRatiosDlg = false">Annuler</v-btn>
           <v-btn
             color="primary"
             text
             @click="onYearRatiosCreate"
             :disabled="yearRatiosDisabled"
-          >
-            Créer
-          </v-btn>
+          >Créer</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

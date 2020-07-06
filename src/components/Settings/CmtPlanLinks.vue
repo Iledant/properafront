@@ -3,7 +3,7 @@
     <v-card-title class="secondary">Liens engagements / plans</v-card-title>
     <v-container fluid grid-list-md>
       <v-layout row wrap>
-        <v-flex xs12 class="subtitle-1">Engagements non liés à un plan</v-flex>
+        <v-flex xs12 class="text-subtitle-1">Engagements non liés à un plan</v-flex>
         <v-flex xs12 sm6>
           <v-text-field
             label="Recherche (nom, bénéficiaire, code IRIS)"
@@ -42,9 +42,7 @@
               <div class="text-no-wrap">{{ item.fcDate | dateFilter }}</div>
             </template>
             <template #item.fcValue="{ item }">
-              <div class="text-no-wrap text-right">
-                {{ item.fcValue | valueFilter }}
-              </div>
+              <div class="text-no-wrap text-right">{{ item.fcValue | valueFilter }}</div>
             </template>
           </v-data-table>
         </v-flex>
@@ -107,7 +105,7 @@
             </template>
           </v-data-table>
         </v-flex>
-        <v-flex xs12 class="subtitle-1 mt-5">Engagements et lignes de plan liés</v-flex>
+        <v-flex xs12 class="text-subtitle-1 mt-5">Engagements et lignes de plan liés</v-flex>
         <v-flex xs12 sm6>
           <v-text-field
             label="Recherche (code IRIS, nom IRIS, bénéficiaire, opération)"
@@ -146,9 +144,7 @@
               <div class="text-no-wrap">{{ item.fcDate | dateFilter }}</div>
             </template>
             <template #item.fcValue="{ item }">
-              <div class="text-no-wrap text-right">
-                {{ item.fcValue | valueFilter }}
-              </div>
+              <div class="text-no-wrap text-right">{{ item.fcValue | valueFilter }}</div>
             </template>
           </v-data-table>
         </v-flex>

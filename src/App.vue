@@ -25,11 +25,7 @@
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-group
-          v-model="summariesExp"
-          prepend-icon="dashboard"
-          data-cy="summariesMenuItem"
-        >
+        <v-list-group v-model="summariesExp" prepend-icon="dashboard" data-cy="summariesMenuItem">
           <template #activator>
             <v-list-item-title>Synthèses</v-list-item-title>
           </template>
@@ -67,9 +63,9 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" data-cy="appMenu" />
       <v-toolbar-title>
         Propera
-        <span class="caption">
-          {{ appVersion }}, {{ user ? user.name : '' }} {{ isAdmin ? '[adm]' : '' }}
-        </span>
+        <span
+          class="caption"
+        >{{ appVersion }}, {{ user ? user.name : '' }} {{ isAdmin ? '[adm]' : '' }}</span>
       </v-toolbar-title>
       <v-spacer />
       <v-menu bottom left>
@@ -88,13 +84,15 @@
         </v-list>
       </v-menu>
     </v-app-bar>
-    <v-content v-if="user">
+    <v-main v-if="user">
       <v-container fluid>
         <v-layout align-center wrap>
-          <v-flex xs12><router-view /></v-flex>
+          <v-flex xs12>
+            <router-view />
+          </v-flex>
         </v-layout>
       </v-container>
-    </v-content>
+    </v-main>
     <sign-in v-model="showSignIn" />
   </v-app>
 </template>

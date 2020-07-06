@@ -18,9 +18,7 @@
           <v-flex xs12>
             <v-text-field label="Code" v-model="code" required :rules="[checkCode]" />
           </v-flex>
-          <v-flex xs1 class="subtitle-1">
-            {{ code.length > 2 ? this.code.substr(1, 2) : '' }}
-          </v-flex>
+          <v-flex xs1 class="text-subtitle-1">{{ code.length > 2 ? this.code.substr(1, 2) : '' }}</v-flex>
           <v-flex xs11>
             <v-text-field
               label="Sous-fonction"
@@ -29,20 +27,14 @@
             />
           </v-flex>
           <v-flex xs12>
-            <v-text-field
-              label="Intitulé"
-              v-model="BudgetProgram.name"
-              :rules="[checkIfNotEmpty]"
-            />
+            <v-text-field label="Intitulé" v-model="BudgetProgram.name" :rules="[checkIfNotEmpty]" />
           </v-flex>
         </v-layout>
       </v-container>
       <v-card-actions class="tertiary">
         <v-spacer />
         <v-btn color="primary" text @click="$emit('input', false)">Annuler</v-btn>
-        <v-btn color="primary" text @click="onSave" :disabled="disabled">
-          {{ mentions.validate }}
-        </v-btn>
+        <v-btn color="primary" text @click="onSave" :disabled="disabled">{{ mentions.validate }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

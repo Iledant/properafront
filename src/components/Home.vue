@@ -24,7 +24,7 @@
           </v-card-title>
           <v-container grid-list-md>
             <div
-              class="body-2"
+              class="text-body-2"
               v-show="todayMessage"
               v-html="todayMessage ? todayMessage.html : ''"
             />

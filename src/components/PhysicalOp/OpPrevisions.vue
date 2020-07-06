@@ -23,7 +23,7 @@
             :items-per-page="-1"
             :loading="loading"
           >
-            <template #body.prepend="">
+            <template #body.prepend>
               <tr class="green lighten-3">
                 <td></td>
                 <td rowspan="2" class="text-center">Total</td>
@@ -103,7 +103,7 @@
                     reverse
                     v-model="item.fmtCmt"
                     @blur="comUpdate(item)"
-                    class="body-2 pt-0"
+                    class="text-body-2 pt-0"
                   />
                 </td>
                 <td>AP totales</td>
@@ -116,7 +116,7 @@
                     reverse
                     v-model="item.fmtTotCmt"
                     @blur="totalComUpdate(item)"
-                    class="body-2 pt-0"
+                    class="text-body-2 pt-0"
                   />
                 </td>
               </tr>
@@ -133,7 +133,7 @@
                     reverse
                     v-model="item.fmtPmt"
                     @blur="payUpdate(item)"
-                    class="body-2 pt-0"
+                    class="text-body-2 pt-0"
                   />
                 </td>
               </tr>
@@ -149,7 +149,7 @@
                     prefix="%"
                     @change="stateRatioUpdate(item)"
                     :disabled="isObserver"
-                    class="body-2 pt-0"
+                    class="text-body-2 pt-0"
                   />
                 </td>
                 <td>CP calculés Région</td>
@@ -158,7 +158,7 @@
               <tr :class="item.id % 2 ? 'green lighten-5' : 'green lighten-4'">
                 <td colspan="2">
                   <v-textarea
-                    class="body-2"
+                    class="text-body-2"
                     auto-grow
                     rows="1"
                     label="Commentaire pour l'engagement"
@@ -169,7 +169,7 @@
                 </td>
                 <td colspan="2">
                   <v-textarea
-                    class="body-2"
+                    class="text-body-2"
                     auto-grow
                     rows="1"
                     label="Commentaire pour la prévision spécifique CP"
@@ -181,7 +181,7 @@
               </tr>
             </template>
 
-            <template #body.append="">
+            <template #body.append>
               <tr class="green lighten-3">
                 <td></td>
                 <td rowspan="2" class="text-center">Total</td>
