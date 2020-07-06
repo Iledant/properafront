@@ -40,38 +40,26 @@
             no-data-text="Aucune ligne à afficher"
             no-results-text="Recherche infructueuse"
           >
-            <template #body.prepend="">
+            <template #body.prepend>
               <tr class="grey lighten-4 font-weight-medium">
                 <td colspan="2">Total</td>
-                <td class="text-right text-no-wrap">
-                  {{ totalValue | valueFilter }}
-                </td>
-                <td class="text-right text-no-wrap">
-                  {{ value | valueFilter }}
-                </td>
+                <td class="text-right text-no-wrap">{{ totalValue | valueFilter }}</td>
+                <td class="text-right text-no-wrap">{{ value | valueFilter }}</td>
               </tr>
             </template>
             <template #item="{ item }">
               <tr>
                 <td>{{ item.number }}</td>
                 <td>{{ item.name }}</td>
-                <td class="text-right text-no-wrap">
-                  {{ item.total_prev[0] | valueFilter }}
-                </td>
-                <td class="text-right text-no-wrap">
-                  {{ item.prev[0] | valueFilter }}
-                </td>
+                <td class="text-right text-no-wrap">{{ item.total_prev[0] | valueFilter }}</td>
+                <td class="text-right text-no-wrap">{{ item.prev[0] | valueFilter }}</td>
               </tr>
             </template>
-            <template #body.append="">
+            <template #body.append>
               <tr class="grey lighten-4 font-weight-medium">
                 <td colspan="2">Total</td>
-                <td class="text-right text-no-wrap">
-                  {{ totalValue | valueFilter }}
-                </td>
-                <td class="text-right text-no-wrap">
-                  {{ value | valueFilter }}
-                </td>
+                <td class="text-right text-no-wrap">{{ totalValue | valueFilter }}</td>
+                <td class="text-right text-no-wrap">{{ value | valueFilter }}</td>
               </tr>
             </template>
           </v-data-table>
@@ -80,7 +68,7 @@
     </v-container>
     <v-card-actions class="tertiary">
       <v-spacer />
-      <v-btn color="primary" text @click="download">Export Excel</v-btn>
+      <v-btn color="primary" text @click="download" :disabled="items.length === 0">Export Excel</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -151,7 +139,7 @@ export default {
       if (!this.items.length) return
       const colNum = this.items[0].total_prev.length
       // eslint-disable-next-line camelcase
-      const lines = this.items.map((van, valuedate, total_prev, prev, ...others) => {
+      const lines = this.items.map(({ van, valuedate, total_prev, prev, ...others }) => {
         const formattedLine = {
           ...others,
           van: van ? van * 0.01 : null,
@@ -195,7 +183,7 @@ export default {
     items (list) {
       list.forEach(p => {
         this.totalValue += p.total_prev[0]
-        this.Value += p.prev[0]
+        this.value += p.prev[0]
       })
     }
   }
