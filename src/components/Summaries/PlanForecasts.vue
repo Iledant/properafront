@@ -154,8 +154,8 @@ export default {
       const columns = [
         { header: 'Numéro', key: 'number', width: 15 },
         { header: 'Nom', key: 'name', width: 50 },
-        { header: 'Étape', key: 'step_name', width: 20 },
-        { header: 'Cat', key: 'category_name', width: 20 },
+        { header: 'Étape', key: 'step', width: 40 },
+        { header: 'Cat', key: 'category', width: 40 },
         { header: 'TRI', key: 'tri', width: 8, ...percentStyle },
         { header: 'VAN', key: 'van', ...valStyle },
         { header: 'Date val', key: 'valuedate', ...dateStyle },
