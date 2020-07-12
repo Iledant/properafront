@@ -15,8 +15,9 @@ module.exports = {
   },
 
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+    'no-console': 'off',
+    'no-debugger': 'off',
+    'vue/comma-dangle': 'error'
   },
 
   overrides: [
@@ -29,5 +30,10 @@ module.exports = {
         jest: true
       }
     }
+  ],
+
+  'extends': [
+    'plugin:vue/essential',
+    '@vue/standard'
   ]
 }
