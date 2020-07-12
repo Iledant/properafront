@@ -1,11 +1,9 @@
 <template>
   <v-card>
-    <v-card-title class="secondary">
-      Catégories et étapes d'opérations
-    </v-card-title>
+    <v-card-title class="secondary">Catégories et étapes d'opérations</v-card-title>
     <v-container grid-list-md fluid>
       <v-layout row wrap>
-        <v-flex xs12 class="subtitle-1">Catégories</v-flex>
+        <v-flex xs12 class="text-subtitle-1">Catégories</v-flex>
         <v-flex xs12 sm6 offset-sm3>
           <v-text-field
             label="Recherche"
@@ -71,11 +69,9 @@
           </v-data-table>
         </v-flex>
         <v-flex xs12 class="text-right">
-          <v-btn text color="primary" @click="onCategoryAdd">
-            Créer une catégorie
-          </v-btn>
+          <v-btn text color="primary" @click="onCategoryAdd">Créer une catégorie</v-btn>
         </v-flex>
-        <v-flex xs12 class="subtitle-1 mt-4">Étapes</v-flex>
+        <v-flex xs12 class="text-subtitle-1 mt-4">Étapes</v-flex>
         <v-flex xs12 sm6 offset-sm3>
           <v-text-field
             label="Recherche"

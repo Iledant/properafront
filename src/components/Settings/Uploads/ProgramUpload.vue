@@ -1,13 +1,9 @@
 <template>
   <v-layout row wrap>
     <v-flex xs12 sm6>
-      <v-file-input
-        label="Télécharger"
-        @change="checkFile($event,upload)"
-        :loading="loading"
-      />
+      <v-file-input label="Télécharger" @change="checkFile($event,upload)" :loading="loading" />
     </v-flex>
-    <v-flex xs12 sm6 class="body-2">
+    <v-flex xs12 sm6 class="text-body-2">
       Import d'un fichier Excel (.xlsx) contenant une liste de programmes
       budgétaires.
       <br />Le fichier Excel doit contenir les colonnes avec les intitulés :
@@ -19,8 +15,7 @@
         </li>
         <li>« name » intitulé du programme</li>
         <li>« chapter » chapitre de rattachement (907 ou 908)</li>
-      </ul>
-      Propera tentera d’actualiser l’intituler le nom du programme si un
+      </ul>Propera tentera d’actualiser l’intituler le nom du programme si un
       programme existe déjà avec le même code, sous fonction et chapitre. Les
       autres champs seront ajoutés à condition que le code chapitre puisse être
       trouvé dans la base de données.

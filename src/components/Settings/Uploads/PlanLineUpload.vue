@@ -16,7 +16,7 @@
         :disabled="!planId"
       />
     </v-flex>
-    <v-flex xs12 sm6 class="body-2">
+    <v-flex xs12 sm6 class="text-body-2">
       Import d'un fichier Excel (.xlsx) contenant les lignes du plan sélectionné.
       <br />Le fichier Excel doit contenir les colonnes avec les intitulés :
       <ul>

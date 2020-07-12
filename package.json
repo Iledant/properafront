@@ -1,6 +1,6 @@
 {
   "name": "properafront",
-  "version": "1.17.0",
+  "version": "1.17.1",
   "private": true,
   "description": "Vue 2.6 frontend of the Propera web application",
   "scripts": {
@@ -14,11 +14,11 @@
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.0",
-    "vue-currency-input": "^1.18.3",
-    "vue-debounce": "^2.5.3",
+    "vue-currency-input": "^1.20.0",
+    "vue-debounce": "^2.5.7",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.1.6",
-    "vuetify": "2.2.34",
+    "vuetify": "^2.3.3",
     "vuex": "^3.4.0",
     "xlsx-populate": "^1.21.0"
   },

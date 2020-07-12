@@ -1,15 +1,16 @@
 <template>
   <v-card>
-    <v-card-title class="title secondary">Gestion des commissions</v-card-title>
+    <v-card-title class="text-h6 secondary">Gestion des commissions</v-card-title>
     <v-container grid-list-md fluid>
       <v-layout row wrap>
         <v-flex xs12 sm6 offset-sm3>
           <v-text-field
             label="Recherche"
-           single-line
-           hide-details
-           prepend-icon="search"
-           v-model="search" />
+            single-line
+            hide-details
+            prepend-icon="search"
+            v-model="search"
+          />
         </v-flex>
         <v-flex xs12>
           <v-data-table

@@ -1,15 +1,11 @@
 <template>
   <v-layout row wrap>
     <v-flex xs12 sm6>
-      <v-file-input
-        label="Télécharger"
-        @change="checkFile($event,upload)"
-        :loading="loading"
-      />
+      <v-file-input label="Télécharger" @change="checkFile($event,upload)" :loading="loading" />
     </v-flex>
-    <v-flex xs12 sm6 class="body-2">
+    <v-flex xs12 sm6 class="text-body-2">
       Import d'un fichier Excel (.xlsx) contenant les besoins d'engagement.
-      Met à jour et complète les prévisions d'engagement.  Pour une opération
+      Met à jour et complète les prévisions d'engagement. Pour une opération
       donnée, la prévision d'une année du fichier remplace celle de la base de
       données.
       <br />La première ligne du fichier doit contenir les noms anglais des

@@ -33,7 +33,7 @@ function fetchKeys (datas, expectedHeaders) {
 export const val2F = v => v ? v * 0.01 : 0
 
 export const valStyle = {
-  width: 14,
+  width: 16,
   style: { numberFormat: '#,##0.00', wrapText: true },
   addTotal: true
 }

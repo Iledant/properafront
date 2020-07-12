@@ -2,42 +2,49 @@
   <v-container grid-list-md class="pa-0" fluid>
     <v-layout row wrap>
       <v-flex xs12>
-        <div class="title mb-2">Opération : {{ opTitle }}</div>
+        <div class="text-h6 mb-2">Opération : {{ opTitle }}</div>
       </v-flex>
-      <v-flex xs12> <op-fields class="mb-2" :op="currentOp" /> </v-flex>
       <v-flex xs12>
-        <v-tabs
-          v-model="activeTab"
-          background-color="secondary"
-          slider-color="primary"
-          grow
-        >
+        <op-fields class="mb-2" :op="currentOp" />
+      </v-flex>
+      <v-flex xs12>
+        <v-tabs v-model="activeTab" background-color="secondary" slider-color="primary" grow>
           <v-tab ripple>
-            <v-icon class="mr-2">date_range</v-icon> Événements
+            <v-icon class="mr-2">date_range</v-icon>Événements
           </v-tab>
           <v-tab ripple>
-            <v-icon class="mr-2">insert_drive_file</v-icon> Documents
+            <v-icon class="mr-2">insert_drive_file</v-icon>Documents
           </v-tab>
           <v-tab ripple>
-            <v-icon class="mr-2">trending_up</v-icon> Besoins
+            <v-icon class="mr-2">trending_up</v-icon>Besoins
           </v-tab>
           <v-tab ripple>
-            <v-icon class="mr-2">perm_identity</v-icon> Bénéficiaires
+            <v-icon class="mr-2">perm_identity</v-icon>Bénéficiaires
           </v-tab>
           <v-tab ripple>
-            <v-icon class="mr-2">assignment</v-icon> Engagements
+            <v-icon class="mr-2">assignment</v-icon>Engagements
           </v-tab>
           <v-tab ripple>
-            <v-icon class="mr-2">credit_card</v-icon> Paiements
+            <v-icon class="mr-2">credit_card</v-icon>Paiements
           </v-tab>
-          <v-tab-item> <op-events :op="currentOp" /> </v-tab-item>
-          <v-tab-item> <op-documents :op="currentOp" /> </v-tab-item>
-          <v-tab-item> <op-previsions :op="currentOp" /> </v-tab-item>
+          <v-tab-item>
+            <op-events :op="currentOp" />
+          </v-tab-item>
+          <v-tab-item>
+            <op-documents :op="currentOp" />
+          </v-tab-item>
+          <v-tab-item>
+            <op-previsions :op="currentOp" />
+          </v-tab-item>
           <v-tab-item>
             <OpBeneficiariesState :op="currentOp" />
           </v-tab-item>
-          <v-tab-item> <op-commitments :op="currentOp" /> </v-tab-item>
-          <v-tab-item> <op-payments :op="currentOp" /> </v-tab-item>
+          <v-tab-item>
+            <op-commitments :op="currentOp" />
+          </v-tab-item>
+          <v-tab-item>
+            <op-payments :op="currentOp" />
+          </v-tab-item>
         </v-tabs>
       </v-flex>
     </v-layout>

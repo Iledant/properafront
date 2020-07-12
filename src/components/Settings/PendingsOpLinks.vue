@@ -1,13 +1,9 @@
 <template>
   <v-card>
-    <v-card-title class="secondary">
-        Liens dossiers en cours / opérations
-      </v-card-title>
+    <v-card-title class="secondary">Liens dossiers en cours / opérations</v-card-title>
     <v-container fluid grid-list-md>
       <v-layout row wrap>
-        <v-flex xs12 class="subtitle-1">
-          Dossiers en cours non liés à une opération
-        </v-flex>
+        <v-flex xs12 class="text-subtitle-1">Dossiers en cours non liés à une opération</v-flex>
         <v-flex xs12 sm6 offset-sm3>
           <v-text-field
             label="Recherche (nom, bénéficiaire, code IRIS)"
@@ -34,9 +30,7 @@
               <div class="text-no-wrap">{{ item.fcDate | dateFilter }}</div>
             </template>
             <template #item.fcValue="{ item }">
-              <div class="text-no-wrap text-right">
-                {{ item.fcValue | valueFilter }}
-              </div>
+              <div class="text-no-wrap text-right">{{ item.fcValue | valueFilter }}</div>
             </template>
           </v-data-table>
         </v-flex>
@@ -74,9 +68,7 @@
             single-select
           />
         </v-flex>
-        <v-flex xs12 class="subtitle-1 mt-5">
-          Dossiers en cours et opérations liés
-        </v-flex>
+        <v-flex xs12 class="text-subtitle-1 mt-5">Dossiers en cours et opérations liés</v-flex>
         <v-flex xs12 sm6 offset-sm3>
           <v-text-field
             label="Recherche"
@@ -101,14 +93,10 @@
             no-results-text="Recherche infructueuse"
           >
             <template #item.commission_date="{ item }">
-              <div class="text-no-wrap">
-                {{ item.commission_date | dateFilter }}
-              </div>
+              <div class="text-no-wrap">{{ item.commission_date | dateFilter }}</div>
             </template>
             <template #item.proposed_value="{ item }">
-              <div class="text-no-wrap text-right">
-                {{ item.proposed_value | valueFilter }}
-              </div>
+              <div class="text-no-wrap text-right">{{ item.proposed_value | valueFilter }}</div>
             </template>
           </v-data-table>
         </v-flex>
@@ -119,9 +107,7 @@
             @click="unlink"
             color="primary"
             :disabled="unlinkDisabled"
-          >
-            Supprimer le lien
-          </v-btn>
+          >Supprimer le lien</v-btn>
         </v-flex>
       </v-layout>
     </v-container>

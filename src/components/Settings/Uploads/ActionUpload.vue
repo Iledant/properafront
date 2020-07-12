@@ -1,13 +1,9 @@
 <template>
   <v-layout row wrap>
     <v-flex xs12 sm6>
-      <v-file-input
-        label="Télécharger"
-        @change="checkFile($event,upload)"
-        :loading="loading"
-      />
+      <v-file-input label="Télécharger" @change="checkFile($event,upload)" :loading="loading" />
     </v-flex>
-    <v-flex xs12 sm6 class="body-2">
+    <v-flex xs12 sm6 class="text-body-2">
       Import d'un fichier Excel (.xlsx) contenant une liste de actions
       budgétaires.
       <br />Le fichier Excel doit contenir les colonnes avec les intitulés :
@@ -15,10 +11,9 @@
         <li>« code » chiffré de l'action budgétaire</li>
         <li>« sector » secteur de rattachement de l'action (MO, TMSP...)</li>
         <li>« name » intitulé du programme</li>
-      </ul>
-      Si l’action existe déjà, son intitulé avec mis à jour. Sinon, l’action est
-       ajoutée à condition que le code secteur et que le code du programme
-       puissent être reconnus.
+      </ul>Si l’action existe déjà, son intitulé avec mis à jour. Sinon, l’action est
+      ajoutée à condition que le code secteur et que le code du programme
+      puissent être reconnus.
     </v-flex>
   </v-layout>
 </template>
