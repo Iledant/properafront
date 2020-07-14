@@ -1,10 +1,11 @@
 <template>
-  <v-card :color="color" :dark="dark">
+  <v-card :color="color">
     <v-card-text>
-      <div class="text-headline-4">{{ figure }}</div>
-      <div>
-        <v-icon>{{trend >= 0 ? 'arrow_upward' : 'arrow_downward'}}</v-icon>
-        {{ trend | percentage }}
+      <div class="caption">{{ caption }}</div>
+      <div class="text-right text-h3">{{ figure }}</div>
+      <div class="caption text-right">
+        <v-icon small>{{icon}}</v-icon>
+        {{ trend }}
       </div>
     </v-card-text>
   </v-card>
@@ -12,12 +13,31 @@
 
 <script>
 export default {
-  name: 'TrendName',
+  name: 'TrendCard',
   props: {
-    color: { type: String, default: 'primary' },
-    figure: { type: Number, default: null },
-    trend: { type: Number, default: null },
-    dark: { type: Boolean, default: false }
+    caption: { type: String, default: '' },
+    figure: { type: String, default: null },
+    trend: { type: Number, default: null }
+  },
+  computed: {
+    icon () {
+      if (this.trend > 0) {
+        return 'north_east'
+      }
+      if (this.trend < 0) {
+        return 'south_east'
+      }
+      return 'east'
+    },
+    color () {
+      if (this.trend < 0) {
+        return 'red lighten-4'
+      }
+      if (this.trend > 0) {
+        return 'green lighten-4'
+      }
+      return 'yellow lighten-4'
+    }
   }
 }
 </script>

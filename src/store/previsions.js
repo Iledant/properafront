@@ -40,7 +40,8 @@ const state = {
   opPaymentPrevisions: [],
   multiannualDifPmtPrev: [],
   curYearActionPmtPrevisions: [],
-  averagePaymentTime: []
+  averagePaymentTime: [],
+  csfWeekTrend: {}
 }
 
 const actions = {
@@ -462,6 +463,9 @@ const mutations = {
   },
   [types.GET_AVERAGE_PAYMENT_TIME] (state, list) {
     state.averagePaymentTime = [...list]
+  },
+  [types.GET_CSF_WEEK_TREND] (state, payload) {
+    state.csfWeekTrend = { ...payload }
   }
 }
 

@@ -76,7 +76,7 @@
           >Date d'import : {{ commitmentImportDate | dateFilter }}</v-flex>
         </v-card>
       </v-flex>
-      <v-flex xs12 md6>
+      <!-- <v-flex xs12 md6>
         <v-card>
           <v-card-title class="secondary align-start">
             Délai moyen de mandatement
@@ -125,6 +125,27 @@
             <payment-demands-stock-chart :height="400" class="mt-2" />
           </v-flex>
         </v-card>
+      </v-flex> -->
+      <v-flex xs4>
+        <trend-card
+          :figure="figure"
+          :trend="trend"
+          caption="Évolution des CSF"
+        />
+      </v-flex>
+      <v-flex xs4>
+        <trend-card
+          :figure="'50 j'"
+          :trend="-2"
+          caption="Délai moyen de mandatement (non fonctionnel)"
+        />
+      </v-flex>
+      <v-flex xs4>
+        <trend-card
+          :figure="'50 %'"
+          :trend="5"
+          caption="Taux d'exécution des CP (non fonctionnel)"
+        />
       </v-flex>
     </v-layout>
   </v-container>
@@ -137,14 +158,15 @@ import * as types from '@/store/mutation-types'
 import TodayMessageDlg from './Home/TodayMessageDlg.vue'
 import PaymentChart from './Home/PaymentChart.js'
 import CommitmentChart from './Home/CommitmentChart.js'
-import AvgPmtTimeChart from './Home/AvgPmtTimeChart.js'
-import PaymentDemandsStockChart from './Home/PaymentDemandsStockChart.js'
+// import AvgPmtTimeChart from './Home/AvgPmtTimeChart.js'
+// import PaymentDemandsStockChart from './Home/PaymentDemandsStockChart.js'
+import TrendCard from '@/components/Home/TrendCard.vue'
 import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'home',
   mixins: [isAdmin, isObserver],
-  components: { TodayMessageDlg, PaymentChart, CommitmentChart, AvgPmtTimeChart, PaymentDemandsStockChart },
+  components: { TodayMessageDlg, PaymentChart, CommitmentChart, TrendCard },
   data: () => ({
     headers: [
       { text: 'Date', value: 'date', align: 'right' },
@@ -168,8 +190,15 @@ export default {
       events: s => s.physops.events,
       todayMessage: s => s.messages.todayMessage,
       paymentImportDate: s => s.importLog.paymentLastDate,
-      commitmentImportDate: s => s.importLog.commitmentLastDate
-    })
+      commitmentImportDate: s => s.importLog.commitmentLastDate,
+      csfWeekTrend: s => s.previsions.csfWeekTrend
+    }),
+    figure () {
+      return this.csfWeekTrend ? this.csfWeekTrend.ThisWeekCount : 0
+    },
+    trend () {
+      return this.csfWeekTrend ? this.csfWeekTrend.ThisWeekCount - this.csfWeekTrend.LastWeekCount : 0
+    }
   },
   methods: {
     onTodayMessageChange () {
