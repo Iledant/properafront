@@ -31,6 +31,7 @@ const actions = {
         commit(types.GET_PAYMENT_DEMAND_COUNTS, body.PaymentDemandCount)
         commit(types.GET_PAYMENT_DEMANDS_STOCK, body.PaymentDemandsStock)
         commit(types.GET_CSF_WEEK_TREND, body.CsfWeekTrend)
+        commit(types.GET_FLOW_STOCK_DELAYS, body.FlowStockDelays)
       }
     )
   },

@@ -47,6 +47,7 @@ export const GET_AVERAGE_PAYMENT_TIME = 'GET_AVERAGE_PAYMENT_TIME'
 export const ADD_CMT_OPS_PROPOSAL = 'ADD_CMT_OPS_PROPOSAL'
 export const SET_OP_CMT_LINKS = 'SET_OP_CMT_LINKS'
 export const GET_CSF_WEEK_TREND = 'GET_CSF_WEEK_TREND'
+export const GET_FLOW_STOCK_DELAYS = 'GET_FLOW_STOCK_DELAYS'
 // Actions and mutations for Plans
 export const ADD_PLAN = 'ADD_PLAN'
 export const GET_PLANS = 'GET_PLANS'

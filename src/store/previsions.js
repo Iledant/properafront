@@ -41,7 +41,8 @@ const state = {
   multiannualDifPmtPrev: [],
   curYearActionPmtPrevisions: [],
   averagePaymentTime: [],
-  csfWeekTrend: {}
+  csfWeekTrend: {},
+  flowStockDelays: {}
 }
 
 const actions = {
@@ -466,6 +467,9 @@ const mutations = {
   },
   [types.GET_CSF_WEEK_TREND] (state, payload) {
     state.csfWeekTrend = { ...payload }
+  },
+  [types.GET_FLOW_STOCK_DELAYS] (state, payload) {
+    state.flowStockDelays = { ...payload }
   }
 }
 

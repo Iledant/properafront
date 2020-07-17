@@ -125,25 +125,21 @@
             <payment-demands-stock-chart :height="400" class="mt-2" />
           </v-flex>
         </v-card>
-      </v-flex> -->
+      </v-flex>-->
       <v-flex xs4>
-        <trend-card
-          :figure="figure"
-          :trend="trend"
-          caption="Évolution des CSF"
-        />
+        <trend-card :figure="`${csfFigure}`" :trend="`${csfTrend}`" caption="Évolution des CSF" />
       </v-flex>
       <v-flex xs4>
         <trend-card
-          :figure="'50 j'"
-          :trend="-2"
+          :figure="formattedDelayFigure"
+          :trend="formattedDelayTrend"
           caption="Délai moyen de mandatement (non fonctionnel)"
         />
       </v-flex>
       <v-flex xs4>
         <trend-card
           :figure="'50 %'"
-          :trend="5"
+          :trend="'5'"
           caption="Taux d'exécution des CP (non fonctionnel)"
         />
       </v-flex>
@@ -162,6 +158,7 @@ import CommitmentChart from './Home/CommitmentChart.js'
 // import PaymentDemandsStockChart from './Home/PaymentDemandsStockChart.js'
 import TrendCard from '@/components/Home/TrendCard.vue'
 import { mapGetters, mapState } from 'vuex'
+const formatter = s => new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 1 }).format(s)
 
 export default {
   name: 'home',
@@ -191,13 +188,38 @@ export default {
       todayMessage: s => s.messages.todayMessage,
       paymentImportDate: s => s.importLog.paymentLastDate,
       commitmentImportDate: s => s.importLog.commitmentLastDate,
-      csfWeekTrend: s => s.previsions.csfWeekTrend
+      csfWeekTrend: s => s.previsions.csfWeekTrend,
+      flowStockDelays: s => s.previsions.flowStockDelays
     }),
-    figure () {
+    csfFigure () {
       return this.csfWeekTrend ? this.csfWeekTrend.ThisWeekCount : 0
     },
-    trend () {
+    csfTrend () {
       return this.csfWeekTrend ? this.csfWeekTrend.ThisWeekCount - this.csfWeekTrend.LastWeekCount : 0
+    },
+    delayFigure () {
+      if (!this.flowStockDelays) {
+        return null
+      }
+      const fsd = this.flowStockDelays
+      const delay = (fsd.ActualStockCount * fsd.ActualStockAverageDelay +
+        fsd.ActualFlowCount * fsd.ActualFlowAverageDelay) / (fsd.ActualStockCount + fsd.ActualFlowCount)
+      return delay
+    },
+    formattedDelayFigure () {
+      return this.delayFigure ? (formatter(this.delayFigure) + ' j') : '-'
+    },
+    delayTrend () {
+      if (!this.flowStockDelays) {
+        return null
+      }
+      const fsd = this.flowStockDelays
+      const formerDelay = (fsd.FormerStockCount * fsd.FormerStockAverageDelay +
+        fsd.FormerFlowCount * fsd.FormerFlowAverageDelay) / (fsd.FormerStockCount + fsd.FormerFlowCount)
+      return this.delayFigure - formerDelay
+    },
+    formattedDelayTrend () {
+      return this.delayTrend ? formatter(this.delayTrend) : '-'
     }
   },
   methods: {

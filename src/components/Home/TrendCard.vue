@@ -16,8 +16,8 @@ export default {
   name: 'TrendCard',
   props: {
     caption: { type: String, default: '' },
-    figure: { type: String, default: null },
-    trend: { type: Number, default: null }
+    figure: { type: String, default: '-' },
+    trend: { type: String, default: '-' }
   },
   computed: {
     icon () {
