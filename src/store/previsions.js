@@ -42,7 +42,8 @@ const state = {
   curYearActionPmtPrevisions: [],
   averagePaymentTime: [],
   csfWeekTrend: {},
-  flowStockDelays: {}
+  flowStockDelays: {},
+  paymentRate: {}
 }
 
 const actions = {
@@ -470,6 +471,9 @@ const mutations = {
   },
   [types.GET_FLOW_STOCK_DELAYS] (state, payload) {
     state.flowStockDelays = { ...payload }
+  },
+  [types.GET_PAYMENT_RATE] (state, payload) {
+    state.paymentRate = { ...payload }
   }
 }
 

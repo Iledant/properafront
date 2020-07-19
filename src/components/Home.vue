@@ -127,21 +127,32 @@
         </v-card>
       </v-flex>-->
       <v-flex xs4>
-        <trend-card :figure="`${csfFigure}`" :trend="`${csfTrend}`" caption="Évolution des CSF" />
-      </v-flex>
-      <v-flex xs4>
         <trend-card
-          :figure="formattedDelayFigure"
-          :trend="formattedDelayTrend"
-          caption="Délai moyen de mandatement (non fonctionnel)"
-          :sign="false"
+          :figure="csfFigure"
+          icon="receipt"
+          :trend="csfTrend"
+          caption="Stock de  CSF"
+          :inverse="true"
         />
       </v-flex>
       <v-flex xs4>
         <trend-card
-          :figure="'50 %'"
-          :trend="'5'"
-          caption="Taux d'exécution des CP (non fonctionnel)"
+          :figure="delayFigure"
+          :trend="delayTrend"
+          icon="update"
+          caption="Délai moyen de mandatement"
+          :inverse="true"
+          :digits="1"
+          unit=" j"
+        />
+      </v-flex>
+      <v-flex xs4>
+        <trend-card
+          :figure="paymentRateFigure"
+          :trend="paymentRateTrend"
+          icon="show_chart"
+          caption="Taux d'exécution des CP disponibles"
+          unit=" %"
         />
       </v-flex>
     </v-layout>
@@ -190,7 +201,8 @@ export default {
       paymentImportDate: s => s.importLog.paymentLastDate,
       commitmentImportDate: s => s.importLog.commitmentLastDate,
       csfWeekTrend: s => s.previsions.csfWeekTrend,
-      flowStockDelays: s => s.previsions.flowStockDelays
+      flowStockDelays: s => s.previsions.flowStockDelays,
+      paymentRate: s => s.previsions.paymentRate
     }),
     csfFigure () {
       return this.csfWeekTrend ? this.csfWeekTrend.ThisWeekCount : 0
@@ -200,19 +212,22 @@ export default {
     },
     delayFigure () {
       if (!this.flowStockDelays) {
-        return null
+        return 0
       }
       const fsd = this.flowStockDelays
       const delay = (fsd.ActualStockCount * fsd.ActualStockAverageDelay +
         fsd.ActualFlowCount * fsd.ActualFlowAverageDelay) / (fsd.ActualStockCount + fsd.ActualFlowCount)
       return delay
     },
-    formattedDelayFigure () {
-      return this.delayFigure ? (formatter(this.delayFigure) + ' j') : '-'
+    paymentRateFigure () {
+      return this.paymentRate ? this.paymentRate.ActualRate * 100 : 0
+    },
+    paymentRateTrend () {
+      return this.paymentRate ? (this.paymentRate.ActualRate - this.paymentRate.PastRate) * 100 : 0
     },
     delayTrend () {
       if (!this.flowStockDelays) {
-        return null
+        return 0
       }
       const fsd = this.flowStockDelays
       const formerDelay = (fsd.FormerStockCount * fsd.FormerStockAverageDelay +

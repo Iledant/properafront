@@ -48,6 +48,7 @@ export const ADD_CMT_OPS_PROPOSAL = 'ADD_CMT_OPS_PROPOSAL'
 export const SET_OP_CMT_LINKS = 'SET_OP_CMT_LINKS'
 export const GET_CSF_WEEK_TREND = 'GET_CSF_WEEK_TREND'
 export const GET_FLOW_STOCK_DELAYS = 'GET_FLOW_STOCK_DELAYS'
+export const GET_PAYMENT_RATE = 'GET_PAYMENT_RATE'
 // Actions and mutations for Plans
 export const ADD_PLAN = 'ADD_PLAN'
 export const GET_PLANS = 'GET_PLANS'
