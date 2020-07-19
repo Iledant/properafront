@@ -134,6 +134,7 @@
           :figure="formattedDelayFigure"
           :trend="formattedDelayTrend"
           caption="Délai moyen de mandatement (non fonctionnel)"
+          :sign="false"
         />
       </v-flex>
       <v-flex xs4>
