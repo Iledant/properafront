@@ -27,7 +27,6 @@ const actions = {
         commit(types.GET_TODAY_MESSAGE, body.TodayMessage)
         commit(types.GET_NEXT_MONTH_EVENTS, body.Event)
         commit(types.GET_IMPORT_LOG, body.ImportLog)
-        commit(types.GET_AVERAGE_PAYMENT_TIME, body.AveragePaymentTime)
         commit(types.GET_CSF_WEEK_TREND, body.CsfWeekTrend)
         commit(types.GET_FLOW_STOCK_DELAYS, body.FlowStockDelays)
         commit(types.GET_PAYMENT_RATE, body.PaymentRate)

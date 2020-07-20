@@ -323,6 +323,13 @@ const actions = {
       _ => Vue.http.get('payment_previsions/current_year'),
       body => commit(types.GET_CUR_YEAR_ACTION_PMT_PREV, body.CurYearActionPmtPrevision)
     )
+  },
+  async [types.GET_AVERAGE_PAYMENT_TIME] ({ commit }) {
+    return handleRequest(
+      commit,
+      _ => Vue.http.get('average_payment_time'),
+      body => commit(types.GET_AVERAGE_PAYMENT_TIME, body.AveragePaymentTime)
+    )
   }
 }
 

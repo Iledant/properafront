@@ -23,6 +23,13 @@ const actions = {
       body => commit(types.GET_PAYMENT_DEMANDS, body.PaymentDemand)
     )
   },
+  async [types.GET_PAYMENT_DEMANDS_STOCK] ({ commit }) {
+    return handleRequest(
+      commit,
+      _ => Vue.http.get('payment_demand_stocks'),
+      body => commit(types.GET_PAYMENT_DEMANDS_STOCK, body.PaymentDemandsStock)
+    )
+  },
   async [types.UPDATE_PAYMENT_DEMAND] ({ commit }, { PaymentDemand }) {
     return handleRequest(
       commit,
