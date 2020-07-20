@@ -76,56 +76,6 @@
           >Date d'import : {{ commitmentImportDate | dateFilter }}</v-flex>
         </v-card>
       </v-flex>
-      <!-- <v-flex xs12 md6>
-        <v-card>
-          <v-card-title class="secondary align-start">
-            Délai moyen de mandatement
-            <v-tooltip bottom color="primary">
-              <template #activator="{ on }">
-                <v-icon small v-on="on" class="pl-1">info</v-icon>
-              </template>
-              <span>
-                Ce graphique représente la moyenne mobile sur les 12 derniers mois
-                du délai entre
-                <ul>
-                  <li>
-                    les dates inscrites dans CORIOLIS de réception des
-                    factures
-                  </li>
-                  <li>les dates inscrites dans CORIOLIS de proposition de mandatement</li>
-                </ul>
-              </span>
-            </v-tooltip>
-          </v-card-title>
-          <v-flex xs12>
-            <avg-pmt-time-chart :height="400" class="mt-2" />
-          </v-flex>
-        </v-card>
-      </v-flex>
-      <v-flex xs12 md6>
-        <v-card>
-          <v-card-title class="secondary align-start">
-            Stock de DVS
-            <v-tooltip bottom color="primary">
-              <template #activator="{ on }">
-                <v-icon small v-on="on" class="pl-1">info</v-icon>
-              </template>
-              <span>
-                Ce graphique représente l'évolution quotidienne sur les 30
-                derniers jours
-                <br />du stock de DVS arrivés à la région.
-                <br />Il mesure le nombre de DVS qui n'ont pas reçu de CSF de la direction
-                <br />et le nombre de DVS non encore mandatés ou rejetés par la direction
-                de la comptabilité.
-                <br />Seules les DVS non exclues sont prises en compte.
-              </span>
-            </v-tooltip>
-          </v-card-title>
-          <v-flex xs12>
-            <payment-demands-stock-chart :height="400" class="mt-2" />
-          </v-flex>
-        </v-card>
-      </v-flex>-->
       <v-flex xs4>
         <trend-card
           :figure="csfFigure"
