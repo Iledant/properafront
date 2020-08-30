@@ -180,7 +180,7 @@ export default {
       { text: 'Montant Région', value: 'value', align: 'center' },
       { text: 'Engagements', value: 'commitment', align: 'center' },
       { text: 'Programmé', value: 'programmings', align: 'center' },
-      { text: 'Prévisions', value: 'prev', align: 'center' }
+      { text: 'Besoins', value: 'prev', align: 'center' }
     ],
     search: '',
     deletedPlanLine: null,

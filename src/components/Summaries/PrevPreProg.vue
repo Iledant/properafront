@@ -94,7 +94,7 @@ export default {
         { text: 'Nom', value: 'name' },
         { text: 'Programmé', value: 'programmings', align: 'right' },
         { text: 'Préprogrammé', value: 'pre_programmings', align: 'right' },
-        { text: 'Prévision', value: 'prevision', align: 'right' }
+        { text: 'Besoin', value: 'prevision', align: 'right' }
       ]
     }
   },
@@ -133,7 +133,7 @@ export default {
         { header: 'Cat', key: 'category_name', width: 10 },
         { header: 'Programmation', key: 'programmings', ...valStyle },
         { header: 'Préprogrammation', key: 'pre_programmings', ...valStyle },
-        { header: 'Prévision', key: 'prevision', ...valStyle }
+        { header: 'Besoin', key: 'prevision', ...valStyle }
       ]
       excelExport(lines, columns, 'Programmation prévision')
     }
