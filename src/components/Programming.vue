@@ -91,7 +91,7 @@
                         <v-icon>redo</v-icon>
                       </v-btn>
                     </template>
-                    <span>Recopier la prévision pour la programmation</span>
+                    <span>Recopier le besoin pour la programmation</span>
                   </v-tooltip>
                 </td>
                 <td class="text-right">
