@@ -1,11 +1,12 @@
 <template>
   <v-card>
-    <v-card-title class="secondary">
-      Programmation de l'année {{ programmingsYear ? programmingsYear : '' }}
-    </v-card-title>
-    <v-alert :value="!commissions" error>
-      La programmation nécessite au moins une commission (Menu administration)
-    </v-alert>
+    <v-card-title
+      class="secondary"
+    >Programmation de l'année {{ programmingsYear ? programmingsYear : '' }}</v-card-title>
+    <v-alert
+      :value="!commissions"
+      error
+    >La programmation nécessite au moins une commission (Menu administration)</v-alert>
     <v-container grid-list-md fluid v-show="commissions">
       <v-layout row wrap>
         <v-flex xs12 sm6>
@@ -38,7 +39,7 @@
             no-data-text="Aucune programmation trouvée"
             no-results-text="Recherche infructueuse"
           >
-            <template #body.prepend="">
+            <template #body.prepend>
               <tr class="grey lighten-4 font-weight-medium">
                 <td>Total</td>
                 <td class="text-right font-italic">
@@ -47,8 +48,8 @@
                       <div v-on="on">{{ previsionTotal | valueFilter }}</div>
                     </template>
                     <span>
-                      Le total est calculé à partir de la base de données.<br />
-                      Il ne tient pas compte des lignes doublonnées dans la
+                      Le total est calculé à partir de la base de données.
+                      <br />Il ne tient pas compte des lignes doublonnées dans la
                       programmation.
                     </span>
                   </v-tooltip>
@@ -67,12 +68,12 @@
                 <td class="text-right">
                   <v-tooltip right color="primary">
                     <template #activator="{ on }">
-                      <div v-on="on" class="text-no-wrap">
-                        {{ item.prevision | valueFilter }}
-                      </div>
+                      <div v-on="on" class="text-no-wrap">{{ item.prevision | valueFilter }}</div>
                     </template>
-                    Total : {{ item.total_prevision | valueFilter }}<br />
-                    Clé État: {{ item.state_ratio_prevision | percentage }}<br />
+                    Total : {{ item.total_prevision | valueFilter }}
+                    <br />
+                    Clé État: {{ item.state_ratio_prevision | percentage }}
+                    <br />
                   </v-tooltip>
                 </td>
                 <td class="px-0">
@@ -96,18 +97,20 @@
                 <td class="text-right">
                   <v-tooltip right color="primary">
                     <template #activator="{ on }">
-                      <div v-on="on" class="text-no-wrap">
-                        {{ item.pre_prog_value | valueFilter }}
-                      </div>
+                      <div v-on="on" class="text-no-wrap">{{ item.pre_prog_value | valueFilter }}</div>
                     </template>
                     Date de commission :
-                    {{ item.pre_prog_commission_date | dateFilter }}<br />
+                    {{ item.pre_prog_commission_date | dateFilter }}
+                    <br />
                     Commission :
-                    {{ item.pre_prog_commission_name || '' }}<br />
+                    {{ item.pre_prog_commission_name || '' }}
+                    <br />
                     Total :
-                    {{ item.total_pre_prog_total_value | valueFilter }}<br />
+                    {{ item.total_pre_prog_total_value | valueFilter }}
+                    <br />
                     Clé État :
-                    {{ item.pre_prog_state_ratio | percentage }}<br />
+                    {{ item.pre_prog_state_ratio | percentage }}
+                    <br />
                     Description :
                     {{ item.pre_prog_descript ? item.pre_prog_descript : '-' }}
                   </v-tooltip>
@@ -148,18 +151,15 @@
                     <span>Nouvelle programmation pour l'année</span>
                   </v-tooltip>
                 </td>
-                <td
-                  class="text-right primary--text table-link"
-                  @click="modify(item)"
-                >
+                <td class="text-right primary--text table-link" @click="modify(item)">
                   <v-tooltip right color="primary">
                     <template #activator="{ on }">
-                      <div v-on="on" class="text-no-wrap">
-                        {{ item.value | valueFilter }}
-                      </div>
+                      <div v-on="on" class="text-no-wrap">{{ item.value | valueFilter }}</div>
                     </template>
-                    Total : {{ item.total_value | valueFilter }}<br />
-                    Clé État: {{ item.state_ratio | percentage }}<br />
+                    Total : {{ item.total_value | valueFilter }}
+                    <br />
+                    Clé État: {{ item.state_ratio | percentage }}
+                    <br />
                   </v-tooltip>
                 </td>
                 <td
@@ -168,7 +168,7 @@
                 >{{ item.commission_name }}</td>
               </tr>
             </template>
-            <template #body.append="">
+            <template #body.append>
               <tr class="grey lighten-4 font-weight-medium">
                 <td>Total</td>
                 <td class="text-right font-italic">
@@ -177,8 +177,8 @@
                       <div v-on="on">{{ previsionTotal | valueFilter }}</div>
                     </template>
                     <span>
-                      Le total est calculé à partir de la base de données.<br />
-                      Il ne tient pas compte des lignes doublonnées dans la
+                      Le total est calculé à partir de la base de données.
+                      <br />Il ne tient pas compte des lignes doublonnées dans la
                       programmation.
                     </span>
                   </v-tooltip>
@@ -198,38 +198,31 @@
     <v-card-actions class="tertiary">
       <v-btn text color="primary" @click="download">Export Excel</v-btn>
       <v-spacer v-show="programmingsModified" />
-      <v-btn text color="primary" @click="onCancel" v-show="programmingsModified">
-        Annuler
-      </v-btn>
-      <v-btn text color="primary" @click="onSave" v-show="programmingsModified" >
-        Sauver
-      </v-btn>
+      <v-btn text color="primary" @click="onCancel" v-show="programmingsModified">Annuler</v-btn>
+      <v-btn text color="primary" @click="onSave" v-show="programmingsModified">Sauver</v-btn>
     </v-card-actions>
 
     <v-dialog v-model="dlg" max-width="600px" persistent>
       <v-card>
-        <v-card-title class="secondary title">
-          {{ modifiedItem ? modifiedItem.name : '' }}
-        </v-card-title>
+        <v-card-title class="secondary title">{{ modifiedItem ? modifiedItem.name : '' }}</v-card-title>
         <v-container grid-list-md fluid>
           <v-layout wrap align-baseline>
             <v-flex xs12 class="caption">
-              <span class="font-weight-medium">Plan : </span>
-              {{ modifiedItem ? modifiedItem.plan_name : '-' }}<br />
-              <span class="font-weight-medium">Ligne de plan : </span>
-              {{ modifiedItem ? modifiedItem.plan_line_name : '-' }}<br />
-              <span class="font-weight-medium">Montant Région : </span>
-              {{ planLineValue | valueFilter }} ({{ planLineRegionRatio | percentage}})<br />
-              <span class="font-weight-medium">Montant total : </span>
-              {{ planLineTotalValue | valueFilter }}<br />
+              <span class="font-weight-medium">Plan :</span>
+              {{ modifiedItem ? modifiedItem.plan_name : '-' }}
+              <br />
+              <span class="font-weight-medium">Ligne de plan :</span>
+              {{ modifiedItem ? modifiedItem.plan_line_name : '-' }}
+              <br />
+              <span class="font-weight-medium">Montant Région :</span>
+              {{ planLineValue | valueFilter }} ({{ planLineRegionRatio | percentage}})
+              <br />
+              <span class="font-weight-medium">Montant total :</span>
+              {{ planLineTotalValue | valueFilter }}
+              <br />
             </v-flex>
             <v-flex xs6>
-              <v-text-field
-                reverse
-                v-model="fmtPrgVal"
-                label="Programmation"
-                v-currency
-              />
+              <v-text-field reverse v-model="fmtPrgVal" label="Programmation" v-currency />
             </v-flex>
             <v-flex xs6>
               <v-autocomplete
@@ -241,12 +234,7 @@
               />
             </v-flex>
             <v-flex xs6>
-              <v-text-field
-                v-model="fmtTotPrgVal"
-                label="Programmation totale"
-                reverse
-                v-currency
-              />
+              <v-text-field v-model="fmtTotPrgVal" label="Programmation totale" reverse v-currency />
             </v-flex>
             <v-flex xs6>soit {{ regionRatio | percentage }} Région</v-flex>
             <v-flex xs6>
@@ -263,7 +251,7 @@
         </v-container>
         <v-card-actions class="tertiary">
           <v-spacer />
-          <v-btn text color="primary" @click="dlg = false"> Annuler</v-btn>
+          <v-btn text color="primary" @click="dlg = false">Annuler</v-btn>
           <v-btn text color="error" @click="prgDelete">Supprimer</v-btn>
           <v-btn text color="primary" @click="prgModify">Modifier</v-btn>
         </v-card-actions>
@@ -285,12 +273,11 @@ export default {
   data: () => ({
     search: '',
     programmingsModified: false,
-    modifiedItem: null,
+    modifiedItem: { },
     dlg: false,
     fmtPrgVal: '',
     fmtTotPrgVal: '',
-    programmingsItem: null,
-    stateRatio: null,
+    stateRatio: '',
     programmingsCommissionId: null,
     year: new Date().getFullYear(),
     programmingsYear: new Date().getFullYear(),
@@ -519,12 +506,12 @@ export default {
     },
     regionRatio () {
       return this.fmtTotPrgVal !== '' && this.fmtPrgVal !== ''
-        ? this.$parseCurrency(this.fmtPrgVal) / this.$parseCurrency(this.fmtTotPrgVal)
+        ? this.parseCurrency(this.fmtPrgVal) / this.parseCurrency(this.fmtTotPrgVal)
         : null
     },
     stateValue () {
       return this.fmtTotPrgVal !== '' && this.stateRatio
-        ? this.$parseCurrency(this.fmtTotPrgVal) *
+        ? this.parseCurrency(this.fmtTotPrgVal) *
             Number.parseFloat(this.stateRatio.replace(/,/, '.'))
         : null
     },
@@ -541,7 +528,7 @@ export default {
         : null
     }
   },
-  created () {
+  mounted () {
     this.$store.dispatch(types.GET_COMMISSIONS)
     this.getProgrammings()
   },

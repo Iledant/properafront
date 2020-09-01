@@ -1,11 +1,12 @@
 <template>
   <v-card>
-    <v-card-title class="secondary">
-      Pré-programmation de l'année {{ programmingsYear ? programmingsYear : '' }}
-    </v-card-title>
-    <v-alert :value="!commissions" error>
-      La pré-programmation nécessite au moins une commission (Menu administration)
-    </v-alert>
+    <v-card-title
+      class="secondary"
+    >Pré-programmation de l'année {{ programmingsYear ? programmingsYear : '' }}</v-card-title>
+    <v-alert
+      :value="!commissions"
+      error
+    >La pré-programmation nécessite au moins une commission (Menu administration)</v-alert>
     <v-container grid-list-md fluid v-show="commissions">
       <v-layout row wrap>
         <v-flex xs12 sm6>
@@ -38,7 +39,7 @@
             no-data-text="Aucune programmation trouvée"
             no-results-text="Recherche infructueuse"
           >
-            <template #body.prepend="">
+            <template #body.prepend>
               <tr class="grey lighten-4 font-weight-medium">
                 <td>Total</td>
                 <td class="text-right">{{ previsionTotal | valueFilter }}</td>
@@ -53,9 +54,7 @@
                 <td class="text-right">
                   <v-tooltip right color="primary">
                     <template #activator="{ on }">
-                      <div v-on="on" class="text-no-wrap">
-                        {{ item.prev_value | valueFilter }}
-                      </div>
+                      <div v-on="on" class="text-no-wrap">{{ item.prev_value | valueFilter }}</div>
                     </template>
                     <ul>
                       <li>Total : {{ item.prev_total_value | valueFilter }}</li>
@@ -87,9 +86,7 @@
                 >
                   <v-tooltip right color="primary">
                     <template #activator="{ on }">
-                      <div v-on="on" class="text-no-wrap">
-                        {{ item.pre_prog_value | valueFilter }}
-                      </div>
+                      <div v-on="on" class="text-no-wrap">{{ item.pre_prog_value | valueFilter }}</div>
                     </template>
                     <ul>
                       <li>Total : {{ item.pre_prog_total_value | valueFilter }}</li>
@@ -104,12 +101,10 @@
                 <td
                   class="text-right primary--text table-link"
                   @click="onModifyProgrammingItem(item)"
-                >
-                  {{ item.commission_name }}
-                </td>
+                >{{ item.commission_name }}</td>
               </tr>
             </template>
-            <template #body.append="">
+            <template #body.append>
               <tr class="grey lighten-4 font-weight-medium">
                 <td>Total</td>
                 <td class="text-right">{{ previsionTotal | valueFilter }}</td>
@@ -130,9 +125,7 @@
 
     <v-dialog v-model="programmingDlg" max-width="600px" persistent>
       <v-card>
-        <v-card-title class="secondary">
-          {{ modifiedItem ? modifiedItem.name : '' }}
-        </v-card-title>
+        <v-card-title class="secondary">{{ modifiedItem ? modifiedItem.name : '' }}</v-card-title>
         <v-container grid-list-md fluid>
           <v-layout wrap align-baseline>
             <v-flex xs12>
@@ -140,17 +133,13 @@
                 <v-list-item>
                   <v-list-item-content>
                     <v-list-item-title>Plan</v-list-item-title>
-                    <v-list-item-subtitle>
-                      {{ modifiedItem ? modifiedItem.plan_name : '-' }}
-                    </v-list-item-subtitle>
+                    <v-list-item-subtitle>{{ modifiedItem ? modifiedItem.plan_name : '-' }}</v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item>
                   <v-list-item-content>
                     <v-list-item-title>Ligne de plan</v-list-item-title>
-                    <v-list-item-subtitle>
-                      {{ modifiedItem ? modifiedItem.plan_line_name : '-' }}
-                    </v-list-item-subtitle>
+                    <v-list-item-subtitle>{{ modifiedItem ? modifiedItem.plan_line_name : '-' }}</v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item>
@@ -166,19 +155,13 @@
                 <v-list-item>
                   <v-list-item-content>
                     <v-list-item-title>Montant total</v-list-item-title>
-                    <v-list-item-subtitle>
-                      {{ planLineTotalValue | valueFilter }}
-                    </v-list-item-subtitle>
+                    <v-list-item-subtitle>{{ planLineTotalValue | valueFilter }}</v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
             </v-flex>
             <v-flex xs4>
-              <v-text-field
-                reverse label="Préprogrammation"
-                v-model="fmtPrgVal"
-                v-currency
-              />
+              <v-text-field reverse label="Préprogrammation" v-model="fmtPrgVal" v-currency />
             </v-flex>
             <v-flex xs8>
               <v-autocomplete
@@ -190,12 +173,7 @@
               />
             </v-flex>
             <v-flex xs4>
-              <v-text-field
-                v-model="fmtTotPrgVal"
-                label="Programmation totale"
-                reverse
-                v-currency
-              />
+              <v-text-field v-model="fmtTotPrgVal" label="Programmation totale" reverse v-currency />
             </v-flex>
             <v-flex xs8>soit {{ regionRatio | percentage }} Région</v-flex>
             <v-flex xs4>
@@ -226,12 +204,12 @@
 
     <v-dialog persistent max-width="600px" v-model="grandMotherDlg">
       <v-card>
-        <v-card-title class="primary white--text">
-          Le conseil de Grand Mère
-        </v-card-title>
+        <v-card-title class="primary white--text">Le conseil de Grand Mère</v-card-title>
         <v-container grid-list-md fluid>
           <v-layout wrap>
-            <v-flex xs6><v-img src="grandmother.svg" /></v-flex>
+            <v-flex xs6>
+              <v-img src="grandmother.svg" />
+            </v-flex>
             <v-flex xs6>
               <P>Jérôme</P>
               <p>As-tu bien vérifié tes chiffres cette-fois-ci ?</p>
@@ -401,12 +379,12 @@ export default {
     },
     regionRatio () {
       return this.fmtTotPrgVal !== '' && this.fmtPrgVal !== ''
-        ? this.$parseCurrency(this.fmtPrgVal) / this.$parseCurrency(this.fmtTotPrgVal)
+        ? this.parseCurrency(this.fmtPrgVal) / this.parseCurrency(this.fmtTotPrgVal)
         : null
     },
     stateValue () {
       return this.fmtTotPrgVal !== '' && this.stateRatio
-        ? this.$parseCurrency(this.fmtTotPrgVal) *
+        ? this.parseCurrency(this.fmtTotPrgVal) *
             Number.parseFloat(this.stateRatio.replace(/,/, '.'))
         : null
     },
