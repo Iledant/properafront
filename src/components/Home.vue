@@ -105,6 +105,9 @@
           unit=" %"
         />
       </v-flex>
+      <v-flex xs12 class="text-right">
+        <v-btn @click="flowStockExport()" color="primary" text>Export délais</v-btn>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
@@ -120,6 +123,8 @@ import CommitmentChart from './Home/CommitmentChart.js'
 // import PaymentDemandsStockChart from './Home/PaymentDemandsStockChart.js'
 import TrendCard from '@/components/Home/TrendCard.vue'
 import { mapGetters, mapState } from 'vuex'
+import { excelExport } from './Utils/excelExport.js'
+
 const formatter = s => new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 1 }).format(s)
 
 export default {
@@ -195,6 +200,22 @@ export default {
     },
     save () {
       this.$store.dispatch(types.SET_TODAY_MESSAGE, this.msg)
+    },
+    flowStockExport () {
+      const fsd = this.flowStockDelays
+      const lines = [{
+        flowAverageDelay: fsd.ActualFlowAverageDelay,
+        flowCount: fsd.ActualFlowCount,
+        stockAverageDelay: fsd.ActualStockAverageDelay,
+        stockCount: fsd.ActualStockCount
+      }]
+      const columns = [
+        { header: 'Flux durée (j)', key: 'flowAverageDelay', width: 20 },
+        { header: 'Flux nombre', key: 'flowCount', width: 20 },
+        { header: 'Stock durée (j)', key: 'stockAverageDelay', width: 20 },
+        { header: 'Stock nombre', key: 'stockCount', width: 20 }
+      ]
+      excelExport(lines, columns, 'Flux Stock')
     }
   },
   created () {
