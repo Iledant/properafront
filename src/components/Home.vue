@@ -34,7 +34,9 @@
       </v-flex>
       <v-flex xs12 md6>
         <v-card>
-          <v-card-title class="secondary">Événements prévus d'ici un mois</v-card-title>
+          <v-card-title class="secondary"
+            >Événements prévus d'ici un mois</v-card-title
+          >
           <v-data-table
             :loading="loading"
             :headers="headers"
@@ -54,14 +56,15 @@
       </v-flex>
       <v-flex xs12 md6>
         <v-card>
-          <v-card-title class="secondary">Consommation de crédits de paiement</v-card-title>
+          <v-card-title class="secondary"
+            >Consommation de crédits de paiement</v-card-title
+          >
           <v-flex xs12>
             <payment-chart :height="400" class="mt-2" />
           </v-flex>
-          <v-flex
-            xs12
-            class="text-right caption"
-          >Date d'import : {{ paymentImportDate | dateFilter }}</v-flex>
+          <v-flex xs12 class="text-right caption"
+            >Date d'import : {{ paymentImportDate | dateFilter }}</v-flex
+          >
         </v-card>
       </v-flex>
       <v-flex xs12 md6>
@@ -70,10 +73,9 @@
           <v-flex xs12>
             <commitment-chart :height="400" class="mt-2" />
           </v-flex>
-          <v-flex
-            xs12
-            class="text-right caption"
-          >Date d'import : {{ commitmentImportDate | dateFilter }}</v-flex>
+          <v-flex xs12 class="text-right caption"
+            >Date d'import : {{ commitmentImportDate | dateFilter }}</v-flex
+          >
         </v-card>
       </v-flex>
       <v-flex xs4>
@@ -103,10 +105,14 @@
           icon="show_chart"
           caption="Taux d'exécution des CP disponibles"
           unit=" %"
+          onClick="isAdmin"
+          @click="flowStockExport()"
         />
       </v-flex>
       <v-flex xs12 class="text-right">
-        <v-btn @click="flowStockExport()" color="primary" text>Export délais</v-btn>
+        <v-btn @click="flowStockExport()" color="primary" text
+          >Export délais</v-btn
+        >
       </v-flex>
     </v-layout>
   </v-container>
@@ -119,8 +125,6 @@ import * as types from '@/store/mutation-types'
 import TodayMessageDlg from './Home/TodayMessageDlg.vue'
 import PaymentChart from './Home/PaymentChart.js'
 import CommitmentChart from './Home/CommitmentChart.js'
-// import AvgPmtTimeChart from './Home/AvgPmtTimeChart.js'
-// import PaymentDemandsStockChart from './Home/PaymentDemandsStockChart.js'
 import TrendCard from '@/components/Home/TrendCard.vue'
 import { mapGetters, mapState } from 'vuex'
 import { excelExport } from './Utils/excelExport.js'
